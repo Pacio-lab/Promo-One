@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Promo One</title>
+
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/layers.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Promo One">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #007AFF; /* Blue iOS */
+            --bg: #FFFFFF;
+            --secondary-bg: #F2F2F7;
+            --text: #000000;
+            --text-muted: #8E8E93;
+            --border: #E5E5EA;
+            --accent-dtf: #FF9500;
+            --success: #34C759;
+            --radius: 12px;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); margin: 0; color: var(--text); 
+            padding-top: env(safe-area-inset-top); /* Spazio per la Dynamic Island */
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header { 
+            padding: 15px 20px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); z-index: 100;
+        }
+
+        .logo { font-weight: 800; font-size: 1.1rem; }
+        .logo span { color: var(--primary); }
+
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+
+        /* Dashboard Semplificata */
+        .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .tile { background: var(--secondary-bg); padding: 15px; border-radius: var(--radius); }
+        .tile-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .tile-val { font-size: 1.3rem; font-weight: 800; display: block; margin-top: 4px; }
+
+        .chart-container { height: 160px; margin-bottom: 25px; }
+
+        /* Form Bianco e Pulito */
+        .form-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 25px; }
+        .f-input { width: 100%; border: none; padding: 14px; font-size: 1rem; border-bottom: 1px solid var(--border); box-sizing: border-box; outline: none; background: #fff; }
+        .f-input:last-child { border-bottom: none; }
+        .btn-main { background: var(--text); color: #fff; border: none; width: 100%; padding: 16px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+
+        /* Filtri */
+        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 15px; margin-top: 20px; }
+        .tab { padding: 8px 16px; border-radius: 50px; background: var(--secondary-bg); border: none; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+        .tab.active { background: var(--primary); color: #fff; }
+
+        /* Card Lavoro */
+        .job-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; position: relative; }
+        .job-card:active { background: var(--secondary-bg); }
+        .type-dot { position: absolute; top: 16px; right: 16px; width: 8px; height: 8px; border-radius: 50%; }
+
+        .btn-action { background: var(--success); color: #fff; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 12px; }
+
+        #toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; display: none; z-index: 1000; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">PROMO<span>ONE</span></div>
+    <div id="clock" style="font-weight: 600; font-size: 0.85rem; color: var(--text-muted);">00:00</div>
+</header>
+
+<div id="toast"></div>
+
+<div class="container">
+    <div class="dash">
+        <div class="tile">
+            <span class="tile-label">Fatti Oggi</span>
+            <span id="countDone" class="tile-val">0</span>
+        </div>
+        <div class="tile">
+            <span class="tile-label">Metri DTF</span>
+            <span id="meterLabel" class="tile-val">0.0m</span>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="dtfChart"></canvas>
+    </div>
+
+    <div class="form-box">
+        <input type="text" id="clientName" class="f-input" placeholder="Nome Cliente">
+        <select id="jobType" class="f-input" onchange="window.handleTypeChange()">
+            <option value="pressa">👕 Pressa</option>
+            <option value="dtf">🖨️ DTF</option>
+            <option value="digitale_uv">💎 UV</option>
+            <option value="ricamo">🧵 Ricamo</option>
+        </select>
+        <div id="dtfSection" style="display:none;">
+            <input type="number" step="0.1" id="dtfMeters" class="f-input" placeholder="Metri Lineari">
+        </div>
+        <input type="text" id="jobNotes" class="f-input" placeholder="Note veloci...">
+        <button class="btn-main" onclick="window.addJob()">Aggiungi Ordine</button>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1rem; font-weight:800;">In Produzione</h3>
+        <button onclick="window.generatePDFReport()" style="background:none; border:none; color:var(--primary); font-weight:700; font-size:0.8rem;">REPORT PDF</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="window.setFilter('all', this)">Tutti</button>
+        <button class="tab" onclick="window.setFilter('dtf', this)">DTF</button>
+        <button class="tab" onclick="window.setFilter('pressa', this)">Pressa</button>
+    </div>
+
+    <div id="jobList"></div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRjYxCDM-CHfZ4aRVhpPweXFCdzmMnjCA",
+      authDomain: "promo-one-90141.firebaseapp.com",
+      projectId: "promo-one-90141",
+      storageBucket: "promo-one-90141.firebasestorage.app",
+      messagingSenderId: "454088103265",
+      appId: "1:454088103265:web:399e606e673a18f1f76120"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let allJobs = [];
+    let currentFilter = 'all';
+    let dtfChart = null;
+
+    window.showToast = (m) => { const t=document.getElementById('toast'); t.innerText=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2000); };
+    window.handleTypeChange = () => { document.getElementById('dtfSection').style.display = (document.getElementById('jobType').value==='dtf')?'block':'none'; };
+
+    window.addJob = async () => {
+        const c = document.getElementById('clientName').value;
+        if(!c) return;
+        await addDoc(collection(db, "promo_jobs"), {
+            client: c, type: document.getElementById('jobType').value,
+            notes: document.getElementById('jobNotes').value,
+            dtfMeters: document.getElementById('dtfMeters').value || 0,
+            status: 'todo', createdAt: Date.now()
+        });
+        showToast("Ordine aggiunto");
+        document.getElementById('clientName').value=''; document.getElementById('jobNotes').value='';
+    };
+
+    window.completeJob = async (id) => {
+        await updateDoc(doc(db, "promo_jobs", id), { status: 'completed', completedAt: Date.now() });
+        showToast("Completato");
+    };
+
+    window.setFilter = (f, b) => {
+        currentFilter = f;
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        b.classList.add('active');
+        render();
+    };
+
+    function render() {
+        const list = document.getElementById('jobList');
+        list.innerHTML = '';
+        const colors = { dtf: '#FF9500', pressa: '#007AFF', ricamo: '#AF52DE', digitale_uv: '#5856D6' };
+        
+        allJobs.filter(j => (currentFilter==='all' || j.type===currentFilter) && j.status==='todo')
+               .forEach(j => {
+            const div = document.createElement('div');
+            div.className = 'job-card';
+            div.innerHTML = `
+                <div class="type-dot" style="background:${colors[j.type]}"></div>
+                <h4 style="margin:0 0 5px 0; font-size:1.1rem;">${j.client}</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">${j.notes}</p>
+                <button class="btn-action" onclick="completeJob('${j.id}')">COMPLETA</button>
+            `;
+            list.appendChild(div);
+        });
+        updateStats();
+    }
+
+    function updateStats() {
+        const today = new Date().toISOString().split('T')[0];
+        const done = allJobs.filter(j => j.status==='completed' && j.completedAt && new Date(j.completedAt).toISOString().split('T')[0]===today);
+        document.getElementById('countDone').innerText = done.length;
+        const meters = allJobs.filter(j=>j.type==='dtf').reduce((a,c)=>a+parseFloat(c.dtfMeters||0), 0);
+        document.getElementById('meterLabel').innerText = meters.toFixed(1) + "m";
+
+        const ctx = document.getElementById('dtfChart').getContext('2d');
+        if(dtfChart) dtfChart.destroy();
+        dtfChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: ['','','','','','',''], datasets: [{ data: [0, 1, 0.5, meters, meters+0.2], borderColor: '#007AFF', tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
+            options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } }, maintainAspectRatio: false }
+        });
+    }
+
+    onSnapshot(query(collection(db, "promo_jobs"), orderBy("createdAt", "desc")), (s) => {
+        allJobs = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        render();
+    });
+
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }, 1000);
+    window.completeJob = completeJob;
+
+    // --- PDF REPORT ---
+    window.generatePDFReport = () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Report Promo One", 14, 20);
+        const data = allJobs.filter(j => j.status==='completed').map(j => [j.client, j.type, j.dtfMeters || '-', new Date(j.completedAt).toLocaleDateString()]);
+        doc.autoTable({ head: [['Cliente', 'Tipo', 'Metri', 'Data']], body: data, startY: 30 });
+        doc.save("Report.pdf");
+    };
+</script>
+</body>
+</html>
