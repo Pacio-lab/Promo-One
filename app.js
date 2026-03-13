@@ -26,7 +26,7 @@ radios.forEach(radio => {
 document.getElementById('jobForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // CONTROLLO DI SICUREZZA: Verifica che sia stato cliccato un reparto
+    // CONTROLLO DI SICUREZZA
     const selectedRadio = document.querySelector('input[name="prodType"]:checked');
     if (!selectedRadio) {
         alert("Attenzione: Devi prima selezionare una Tipologia di Produzione (Digitale, UV, DTF...)");
@@ -41,6 +41,7 @@ document.getElementById('jobForm').addEventListener('submit', function(e) {
         startDate: document.getElementById('startDate').value,
         endDate: document.getElementById('endDate').value,
         setupTime: parseInt(document.getElementById('setupTime').value) || 0,
+        pieces: parseInt(document.getElementById('jobPieces').value) || 1, // Quantità Pezzi
         type: prodType,
         dtfLogos: prodType === 'DTF' ? document.getElementById('dtfLogos').value : null,
         dtfMeters: prodType === 'DTF' ? document.getElementById('dtfMeters').value : null,
@@ -155,6 +156,7 @@ function createCardHTML(job) {
                     ${isUrgent ? '<span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">URGENTE</span>' : ''}
                 </div>
                 <span class="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded">Reparto: ${job.type}</span>
+                <span class="inline-block text-gray-500 text-xs ml-2">📦 Pezzi: ${job.pieces || 0}</span>
                 <span class="inline-block text-gray-500 text-xs ml-2">⏱️ Avviamento: ${job.setupTime} min</span>
                 <br>${dtfInfo}
             </div>
@@ -181,7 +183,7 @@ function createArchiveCardHTML(job) {
         <div class="bg-gray-100 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex-1">
                 <h3 class="font-bold text-gray-700 line-through decoration-gray-400">${job.name}</h3>
-                <p class="text-xs text-gray-500 mt-1">${job.type}${dtfInfo}</p>
+                <p class="text-xs text-gray-500 mt-1">${job.type} | 📦 Pezzi: ${job.pieces || 0}${dtfInfo}</p>
             </div>
             <div class="text-xs text-gray-600 bg-white p-2 rounded border border-gray-200 shadow-sm text-center">
                 <p>Inizio: <strong>${formatTime(job.actualStartTime)}</strong> - Fine: <strong>${formatTime(job.actualEndTime)}</strong></p>
@@ -205,7 +207,8 @@ function exportCSV() {
         return;
     }
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Nome Lavoro,Reparto,Avviamento (min),Produzione (min),Totale Tempo (min),Data Completamento,Loghi DTF,Metri DTF\n";
+    // Aggiunta la colonna Quantità
+    csvContent += "Nome Lavoro,Reparto,Quantità,Avviamento (min),Produzione (min),Totale Tempo (min),Data Completamento,Loghi DTF,Metri DTF\n";
     doneJobs.forEach(job => {
         const start = new Date(job.actualStartTime);
         const end = new Date(job.actualEndTime);
@@ -214,6 +217,7 @@ function exportCSV() {
         let row = [
             `"${job.name}"`,
             job.type,
+            job.pieces || 0,
             job.setupTime,
             prodTimeMin,
             totalTime,
@@ -246,7 +250,9 @@ function exportPDF() {
     doc.setFontSize(10);
     doc.setTextColor(100);
     doc.text(`Generato il: ${formatDate(new Date().toISOString())}`, 14, 22);
-    const tableColumn = ["Nome Lavoro", "Reparto", "Data Fine", "Avviamento", "Produzione", "Totale"];
+    
+    // Aggiunta la colonna Pezzi
+    const tableColumn = ["Nome Lavoro", "Reparto", "Pezzi", "Data Fine", "Avviamento", "Produzione", "Totale"];
     const tableRows = [];
     doneJobs.forEach(job => {
         const start = new Date(job.actualStartTime);
@@ -256,6 +262,7 @@ function exportPDF() {
         const jobData = [
             job.name,
             job.type,
+            `${job.pieces || 0}`,
             formatDate(job.actualEndTime),
             `${job.setupTime} min`,
             `${prodTimeMin} min`,
@@ -275,7 +282,7 @@ function exportPDF() {
 
 // Reset Dati
 function hardReset() {
-    if(confirm("ATTENZIONE: Vuoi cancellare tutti i lavori e ripartire da zero? Usa questo tasto per sbloccare l'app.")) {
+    if(confirm("ATTENZIONE: Vuoi cancellare tutti i lavori e ripartire da zero? Usa questo tasto per sbloccare l'app o pulire l'archivio a fine anno.")) {
         localStorage.removeItem('promoOneJobs');
         jobs = [];
         renderUI();
