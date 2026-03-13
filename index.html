@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Produzione Aziendale</title>
     
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="stylesheet" href="style.css">
@@ -40,7 +43,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tempo Avviamento Macchina</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tempo Avv. Macchina</label>
                         <div class="flex items-center gap-2">
                             <input type="number" id="setupTime" min="0" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 15">
                             <span class="text-sm text-gray-500">minuti</span>
@@ -49,7 +52,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Tipologia di Produzione</label>
-                        <div class="grid grid-cols-2 md:grid-cols-2 gap-2" id="productionTypes">
+                        <div class="grid grid-cols-2 gap-2" id="productionTypes">
                             <div>
                                 <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" class="hidden prod-radio" required>
                                 <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🖨️ Digitale</label>
