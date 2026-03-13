@@ -27,6 +27,8 @@
     <link rel="apple-touch-icon" href="logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -111,11 +113,16 @@
                     <div id="jobList" class="space-y-4"></div>
                 </div>
 
-                <div>
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center border-t border-gray-300 pt-6">
-                        Archivio Lavori Completati
-                    </h2>
+               <div>
+                    <div class="flex justify-between items-center border-t border-gray-300 pt-6 mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Archivio Completati</h2>
+                        <div class="flex gap-2">
+                            <button onclick="exportCSV()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📊 Excel (CSV)</button>
+                            <button onclick="exportPDF()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📄 PDF</button>
+                        </div>
+                    </div>
                     <div id="archiveList" class="space-y-4 opacity-80"></div>
+                </div>
                 </div>
             </div>
         </div>
