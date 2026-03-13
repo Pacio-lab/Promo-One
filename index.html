@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestione Produzione Aziendale V2</title>
+    <title>Gestione Produzione Aziendale</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .prod-radio:checked + label {
-            background-color: #3b82f6; 
-            color: white;
-            border-color: #3b82f6;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 text-gray-800 p-6 font-sans">
 
     <div class="max-w-6xl mx-auto">
-        
         <header class="mb-8 flex justify-between items-center border-b pb-4 border-gray-200">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Gestione Produzione</h1>
@@ -25,11 +20,9 @@
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
             <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
                 <h2 class="text-xl font-semibold mb-4 text-gray-800">Nuovo Lavoro</h2>
                 <form id="jobForm" class="space-y-4">
-                    
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nome Bozza / Cliente</label>
                         <input type="text" id="jobName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -59,23 +52,23 @@
                         <div class="grid grid-cols-2 md:grid-cols-2 gap-2" id="productionTypes">
                             <div>
                                 <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" class="hidden prod-radio" required>
-                                <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">🖨️ Digitale</label>
+                                <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🖨️ Digitale</label>
                             </div>
                             <div>
                                 <input type="radio" id="stampa_uv" name="prodType" value="Stampa UV" class="hidden prod-radio">
-                                <label for="stampa_uv" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">☀️ UV</label>
+                                <label for="stampa_uv" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">☀️ UV</label>
                             </div>
                             <div>
                                 <input type="radio" id="ricamo" name="prodType" value="Ricamo" class="hidden prod-radio">
-                                <label for="ricamo" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">🧵 Ricamo</label>
+                                <label for="ricamo" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🧵 Ricamo</label>
                             </div>
                             <div>
                                 <input type="radio" id="pressa" name="prodType" value="Pressa" class="hidden prod-radio">
-                                <label for="pressa" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">♨️ Pressa</label>
+                                <label for="pressa" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">♨️ Pressa</label>
                             </div>
                             <div class="col-span-2">
                                 <input type="radio" id="dtf" name="prodType" value="DTF" class="hidden prod-radio">
-                                <label for="dtf" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm font-bold">🎞️ DTF</label>
+                                <label for="dtf" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm font-bold">🎞️ DTF</label>
                             </div>
                         </div>
                     </div>
@@ -98,24 +91,20 @@
             </div>
 
             <div class="lg:col-span-8 space-y-8">
-                
                 <div>
                     <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
                         Coda di Produzione
                         <span class="ml-2 text-sm font-normal text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full" id="activeCount">0</span>
                     </h2>
-                    <div id="jobList" class="space-y-4">
-                        </div>
+                    <div id="jobList" class="space-y-4"></div>
                 </div>
 
                 <div>
                     <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center border-t border-gray-300 pt-6">
                         Archivio Lavori Completati
                     </h2>
-                    <div id="archiveList" class="space-y-4 opacity-80">
-                        </div>
+                    <div id="archiveList" class="space-y-4 opacity-80"></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -123,7 +112,6 @@
     <script>
         let jobs = [];
 
-        // Gestione UI per DTF
         const radios = document.querySelectorAll('input[name="prodType"]');
         const dtfFields = document.getElementById('dtfFields');
         radios.forEach(radio => {
@@ -138,7 +126,6 @@
             });
         });
 
-        // Inserimento nuovo lavoro
         document.getElementById('jobForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const prodType = document.querySelector('input[name="prodType"]:checked').value;
@@ -152,7 +139,7 @@
                 type: prodType,
                 dtfLogos: prodType === 'DTF' ? document.getElementById('dtfLogos').value : null,
                 dtfMeters: prodType === 'DTF' ? document.getElementById('dtfMeters').value : null,
-                status: 'todo', // 'todo', 'inprogress', 'done'
+                status: 'todo',
                 actualStartTime: null,
                 actualEndTime: null
             };
@@ -163,7 +150,6 @@
             renderUI();
         });
 
-        // Azione: Avvia Produzione
         function startJob(id) {
             const job = jobs.find(j => j.id === id);
             if(job) {
@@ -173,7 +159,6 @@
             }
         }
 
-        // Azione: Termina Produzione
         function finishJob(id) {
             const job = jobs.find(j => j.id === id);
             if(job) {
@@ -183,25 +168,23 @@
             }
         }
 
-        // Eliminazione definitiva (se serve)
         function deleteJob(id) {
             jobs = jobs.filter(job => job.id !== id);
             renderUI();
         }
 
-        // Formatta la data/ora per la lettura
         function formatTime(isoString) {
             if (!isoString) return '';
             const d = new Date(isoString);
             return d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
         }
+        
         function formatDate(isoString) {
             if (!isoString) return '';
             const d = new Date(isoString);
             return d.toLocaleDateString('it-IT');
         }
 
-        // Funzione principale di rendering
         function renderUI() {
             const listContainer = document.getElementById('jobList');
             const archiveContainer = document.getElementById('archiveList');
@@ -209,7 +192,6 @@
             listContainer.innerHTML = '';
             archiveContainer.innerHTML = '';
 
-            // Filtra e ordina lavori attivi (ordinati per scadenza)
             let activeJobs = jobs.filter(j => j.status !== 'done');
             activeJobs.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
             document.getElementById('activeCount').innerText = activeJobs.length;
@@ -220,7 +202,6 @@
                 activeJobs.forEach(job => listContainer.innerHTML += createCardHTML(job));
             }
 
-            // Filtra e ordina lavori completati (più recenti prima)
             let doneJobs = jobs.filter(j => j.status === 'done');
             doneJobs.sort((a, b) => new Date(b.actualEndTime) - new Date(a.actualEndTime));
 
@@ -231,7 +212,6 @@
             }
         }
 
-        // Genera l'HTML per la card in coda
         function createCardHTML(job) {
             const today = new Date();
             const deliveryDate = new Date(job.endDate);
@@ -239,7 +219,6 @@
             
             let dtfInfo = job.type === 'DTF' ? `<div class="mt-2 text-sm bg-blue-50 px-2 py-1 rounded text-blue-800 border border-blue-100 inline-block">Loghi: ${job.dtfLogos || 0} | Metri: ${job.dtfMeters || 0}m</div>` : '';
 
-            // Gestione bottoni e stato
             let actionArea = '';
             if (job.status === 'todo') {
                 actionArea = `<button onclick="startJob(${job.id})" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow transition text-sm flex items-center gap-1">▶️ Avvia</button>`;
@@ -272,12 +251,10 @@
             `;
         }
 
-        // Genera l'HTML per la card archiviata
         function createArchiveCardHTML(job) {
-            // Calcolo tempi
             const start = new Date(job.actualStartTime);
             const end = new Date(job.actualEndTime);
-            const prodTimeMin = Math.round((end - start) / 60000); // tempo in minuti
+            const prodTimeMin = Math.round((end - start) / 60000);
             const totalTime = job.setupTime + prodTimeMin;
 
             let dtfInfo = job.type === 'DTF' ? ` | Loghi: ${job.dtfLogos} | ${job.dtfMeters}m` : '';
@@ -290,7 +267,7 @@
                     </div>
                     <div class="text-xs text-gray-600 bg-white p-2 rounded border border-gray-200 shadow-sm text-center">
                         <p>Inizio: <strong>${formatTime(job.actualStartTime)}</strong> - Fine: <strong>${formatTime(job.actualEndTime)}</strong></p>
-                        <p class="mt-1 text-blue-700 font-semibold">Tempo Totale: ${totalTime} min <span class="text-gray-400 font-normal">(Avviamento ${job.setupTime}m + Produzione ${prodTimeMin}m)</span></p>
+                        <p class="mt-1 text-blue-700 font-semibold">Tempo Totale: ${totalTime} min <span class="text-gray-400 font-normal">(Avvi. ${job.setupTime}m + Prod. ${prodTimeMin}m)</span></p>
                     </div>
                     <div class="text-xs text-gray-500 text-right">
                         Completato il<br><strong class="text-gray-700">${formatDate(job.actualEndTime)}</strong>
