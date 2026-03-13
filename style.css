@@ -1,0 +1,14 @@
+/* style.css */
+/* Stile personalizzato per i radio button di selezione produzione */
+
+.prod-radio:checked + label {
+    background-color: #3b82f6; /* Corrisponde al blue-500 di Tailwind */
+    color: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5); /* Aggiunge una leggera ombra blu */
+    transform: translateY(-1px); /* Effetto "premuto" */
+}
+
+.prod-radio + label {
+    transition: all 0.2s ease-in-out; /* Rende morbida l'animazione al click */
+}
