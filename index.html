@@ -2,234 +2,307 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Promo One</title>
-
-    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/layers.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Promo One">
-
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Produzione Aziendale V2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #007AFF; /* Blue iOS */
-            --bg: #FFFFFF;
-            --secondary-bg: #F2F2F7;
-            --text: #000000;
-            --text-muted: #8E8E93;
-            --border: #E5E5EA;
-            --accent-dtf: #FF9500;
-            --success: #34C759;
-            --radius: 12px;
+        .prod-radio:checked + label {
+            background-color: #3b82f6; 
+            color: white;
+            border-color: #3b82f6;
         }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); margin: 0; color: var(--text); 
-            padding-top: env(safe-area-inset-top); /* Spazio per la Dynamic Island */
-            padding-bottom: env(safe-area-inset-bottom);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        header { 
-            padding: 15px 20px; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); z-index: 100;
-        }
-
-        .logo { font-weight: 800; font-size: 1.1rem; }
-        .logo span { color: var(--primary); }
-
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-
-        /* Dashboard Semplificata */
-        .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .tile { background: var(--secondary-bg); padding: 15px; border-radius: var(--radius); }
-        .tile-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .tile-val { font-size: 1.3rem; font-weight: 800; display: block; margin-top: 4px; }
-
-        .chart-container { height: 160px; margin-bottom: 25px; }
-
-        /* Form Bianco e Pulito */
-        .form-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 25px; }
-        .f-input { width: 100%; border: none; padding: 14px; font-size: 1rem; border-bottom: 1px solid var(--border); box-sizing: border-box; outline: none; background: #fff; }
-        .f-input:last-child { border-bottom: none; }
-        .btn-main { background: var(--text); color: #fff; border: none; width: 100%; padding: 16px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
-
-        /* Filtri */
-        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 15px; margin-top: 20px; }
-        .tab { padding: 8px 16px; border-radius: 50px; background: var(--secondary-bg); border: none; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
-        .tab.active { background: var(--primary); color: #fff; }
-
-        /* Card Lavoro */
-        .job-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; position: relative; }
-        .job-card:active { background: var(--secondary-bg); }
-        .type-dot { position: absolute; top: 16px; right: 16px; width: 8px; height: 8px; border-radius: 50%; }
-
-        .btn-action { background: var(--success); color: #fff; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 12px; }
-
-        #toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; display: none; z-index: 1000; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 p-6 font-sans">
 
-<header>
-    <div class="logo">PROMO<span>ONE</span></div>
-    <div id="clock" style="font-weight: 600; font-size: 0.85rem; color: var(--text-muted);">00:00</div>
-</header>
-
-<div id="toast"></div>
-
-<div class="container">
-    <div class="dash">
-        <div class="tile">
-            <span class="tile-label">Fatti Oggi</span>
-            <span id="countDone" class="tile-val">0</span>
-        </div>
-        <div class="tile">
-            <span class="tile-label">Metri DTF</span>
-            <span id="meterLabel" class="tile-val">0.0m</span>
-        </div>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="dtfChart"></canvas>
-    </div>
-
-    <div class="form-box">
-        <input type="text" id="clientName" class="f-input" placeholder="Nome Cliente">
-        <select id="jobType" class="f-input" onchange="window.handleTypeChange()">
-            <option value="pressa">👕 Pressa</option>
-            <option value="dtf">🖨️ DTF</option>
-            <option value="digitale_uv">💎 UV</option>
-            <option value="ricamo">🧵 Ricamo</option>
-        </select>
-        <div id="dtfSection" style="display:none;">
-            <input type="number" step="0.1" id="dtfMeters" class="f-input" placeholder="Metri Lineari">
-        </div>
-        <input type="text" id="jobNotes" class="f-input" placeholder="Note veloci...">
-        <button class="btn-main" onclick="window.addJob()">Aggiungi Ordine</button>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-size:1rem; font-weight:800;">In Produzione</h3>
-        <button onclick="window.generatePDFReport()" style="background:none; border:none; color:var(--primary); font-weight:700; font-size:0.8rem;">REPORT PDF</button>
-    </div>
-
-    <div class="tabs">
-        <button class="tab active" onclick="window.setFilter('all', this)">Tutti</button>
-        <button class="tab" onclick="window.setFilter('dtf', this)">DTF</button>
-        <button class="tab" onclick="window.setFilter('pressa', this)">Pressa</button>
-    </div>
-
-    <div id="jobList"></div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBRjYxCDM-CHfZ4aRVhpPweXFCdzmMnjCA",
-      authDomain: "promo-one-90141.firebaseapp.com",
-      projectId: "promo-one-90141",
-      storageBucket: "promo-one-90141.firebasestorage.app",
-      messagingSenderId: "454088103265",
-      appId: "1:454088103265:web:399e606e673a18f1f76120"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    let allJobs = [];
-    let currentFilter = 'all';
-    let dtfChart = null;
-
-    window.showToast = (m) => { const t=document.getElementById('toast'); t.innerText=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2000); };
-    window.handleTypeChange = () => { document.getElementById('dtfSection').style.display = (document.getElementById('jobType').value==='dtf')?'block':'none'; };
-
-    window.addJob = async () => {
-        const c = document.getElementById('clientName').value;
-        if(!c) return;
-        await addDoc(collection(db, "promo_jobs"), {
-            client: c, type: document.getElementById('jobType').value,
-            notes: document.getElementById('jobNotes').value,
-            dtfMeters: document.getElementById('dtfMeters').value || 0,
-            status: 'todo', createdAt: Date.now()
-        });
-        showToast("Ordine aggiunto");
-        document.getElementById('clientName').value=''; document.getElementById('jobNotes').value='';
-    };
-
-    window.completeJob = async (id) => {
-        await updateDoc(doc(db, "promo_jobs", id), { status: 'completed', completedAt: Date.now() });
-        showToast("Completato");
-    };
-
-    window.setFilter = (f, b) => {
-        currentFilter = f;
-        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-        b.classList.add('active');
-        render();
-    };
-
-    function render() {
-        const list = document.getElementById('jobList');
-        list.innerHTML = '';
-        const colors = { dtf: '#FF9500', pressa: '#007AFF', ricamo: '#AF52DE', digitale_uv: '#5856D6' };
+    <div class="max-w-6xl mx-auto">
         
-        allJobs.filter(j => (currentFilter==='all' || j.type===currentFilter) && j.status==='todo')
-               .forEach(j => {
-            const div = document.createElement('div');
-            div.className = 'job-card';
-            div.innerHTML = `
-                <div class="type-dot" style="background:${colors[j.type]}"></div>
-                <h4 style="margin:0 0 5px 0; font-size:1.1rem;">${j.client}</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">${j.notes}</p>
-                <button class="btn-action" onclick="completeJob('${j.id}')">COMPLETA</button>
+        <header class="mb-8 flex justify-between items-center border-b pb-4 border-gray-200">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Gestione Produzione</h1>
+                <p class="text-gray-500">Monitoraggio tempi, code di stampa e archivio</p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Nuovo Lavoro</h2>
+                <form id="jobForm" class="space-y-4">
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome Bozza / Cliente</label>
+                        <input type="text" id="jobName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Inizio</label>
+                            <input type="date" id="startDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Consegna</label>
+                            <input type="date" id="endDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tempo Avviamento Macchina</label>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="setupTime" min="0" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 15">
+                            <span class="text-sm text-gray-500">minuti</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipologia di Produzione</label>
+                        <div class="grid grid-cols-2 md:grid-cols-2 gap-2" id="productionTypes">
+                            <div>
+                                <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" class="hidden prod-radio" required>
+                                <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">🖨️ Digitale</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="stampa_uv" name="prodType" value="Stampa UV" class="hidden prod-radio">
+                                <label for="stampa_uv" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">☀️ UV</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="ricamo" name="prodType" value="Ricamo" class="hidden prod-radio">
+                                <label for="ricamo" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">🧵 Ricamo</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="pressa" name="prodType" value="Pressa" class="hidden prod-radio">
+                                <label for="pressa" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm">♨️ Pressa</label>
+                            </div>
+                            <div class="col-span-2">
+                                <input type="radio" id="dtf" name="prodType" value="DTF" class="hidden prod-radio">
+                                <label for="dtf" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition text-sm font-bold">🎞️ DTF</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dtfFields" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">N° Loghi stampati</label>
+                            <input type="number" id="dtfLogos" min="0" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Metri lineari (m)</label>
+                            <input type="number" id="dtfMeters" min="0" step="0.1" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-md">
+                        Aggiungi alla Coda
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-8 space-y-8">
+                
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                        Coda di Produzione
+                        <span class="ml-2 text-sm font-normal text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full" id="activeCount">0</span>
+                    </h2>
+                    <div id="jobList" class="space-y-4">
+                        </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center border-t border-gray-300 pt-6">
+                        Archivio Lavori Completati
+                    </h2>
+                    <div id="archiveList" class="space-y-4 opacity-80">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let jobs = [];
+
+        // Gestione UI per DTF
+        const radios = document.querySelectorAll('input[name="prodType"]');
+        const dtfFields = document.getElementById('dtfFields');
+        radios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if(e.target.value === 'DTF') {
+                    dtfFields.classList.remove('hidden');
+                } else {
+                    dtfFields.classList.add('hidden');
+                    document.getElementById('dtfLogos').value = '';
+                    document.getElementById('dtfMeters').value = '';
+                }
+            });
+        });
+
+        // Inserimento nuovo lavoro
+        document.getElementById('jobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const prodType = document.querySelector('input[name="prodType"]:checked').value;
+            
+            const newJob = {
+                id: Date.now(),
+                name: document.getElementById('jobName').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                setupTime: parseInt(document.getElementById('setupTime').value) || 0,
+                type: prodType,
+                dtfLogos: prodType === 'DTF' ? document.getElementById('dtfLogos').value : null,
+                dtfMeters: prodType === 'DTF' ? document.getElementById('dtfMeters').value : null,
+                status: 'todo', // 'todo', 'inprogress', 'done'
+                actualStartTime: null,
+                actualEndTime: null
+            };
+
+            jobs.push(newJob);
+            this.reset();
+            dtfFields.classList.add('hidden');
+            renderUI();
+        });
+
+        // Azione: Avvia Produzione
+        function startJob(id) {
+            const job = jobs.find(j => j.id === id);
+            if(job) {
+                job.status = 'inprogress';
+                job.actualStartTime = new Date().toISOString();
+                renderUI();
+            }
+        }
+
+        // Azione: Termina Produzione
+        function finishJob(id) {
+            const job = jobs.find(j => j.id === id);
+            if(job) {
+                job.status = 'done';
+                job.actualEndTime = new Date().toISOString();
+                renderUI();
+            }
+        }
+
+        // Eliminazione definitiva (se serve)
+        function deleteJob(id) {
+            jobs = jobs.filter(job => job.id !== id);
+            renderUI();
+        }
+
+        // Formatta la data/ora per la lettura
+        function formatTime(isoString) {
+            if (!isoString) return '';
+            const d = new Date(isoString);
+            return d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+        }
+        function formatDate(isoString) {
+            if (!isoString) return '';
+            const d = new Date(isoString);
+            return d.toLocaleDateString('it-IT');
+        }
+
+        // Funzione principale di rendering
+        function renderUI() {
+            const listContainer = document.getElementById('jobList');
+            const archiveContainer = document.getElementById('archiveList');
+            
+            listContainer.innerHTML = '';
+            archiveContainer.innerHTML = '';
+
+            // Filtra e ordina lavori attivi (ordinati per scadenza)
+            let activeJobs = jobs.filter(j => j.status !== 'done');
+            activeJobs.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+            document.getElementById('activeCount').innerText = activeJobs.length;
+
+            if (activeJobs.length === 0) {
+                listContainer.innerHTML = '<p class="text-gray-500 italic">Nessun lavoro in coda.</p>';
+            } else {
+                activeJobs.forEach(job => listContainer.innerHTML += createCardHTML(job));
+            }
+
+            // Filtra e ordina lavori completati (più recenti prima)
+            let doneJobs = jobs.filter(j => j.status === 'done');
+            doneJobs.sort((a, b) => new Date(b.actualEndTime) - new Date(a.actualEndTime));
+
+            if (doneJobs.length === 0) {
+                archiveContainer.innerHTML = '<p class="text-gray-500 italic text-sm">Nessun lavoro archiviato.</p>';
+            } else {
+                doneJobs.forEach(job => archiveContainer.innerHTML += createArchiveCardHTML(job));
+            }
+        }
+
+        // Genera l'HTML per la card in coda
+        function createCardHTML(job) {
+            const today = new Date();
+            const deliveryDate = new Date(job.endDate);
+            const isUrgent = (Math.ceil(Math.abs(deliveryDate - today) / (1000 * 60 * 60 * 24)) <= 3) && (deliveryDate >= today);
+            
+            let dtfInfo = job.type === 'DTF' ? `<div class="mt-2 text-sm bg-blue-50 px-2 py-1 rounded text-blue-800 border border-blue-100 inline-block">Loghi: ${job.dtfLogos || 0} | Metri: ${job.dtfMeters || 0}m</div>` : '';
+
+            // Gestione bottoni e stato
+            let actionArea = '';
+            if (job.status === 'todo') {
+                actionArea = `<button onclick="startJob(${job.id})" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow transition text-sm flex items-center gap-1">▶️ Avvia</button>`;
+            } else if (job.status === 'inprogress') {
+                actionArea = `
+                    <div class="text-right">
+                        <span class="block text-xs text-green-600 font-bold mb-1 animate-pulse">In lavorazione dalle ${formatTime(job.actualStartTime)}</span>
+                        <button onclick="finishJob(${job.id})" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded shadow transition text-sm flex items-center gap-1 w-full justify-center">⏹️ Termina</button>
+                    </div>`;
+            }
+
+            return `
+                <div class="bg-white p-4 rounded-xl shadow-sm border ${isUrgent ? 'border-red-400 border-l-4' : 'border-gray-200 border-l-4 border-l-blue-500'} flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition hover:shadow-md">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <h3 class="font-bold text-lg text-gray-900">${job.name}</h3>
+                            ${isUrgent ? '<span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">URGENTE</span>' : ''}
+                        </div>
+                        <span class="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded">Reparto: ${job.type}</span>
+                        <span class="inline-block text-gray-500 text-xs ml-2">⏱️ Avviamento: ${job.setupTime} min</span>
+                        <br>${dtfInfo}
+                    </div>
+                    <div class="text-sm text-gray-600 border-l pl-4 border-gray-100">
+                        <p>Scadenza: <strong class="text-gray-900">${formatDate(job.endDate)}</strong></p>
+                    </div>
+                    <div class="w-full md:w-auto mt-2 md:mt-0">
+                        ${actionArea}
+                    </div>
+                </div>
             `;
-            list.appendChild(div);
-        });
-        updateStats();
-    }
+        }
 
-    function updateStats() {
-        const today = new Date().toISOString().split('T')[0];
-        const done = allJobs.filter(j => j.status==='completed' && j.completedAt && new Date(j.completedAt).toISOString().split('T')[0]===today);
-        document.getElementById('countDone').innerText = done.length;
-        const meters = allJobs.filter(j=>j.type==='dtf').reduce((a,c)=>a+parseFloat(c.dtfMeters||0), 0);
-        document.getElementById('meterLabel').innerText = meters.toFixed(1) + "m";
+        // Genera l'HTML per la card archiviata
+        function createArchiveCardHTML(job) {
+            // Calcolo tempi
+            const start = new Date(job.actualStartTime);
+            const end = new Date(job.actualEndTime);
+            const prodTimeMin = Math.round((end - start) / 60000); // tempo in minuti
+            const totalTime = job.setupTime + prodTimeMin;
 
-        const ctx = document.getElementById('dtfChart').getContext('2d');
-        if(dtfChart) dtfChart.destroy();
-        dtfChart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: ['','','','','','',''], datasets: [{ data: [0, 1, 0.5, meters, meters+0.2], borderColor: '#007AFF', tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
-            options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } }, maintainAspectRatio: false }
-        });
-    }
+            let dtfInfo = job.type === 'DTF' ? ` | Loghi: ${job.dtfLogos} | ${job.dtfMeters}m` : '';
 
-    onSnapshot(query(collection(db, "promo_jobs"), orderBy("createdAt", "desc")), (s) => {
-        allJobs = s.docs.map(d => ({ id: d.id, ...d.data() }));
-        render();
-    });
+            return `
+                <div class="bg-gray-100 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-700 line-through decoration-gray-400">${job.name}</h3>
+                        <p class="text-xs text-gray-500 mt-1">${job.type}${dtfInfo}</p>
+                    </div>
+                    <div class="text-xs text-gray-600 bg-white p-2 rounded border border-gray-200 shadow-sm text-center">
+                        <p>Inizio: <strong>${formatTime(job.actualStartTime)}</strong> - Fine: <strong>${formatTime(job.actualEndTime)}</strong></p>
+                        <p class="mt-1 text-blue-700 font-semibold">Tempo Totale: ${totalTime} min <span class="text-gray-400 font-normal">(Avviamento ${job.setupTime}m + Produzione ${prodTimeMin}m)</span></p>
+                    </div>
+                    <div class="text-xs text-gray-500 text-right">
+                        Completato il<br><strong class="text-gray-700">${formatDate(job.actualEndTime)}</strong>
+                    </div>
+                    <button onclick="deleteJob(${job.id})" class="text-gray-400 hover:text-red-500" title="Elimina definitivamente">
+                        🗑️
+                    </button>
+                </div>
+            `;
+        }
 
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); }, 1000);
-    window.completeJob = completeJob;
-
-    // --- PDF REPORT ---
-    window.generatePDFReport = () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.text("Report Promo One", 14, 20);
-        const data = allJobs.filter(j => j.status==='completed').map(j => [j.client, j.type, j.dtfMeters || '-', new Date(j.completedAt).toLocaleDateString()]);
-        doc.autoTable({ head: [['Cliente', 'Tipo', 'Metri', 'Data']], body: data, startY: 30 });
-        doc.save("Report.pdf");
-    };
-</script>
+        renderUI();
+    </script>
 </body>
 </html>
