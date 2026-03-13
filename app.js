@@ -1,6 +1,12 @@
 // app.js
 
-let jobs = [];
+// 1. CARICAMENTO DATI (Controlla se ci sono dati salvati nel browser, altrimenti crea un array vuoto)
+let jobs = JSON.parse(localStorage.getItem('promoOneJobs')) || [];
+
+// 2. FUNZIONE DI SALVATAGGIO (Salva l'array aggiornato nella memoria del browser)
+function saveData() {
+    localStorage.setItem('promoOneJobs', JSON.stringify(jobs));
+}
 
 // Gestione UI per la comparsa dei campi DTF
 const radios = document.querySelectorAll('input[name="prodType"]');
@@ -38,6 +44,7 @@ document.getElementById('jobForm').addEventListener('submit', function(e) {
     };
 
     jobs.push(newJob);
+    saveData(); // <--- Salva i dati
     this.reset();
     dtfFields.classList.add('hidden');
     renderUI();
@@ -49,6 +56,7 @@ function startJob(id) {
     if(job) {
         job.status = 'inprogress';
         job.actualStartTime = new Date().toISOString();
+        saveData(); // <--- Salva i dati
         renderUI();
     }
 }
@@ -59,6 +67,7 @@ function finishJob(id) {
     if(job) {
         job.status = 'done';
         job.actualEndTime = new Date().toISOString();
+        saveData(); // <--- Salva i dati
         renderUI();
     }
 }
@@ -66,6 +75,7 @@ function finishJob(id) {
 // Eliminazione definitiva
 function deleteJob(id) {
     jobs = jobs.filter(job => job.id !== id);
+    saveData(); // <--- Salva i dati
     renderUI();
 }
 
@@ -90,7 +100,7 @@ function renderUI() {
     listContainer.innerHTML = '';
     archiveContainer.innerHTML = '';
 
-    // Lavori in coda
+    // Lavori in coda (ordinati per scadenza)
     let activeJobs = jobs.filter(j => j.status !== 'done');
     activeJobs.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
     document.getElementById('activeCount').innerText = activeJobs.length;
@@ -101,7 +111,7 @@ function renderUI() {
         activeJobs.forEach(job => listContainer.innerHTML += createCardHTML(job));
     }
 
-    // Lavori archiviati
+    // Lavori archiviati (ordinati per completamento più recente)
     let doneJobs = jobs.filter(j => j.status === 'done');
     doneJobs.sort((a, b) => new Date(b.actualEndTime) - new Date(a.actualEndTime));
 
