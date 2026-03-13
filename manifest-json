@@ -1,0 +1,21 @@
+{
+  "name": "Gestione Produzione Promo-One",
+  "short_name": "Promo-One",
+  "description": "App per la gestione della coda di produzione aziendale",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
