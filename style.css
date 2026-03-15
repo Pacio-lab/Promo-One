@@ -1,72 +1,70 @@
-/* 1. RESET TOTALE: Rimuoviamo ogni sfondo predefinito */
+/* RESET E SFONDO GENERALE */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
-    background-color: #f3f4f6 !important; /* Colore di riserva */
+    background-color: #f3f4f6 !important; /* Grigio chiaro di riserva */
 }
 
-/* 2. LO SFONDO FULL SCREEN: Questo comando forza l'immagine su tutto il display */
+/* SFONDO FULL SCREEN (Watermark) */
 body::before {
     content: "";
-    position: fixed; /* Fondamentale: lo sfondo non si muove */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    
-    /* Percorso immagine: assicurati che il nome sia identico su GitHub */
+    /* Assicurati che il nome file sia identico a quello su GitHub */
     background-image: url('IMG_3308.jpeg'); 
-    
-    /* Il comando 'cover' è quello che elimina gli spazi bianchi */
-    background-size: cover !important; 
+    background-size: cover !important; /* Copre tutto lo schermo */
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    
-    /* Trasparenza: alza questo valore (es. 0.2) se lo vuoi più visibile */
-    opacity: 0.12; 
-    
-    z-index: 0; /* Lo mettiamo alla base */
+    opacity: 0.12; /* Trasparenza per non disturbare la lettura */
+    z-index: 0;
     pointer-events: none;
 }
 
-/* 3. PORTIAMO I CONTENUTI IN PRIMO PIANO */
+/* CONTENITORE SOPRA LO SFONDO */
 .max-w-6xl {
     position: relative;
-    z-index: 10; /* Sopra lo sfondo */
+    z-index: 10;
 }
 
-/* 4. EFFETTO VETRO (GLASSMORPHISM): 
-      Rendiamo i box bianchi semitrasparenti per far vedere l'immagine sotto */
+/* EFFETTO VETRO SULLE SCHEDE (Glassmorphism) */
 .bg-white {
-    background-color: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(8px) !important; /* Sfoca il logo dietro i box */
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 1rem !important;
+    background-color: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* 5. STILE PULSANTI PRODUZIONE */
+/* PERSONALIZZAZIONE RADIO BUTTONS */
 .prod-radio:checked + label {
     background-color: #3b82f6 !important;
     color: white !important;
     border-color: #3b82f6 !important;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
 }
 
 .prod-radio + label {
-    transition: all 0.2s ease;
-    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.75rem;
+    font-weight: 600;
 }
 
 .prod-radio + label:hover {
-    background-color: rgba(59, 130, 246, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: #3b82f6;
 }
 
-/* 6. OTTIMIZZAZIONE MOBILE */
-@media (max-width: 640px) {
-    body::before {
-        background-size: cover !important; /* Mantiene la copertura totale su smartphone */
-    }
+/* ANIMAZIONE COMPARSA LAVORI */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-job {
+    animation: fadeIn 0.3s ease-out forwards;
 }
