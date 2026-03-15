@@ -1,151 +1,130 @@
-// --- CONFIGURAZIONE E STATO INIZIALE ---
-let jobs = JSON.parse(localStorage.getItem('productionJobs')) || [];
-let archive = JSON.parse(localStorage.getItem('productionArchive')) || [];
+// Caricamento dati iniziali
+let jobs = JSON.parse(localStorage.getItem('promoOne_jobs')) || [];
+let archive = JSON.parse(localStorage.getItem('promoOne_archive')) || [];
 
+// Elementi DOM
 const jobForm = document.getElementById('jobForm');
 const dtfFields = document.getElementById('dtfFields');
 const prodRadios = document.getElementsByName('prodType');
 
-// --- GESTIONE INTERFACCIA (UI) ---
-
-// Mostra/Nascondi campi DTF in base alla selezione
+// Gestione visibilità campi DTF
 prodRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-        if (e.target.value === 'DTF') {
+    radio.addEventListener('change', () => {
+        if (document.getElementById('dtf').checked) {
             dtfFields.classList.remove('hidden');
         } else {
             dtfFields.classList.add('hidden');
-            document.getElementById('dtfLogos').value = '';
-            document.getElementById('dtfMeters').value = '';
         }
     });
 });
 
-// --- LOGICA CORE ---
-
-// Aggiungi un nuovo lavoro
-jobForm.addEventListener('submit', (e) => {
+// Aggiunta Lavoro
+jobForm.onsubmit = (e) => {
     e.preventDefault();
-
+    
     const newJob = {
         id: Date.now(),
         name: document.getElementById('jobName').value,
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
-        setupTime: document.getElementById('setupTime').value,
+        start: document.getElementById('startDate').value,
+        end: document.getElementById('endDate').value,
+        setup: document.getElementById('setupTime').value,
         pieces: document.getElementById('jobPieces').value,
         type: document.querySelector('input[name="prodType"]:checked').value,
         dtfLogos: document.getElementById('dtfLogos').value || '-',
         dtfMeters: document.getElementById('dtfMeters').value || '-',
-        status: 'in_coda',
-        createdAt: new Date().toLocaleString('it-IT')
+        timestamp: new Date().toLocaleString('it-IT')
     };
 
     jobs.push(newJob);
-    saveAndRender();
+    updateData();
     jobForm.reset();
     dtfFields.classList.add('hidden');
-});
+};
 
-// Sposta in Archivio
+// Funzioni di gestione
 function completeJob(id) {
-    const index = jobs.findIndex(j => j.id === id);
-    if (index !== -1) {
-        const completedJob = jobs.splice(index, 1)[0];
-        completedJob.completedAt = new Date().toLocaleString('it-IT');
-        archive.push(completedJob);
-        saveAndRender();
-    }
+    const jobIndex = jobs.findIndex(j => j.id === id);
+    const job = jobs.splice(jobIndex, 1)[0];
+    job.completedAt = new Date().toLocaleString('it-IT');
+    archive.push(job);
+    updateData();
 }
 
-// Elimina lavoro
-function deleteJob(id, isArchive = false) {
-    if (confirm('Sei sicuro di voler eliminare questo record?')) {
-        if (isArchive) {
+function deleteJob(id, fromArchive = false) {
+    if (confirm("Vuoi eliminare definitivamente questo record?")) {
+        if (fromArchive) {
             archive = archive.filter(j => j.id !== id);
         } else {
             jobs = jobs.filter(j => j.id !== id);
         }
-        saveAndRender();
+        updateData();
     }
 }
 
-// --- RENDERIZZAZIONE ---
-
-function render() {
-    const jobList = document.getElementById('jobList');
-    const archiveList = document.getElementById('archiveList');
-    const activeCount = document.getElementById('activeCount');
-
-    jobList.innerHTML = '';
-    archiveList.innerHTML = '';
-    activeCount.innerText = jobs.length;
-
-    // Render Coda Attiva
-    jobs.forEach(job => {
-        jobList.innerHTML += `
-            <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 flex justify-between items-center animate-fade-in">
-                <div>
-                    <h3 class="font-bold text-lg text-gray-900">${job.name} <span class="text-xs font-normal bg-gray-100 px-2 py-1 rounded ml-2">${job.type}</span></h3>
-                    <p class="text-sm text-gray-600">Pezzi: <b>${job.pieces}</b> | Consegna: <span class="text-red-600 font-semibold">${job.endDate}</span></p>
-                    ${job.type === 'DTF' ? `<p class="text-xs text-blue-600 font-medium">DTF: ${job.dtfLogos} loghi / ${job.dtfMeters}m</p>` : ''}
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="completeJob(${job.id})" class="bg-green-100 text-green-700 p-2 rounded-lg hover:bg-green-200 transition">✅ Fine</button>
-                    <button onclick="deleteJob(${job.id})" class="bg-red-50 text-red-400 p-2 rounded-lg hover:bg-red-100 transition">🗑️</button>
-                </div>
-            </div>
-        `;
-    });
-
-    // Render Archivio
-    archive.slice().reverse().forEach(job => {
-        archiveList.innerHTML += `
-            <div class="bg-gray-100 p-3 rounded-lg flex justify-between items-center border border-gray-200">
-                <div class="text-sm">
-                    <span class="font-semibold">${job.name}</span> - ${job.type} (${job.pieces} pz)
-                    <div class="text-[10px] text-gray-500">Chiuso il: ${job.completedAt}</div>
-                </div>
-                <button onclick="deleteJob(${job.id}, true)" class="text-gray-400 hover:text-red-500 text-xs">Rimuovi</button>
-            </div>
-        `;
-    });
-}
-
-// --- UTILITY E EXPORT ---
-
-function saveAndRender() {
-    localStorage.setItem('productionJobs', JSON.stringify(jobs));
-    localStorage.setItem('productionArchive', JSON.stringify(archive));
+function updateData() {
+    localStorage.setItem('promoOne_jobs', JSON.stringify(jobs));
+    localStorage.setItem('promoOne_archive', JSON.stringify(archive));
     render();
 }
 
-function hardReset() {
-    if (confirm("⚠️ ATTENZIONE: Questo cancellerà TUTTI i dati (coda e archivio). Procedere?")) {
-        localStorage.clear();
-        location.reload();
-    }
+// Rendering UI
+function render() {
+    const jobList = document.getElementById('jobList');
+    const archiveList = document.getElementById('archiveList');
+    
+    document.getElementById('activeCount').innerText = jobs.length;
+    jobList.innerHTML = '';
+    archiveList.innerHTML = '';
+
+    jobs.forEach(job => {
+        jobList.innerHTML += `
+            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600 flex justify-between items-center mb-4">
+                <div>
+                    <h3 class="font-bold text-gray-900 uppercase">${job.name}</h3>
+                    <p class="text-sm text-gray-600">Tipo: <b>${job.type}</b> | Q.tà: <b>${job.pieces}</b></p>
+                    <p class="text-xs text-red-500 font-bold">Consegna: ${job.end}</p>
+                    ${job.type === 'DTF' ? `<p class="text-xs text-blue-700 mt-1">🎞️ ${job.dtfLogos} loghi / ${job.dtfMeters}m</p>` : ''}
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="completeJob(${job.id})" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-green-700">FINE</button>
+                    <button onclick="deleteJob(${job.id})" class="bg-gray-100 text-gray-400 p-2 rounded-lg hover:bg-red-100 hover:text-red-600">🗑️</button>
+                </div>
+            </div>`;
+    });
+
+    archive.slice().reverse().forEach(job => {
+        archiveList.innerHTML += `
+            <div class="bg-white/60 p-3 rounded-lg flex justify-between items-center mb-2 border border-gray-200">
+                <div class="text-xs">
+                    <span class="font-bold">${job.name}</span> - ${job.type}
+                    <div class="text-gray-500 italic">Completato il: ${job.completedAt}</div>
+                </div>
+                <button onclick="deleteJob(${job.id}, true)" class="text-red-400 hover:text-red-600">Elimina</button>
+            </div>`;
+    });
 }
 
-// Export PDF (Richiede jsPDF caricato nell'HTML)
+// Export PDF
 window.exportPDF = function() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("PROMO ONE - ARCHIVIO PRODUZIONE", 14, 20);
     
-    doc.text("Report Produzione - Promo One", 14, 15);
-    
-    const tableData = archive.map(j => [j.name, j.type, j.pieces, j.startDate, j.endDate, j.completedAt]);
-    
+    const rows = archive.map(j => [j.name, j.type, j.pieces, j.end, j.completedAt]);
     doc.autoTable({
-        head: [['Cliente', 'Tipo', 'Pezzi', 'Inizio', 'Consegna', 'Chiuso il']],
-        body: tableData,
-        startY: 25,
-        theme: 'grid',
-        headStyles: { fillColor: [17, 24, 39] }
+        head: [['Cliente', 'Tipo', 'Pezzi', 'Consegna', 'Chiuso il']],
+        body: rows,
+        startY: 30,
+        styles: { fontSize: 9 }
     });
-    
-    doc.save(`Produzione_Export_${new Date().toLocaleDateString()}.pdf`);
-}
+    doc.save("Archivio_Produzione.pdf");
+};
 
-// Inizializzazione
+// Reset Totale
+window.hardReset = () => {
+    if(confirm("Cancellare tutto?")) { localStorage.clear(); location.reload(); }
+};
+
+// Avvio iniziale
 render();
