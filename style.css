@@ -1,70 +1,32 @@
-/* RESET E SFONDO GENERALE */
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f3f4f6 !important; /* Grigio chiaro di riserva */
-}
+/* style.css */
+/* Stile personalizzato per i radio button di selezione produzione */
 
-/* SFONDO FULL SCREEN (Watermark) */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* Assicurati che il nome file sia identico a quello su GitHub */
-    background-image: url('IMG_3308.jpeg'); 
-    background-size: cover !important; /* Copre tutto lo schermo */
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    opacity: 0.12; /* Trasparenza per non disturbare la lettura */
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* CONTENITORE SOPRA LO SFONDO */
-.max-w-6xl {
-    position: relative;
-    z-index: 10;
-}
-
-/* EFFETTO VETRO SULLE SCHEDE (Glassmorphism) */
-.bg-white {
-    background-color: rgba(255, 255, 255, 0.82) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-/* PERSONALIZZAZIONE RADIO BUTTONS */
 .prod-radio:checked + label {
-    background-color: #3b82f6 !important;
-    color: white !important;
-    border-color: #3b82f6 !important;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
-    transform: translateY(-2px);
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
+    transform: translateY(-1px);
 }
 
 .prod-radio + label {
     transition: all 0.2s ease-in-out;
-    border-radius: 0.75rem;
-    font-weight: 600;
 }
 
-.prod-radio + label:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-color: #3b82f6;
-}
+/* --- NUOVO: Classe per l'anteprima del Report Produzione PDF Professionale --- */
+/* Questa classe stilizza un elemento di anteprima (es. un div)
+   sull'interfaccia web per mostrare come sarà il PDF generato.
+   L'immagine di sfondo è il mockup del PDF professionale technical-sheet-like. */
 
-/* ANIMAZIONE COMPARSA LAVORI */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animate-job {
-    animation: fadeIn 0.3s ease-out forwards;
+.pdf-report-preview {
+    display: block;
+    width: 300px;                     /* Imposta una larghezza per l'anteprima */
+    aspect-ratio: 1 / 1.414;           /* Proporzioni A4 standard */
+    background-image: url('pdf_report_mockup.png'); /* Nome dell'immagine del mockup PDF professionale */
+    background-size: contain;          /* L'immagine si adatta all'elemento */
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #ccc;            /* Bordo sottile per l'anteprima */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    margin: 10px auto;                  /* Centra l'anteprima e aggiungi margine */
 }
