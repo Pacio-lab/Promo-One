@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Promo-One | Gestione Produzione</title>
+    <title>Gestione Produzione Aziendale</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#111827">
@@ -16,118 +16,119 @@
     <link rel="apple-touch-icon" href="logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="p-4 md:p-6 font-sans">
+<body class="bg-gray-50 text-gray-800 p-6 font-sans">
 
-    <div class="max-w-6xl mx-auto relative z-10">
-        <header class="mb-8 flex justify-between items-center border-b pb-4 border-gray-200/50">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 flex justify-between items-center border-b pb-4 border-gray-200">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Gestione Produzione</h1>
-                <p class="text-gray-600 font-medium">Monitoraggio tempi, code di stampa e archivio</p>
-                <button onclick="hardReset()" class="mt-2 text-[10px] bg-red-100/80 text-red-700 hover:bg-red-200 px-3 py-1 rounded font-bold transition shadow-sm border border-red-200">⚠️ Reset Dati App</button>
+                <p class="text-gray-500">Monitoraggio tempi, code di stampa e archivio</p>
+                <button onclick="hardReset()" class="mt-2 text-xs bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded font-bold transition shadow-sm">⚠️ Reset Dati App</button>
             </div>
-            <img src="logo.png" alt="Logo" class="h-12 w-auto hidden md:block">
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-lg h-fit">
+            <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
                 <h2 class="text-xl font-semibold mb-4 text-gray-800">Nuovo Lavoro</h2>
                 <form id="jobForm" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nome Bozza / Cliente</label>
-                        <input type="text" id="jobName" required class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white/50">
+                        <input type="text" id="jobName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Data Inizio</label>
-                            <input type="date" id="startDate" required class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                            <input type="date" id="startDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Data Consegna</label>
-                            <input type="date" id="endDate" required class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                            <input type="date" id="endDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Avviamento (min)</label>
-                            <input type="number" id="setupTime" min="0" required class="w-full p-2 border border-gray-300 rounded-lg" placeholder="15">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Avviamento</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="setupTime" min="0" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 15">
+                                <span class="text-sm text-gray-500">min</span>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Quantità Pezzi</label>
-                            <input type="number" id="jobPieces" min="1" required class="w-full p-2 border border-gray-300 rounded-lg" placeholder="50">
+                            <input type="number" id="jobPieces" min="1" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 50">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2 font-bold">Tipologia di Produzione</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipologia di Produzione</label>
                         <div class="grid grid-cols-2 gap-2" id="productionTypes">
                             <div>
-                                <input type="radio" id="digitale" name="prodType" value="Digitale" class="hidden prod-radio" required>
-                                <label for="digitale" class="block text-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-sm">🖨️ Digitale</label>
+                                <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" class="hidden prod-radio" required>
+                                <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🖨️ Digitale</label>
                             </div>
                             <div>
-                                <input type="radio" id="uv" name="prodType" value="UV" class="hidden prod-radio">
-                                <label for="uv" class="block text-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-sm">☀️ UV</label>
+                                <input type="radio" id="stampa_uv" name="prodType" value="Stampa UV" class="hidden prod-radio">
+                                <label for="stampa_uv" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">☀️ UV</label>
                             </div>
                             <div>
                                 <input type="radio" id="ricamo" name="prodType" value="Ricamo" class="hidden prod-radio">
-                                <label for="ricamo" class="block text-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-sm">🧵 Ricamo</label>
+                                <label for="ricamo" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🧵 Ricamo</label>
                             </div>
                             <div>
                                 <input type="radio" id="pressa" name="prodType" value="Pressa" class="hidden prod-radio">
-                                <label for="pressa" class="block text-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-sm">♨️ Pressa</label>
+                                <label for="pressa" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">♨️ Pressa</label>
                             </div>
                             <div class="col-span-2">
                                 <input type="radio" id="dtf" name="prodType" value="DTF" class="hidden prod-radio">
-                                <label for="dtf" class="block text-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-sm font-bold">🎞️ DTF</label>
+                                <label for="dtf" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm font-bold">🎞️ DTF</label>
                             </div>
                         </div>
                     </div>
 
-                    <div id="dtfFields" class="hidden bg-blue-50/80 p-4 rounded-lg border border-blue-200 grid grid-cols-2 gap-4">
+                    <div id="dtfFields" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-blue-800 mb-1">Loghi stampati</label>
-                            <input type="number" id="dtfLogos" class="w-full p-2 border border-blue-300 rounded">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">N° Loghi stampati</label>
+                            <input type="number" id="dtfLogos" min="0" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-blue-800 mb-1">Metri (m)</label>
-                            <input type="number" id="dtfMeters" step="0.1" class="w-full p-2 border border-blue-300 rounded">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Metri lineari (m)</label>
+                            <input type="number" id="dtfMeters" min="0" step="0.1" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-blue-600 transition duration-300 shadow-lg mt-4">
-                        AGGIUNGI ALLA CODA
+                    <button type="submit" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-md">
+                        Aggiungi alla Coda
                     </button>
                 </form>
             </div>
 
             <div class="lg:col-span-8 space-y-8">
                 <div>
-                    <h2 class="text-2xl font-bold mb-4 text-gray-800 flex items-center">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
                         Coda di Produzione
-                        <span class="ml-3 text-sm font-bold bg-blue-600 text-white px-3 py-1 rounded-full" id="activeCount">0</span>
+                        <span class="ml-2 text-sm font-normal text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full" id="activeCount">0</span>
                     </h2>
-                    <div id="jobList" class="space-y-4">
-                        </div>
+                    <div id="jobList" class="space-y-4"></div>
                 </div>
 
-                <div class="pt-8 border-t border-gray-300/50">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                        <h2 class="text-xl font-bold text-gray-800">Archivio Completati</h2>
-                        <div class="flex gap-2 w-full md:w-auto">
-                            <button onclick="exportPDF()" class="flex-1 md:flex-none bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2.5 px-4 rounded-lg shadow-md transition flex items-center justify-center gap-2">
-                                📄 Esporta PDF
-                            </button>
+                <div>
+                    <div class="flex justify-between items-center border-t border-gray-300 pt-6 mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Archivio Completati</h2>
+                        <div class="flex gap-2">
+                            <button onclick="exportCSV()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📊 Excel (CSV)</button>
+                            <button onclick="exportPDF()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📄 PDF</button>
                         </div>
                     </div>
-                    <div id="archiveList" class="space-y-2">
-                        </div>
+                    <div id="pdfPreviewContainer"></div>
+                    <div id="archiveList" class="space-y-4 opacity-80"></div>
                 </div>
             </div>
         </div>
