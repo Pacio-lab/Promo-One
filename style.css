@@ -30,3 +30,81 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombra leggera */
     margin: 10px auto;                  /* Centra l'anteprima e aggiungi margine */
 }
+// Export PDF (Stile Promo-One)
+function exportPDF() {
+    let doneJobs = jobs.filter(j => j.status === 'done');
+    if (doneJobs.length === 0) {
+        alert("Nessun lavoro completato da esportare!");
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // ==========================================
+    // 1. DISEGNO L'INTESTAZIONE BLU (Stile foto)
+    // ==========================================
+    doc.setFillColor(59, 130, 246); // Colore sfondo: Blu Promo-One
+    doc.rect(10, 10, 190, 28, 'F'); // x, y, larghezza, altezza, 'F' sta per riempimento (Fill)
+
+    // ==========================================
+    // 2. TESTI NELL'INTESTAZIONE (In bianco)
+    // ==========================================
+    doc.setTextColor(255, 255, 255); // Colore testo: Bianco
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("PROMO ONE", 15, 22);
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("REPORT DI PRODUZIONE AZIENDALE", 15, 28);
+    doc.text("Brescia | www.promoone.it", 15, 33); // Puoi cambiare indirizzo/sito
+
+    // ==========================================
+    // 3. INFO DEL REPORT
+    // ==========================================
+    doc.setTextColor(50, 50, 50); // Colore testo: Grigio scuro
+    doc.setFontSize(10);
+    doc.text(`Generato il: ${formatDate(new Date().toISOString())} alle ${formatTime(new Date().toISOString())}`, 10, 48);
+    doc.text(`Totale lavori completati: ${doneJobs.length}`, 10, 54);
+
+    // ==========================================
+    // 4. TABELLA CON I DATI DI PRODUZIONE COMPLETA
+    // ==========================================
+    // Colonne richieste:
+    const tableColumn = ["Cliente/Bozza", "Reparto", "Pezzi", "Inizio", "Fine", "Tempo Tot.", "Loghi DTF"];
+    const tableRows = [];
+
+    doneJobs.forEach(job => {
+        const start = new Date(job.actualStartTime);
+        const end = new Date(job.actualEndTime);
+        const prodTimeMin = Math.round((end - start) / 60000);
+        const totalTime = job.setupTime + prodTimeMin; // Somma avviamento + produzione
+
+        const jobData = [
+            job.name,
+            job.type,
+            job.pieces || 0, // Quantità prodotta
+            `${formatDate(job.actualStartTime)} ${formatTime(job.actualStartTime)}`, // Data e Ora Inizio
+            `${formatDate(job.actualEndTime)} ${formatTime(job.actualEndTime)}`,     // Data e Ora Fine
+            `${totalTime} min`, // Tempo totale
+            job.type === 'DTF' ? `${job.dtfLogos || 0}` : '-' // Mostra loghi solo se è DTF
+        ];
+        tableRows.push(jobData);
+    });
+
+    // Genera la tabella disegnandola sotto l'intestazione
+    doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: 60, // Posizione di partenza dall'alto
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillColor: [59, 130, 246], textColor: 255, fontStyle: 'bold' }, // Intestazione tabella Blu
+        alternateRowStyles: { fillColor: [245, 247, 250] } // Righe alternate grigio chiarissimo
+    });
+
+    // ==========================================
+    // 5. SALVATAGGIO DEL FILE
+    // ==========================================
+    doc.save(`Report_PromoOne_${formatDate(new Date().toISOString())}.pdf`);
+}
