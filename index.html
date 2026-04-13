@@ -1,139 +1,1514 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gestione Produzione Aziendale</title>
-    
+    <title>Gestione Produzione — Promo-One</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#111827">
-    
+    <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Promo-One">
-    
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    
-    <link rel="stylesheet" href="style.css">
+
+```
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+    :root {
+        --bg: #f8f7f4;
+        --surface: #ffffff;
+        --surface2: #f1f0ed;
+        --border: #e2e0db;
+        --border-strong: #c8c5be;
+        --ink: #1a1917;
+        --ink2: #6b6860;
+        --ink3: #9e9b95;
+        --accent: #d4500a;
+        --accent-light: #fff0e8;
+        --accent-border: #f4c4a4;
+        --blue: #1a56db;
+        --blue-light: #eff4ff;
+        --green: #057a55;
+        --green-light: #f0fdf9;
+        --yellow: #b45309;
+        --yellow-light: #fffbeb;
+        --red: #c81e1e;
+        --red-light: #fff5f5;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+        --shadow: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+        --shadow-lg: 0 16px 40px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+        --radius: 10px;
+        --radius-lg: 16px;
+        --mono: 'IBM Plex Mono', monospace;
+        --sans: 'IBM Plex Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        background: var(--bg);
+        font-family: var(--sans);
+        color: var(--ink);
+        min-height: 100vh;
+    }
+
+    /* ── LAYOUT ── */
+    .app-shell {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh;
+    }
+
+    .topbar {
+        background: var(--ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        height: 64px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 3px solid var(--accent);
+    }
+
+    .topbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand-mark {
+        width: 36px;
+        height: 36px;
+        background: var(--accent);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 14px;
+        color: white;
+        letter-spacing: -1px;
+    }
+
+    .brand-name {
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: -0.4px;
+        color: #fff;
+    }
+
+    .brand-sub {
+        font-size: 11px;
+        color: rgba(255,255,255,.45);
+        font-family: var(--mono);
+    }
+
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+    .btn-topbar {
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.15);
+        color: #fff;
+        font-size: 12px;
+        font-family: var(--mono);
+        padding: 6px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background .15s;
+        white-space: nowrap;
+    }
+    .btn-topbar:hover { background: rgba(255,255,255,.15); }
+    .btn-topbar.danger { border-color: rgba(220,50,50,.4); color: #ff8080; }
+    .btn-topbar.danger:hover { background: rgba(220,50,50,.15); }
+
+    /* ── MAIN ── */
+    .main-grid {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 0;
+        align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        min-height: calc(100vh - 64px);
+        padding: 28px 24px;
+        position: sticky;
+        top: 64px;
+    }
+
+    .sidebar-title {
+        font-size: 11px;
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--ink3);
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    /* ── FORM ── */
+    .field { margin-bottom: 16px; }
+    .field label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink2);
+        margin-bottom: 6px;
+        letter-spacing: .3px;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field input[type="date"],
+    .field select,
+    .field textarea {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        font-family: var(--sans);
+        font-size: 14px;
+        color: var(--ink);
+        background: var(--bg);
+        transition: border-color .15s, box-shadow .15s;
+        outline: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(212,80,10,.1);
+        background: #fff;
+    }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+    .field-unit {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .field-unit span {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--ink3);
+        white-space: nowrap;
+    }
+
+    /* ── PROD TYPE GRID ── */
+    .prod-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    .prod-item { position: relative; }
+    .prod-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .prod-item label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 10px 6px;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ink2);
+        background: var(--bg);
+        transition: all .15s;
+        text-align: center;
+        min-height: 60px;
+    }
+    .prod-item label .icon { font-size: 20px; display: block; }
+    .prod-item input:checked + label {
+        background: var(--accent-light);
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(212,80,10,.1);
+    }
+    .prod-item label:hover { border-color: var(--border-strong); background: #fff; }
+
+    /* ── DTF EXTRA ── */
+    .dtf-extra {
+        display: none;
+        background: var(--blue-light);
+        border: 1.5px solid #c3d6f7;
+        border-radius: var(--radius);
+        padding: 14px;
+        margin-top: 4px;
+    }
+    .dtf-extra.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dtf-extra label { color: #1e3a8a; }
+    .dtf-extra input { background: white; border-color: #c3d6f7; }
+
+    /* ── SUBMIT BTN ── */
+    .btn-primary {
+        width: 100%;
+        background: var(--ink);
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 15px;
+        padding: 13px;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: background .15s, transform .1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 6px;
+        letter-spacing: .2px;
+    }
+    .btn-primary:hover { background: #2d2d2d; }
+    .btn-primary:active { transform: scale(.99); }
+
+    /* ── CONTENT ── */
+    .content { padding: 28px 32px; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    .section-title {
+        font-size: 14px;
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--ink2);
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .count-badge {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ink2);
+        padding: 2px 8px;
+        border-radius: 20px;
+    }
+
+    /* ── JOB CARD ── */
+    .job-card {
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px 20px;
+        box-shadow: var(--shadow-sm);
+        transition: box-shadow .2s, border-color .2s;
+        animation: slideIn .25s ease;
+    }
+    .job-card:hover { box-shadow: var(--shadow); }
+    .job-card.urgent { border-color: #fca5a5; background: #fff5f5; }
+    .job-card.warning { border-color: #fcd34d; background: #fefce8; }
+    .job-card.archived {
+        opacity: .7;
+        border-style: dashed;
+        border-color: var(--border);
+    }
+    .job-card.archived:hover { opacity: 1; }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .job-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .job-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -.3px;
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        font-family: var(--mono);
+        padding: 3px 9px;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .badge-type { background: var(--surface2); color: var(--ink2); border: 1px solid var(--border); }
+    .badge-urgent { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
+    .badge-warning { background: var(--yellow-light); color: var(--yellow); border: 1px solid #fcd34d; }
+    .badge-ok { background: var(--green-light); color: var(--green); border: 1px solid #a7f3d0; }
+    .badge-done { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+
+    .job-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .stat-box {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+    }
+    .stat-box .stat-label {
+        font-size: 10px;
+        font-family: var(--mono);
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        margin-bottom: 4px;
+    }
+    .stat-box .stat-value {
+        font-size: 15px;
+        font-weight: 700;
+        font-family: var(--mono);
+        color: var(--ink);
+    }
+    .stat-box .stat-value.accent { color: var(--accent); }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap { margin-bottom: 14px; }
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--ink3);
+        font-family: var(--mono);
+        margin-bottom: 4px;
+    }
+    .progress-track {
+        height: 5px;
+        background: var(--surface2);
+        border-radius: 99px;
+        overflow: hidden;
+    }
+    .progress-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width .4s ease;
+        background: var(--green);
+    }
+    .progress-fill.mid { background: var(--yellow); }
+    .progress-fill.late { background: var(--accent); }
+    .progress-fill.over { background: var(--red); }
+
+    /* ── JOB ACTIONS ── */
+    .job-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .btn-action {
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 7px 14px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border);
+        cursor: pointer;
+        transition: all .15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .btn-complete {
+        background: var(--green-light);
+        border-color: #a7f3d0;
+        color: var(--green);
+    }
+    .btn-complete:hover { background: #dcfce7; border-color: #6ee7b7; }
+    .btn-delete {
+        background: var(--red-light);
+        border-color: #fca5a5;
+        color: var(--red);
+        margin-left: auto;
+    }
+    .btn-delete:hover { background: #fee2e2; }
+    .btn-ddt {
+        background: var(--blue-light);
+        border-color: #c3d6f7;
+        color: var(--blue);
+    }
+    .btn-ddt:hover { background: #dbeafe; }
+
+    /* ── DIVIDER ── */
+    .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 28px 0;
+    }
+
+    /* ── ARCHIVE EXPORT BUTTONS ── */
+    .export-btns { display: flex; gap: 8px; }
+    .btn-export {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 7px 14px;
+        border-radius: 8px;
+        border: 1.5px solid;
+        cursor: pointer;
+        transition: all .15s;
+    }
+    .btn-export.green { background: var(--green-light); border-color: #a7f3d0; color: var(--green); }
+    .btn-export.green:hover { background: #dcfce7; }
+    .btn-export.red { background: var(--red-light); border-color: #fca5a5; color: var(--red); }
+    .btn-export.red:hover { background: #fee2e2; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+        text-align: center;
+        padding: 48px 32px;
+        color: var(--ink3);
+        font-family: var(--mono);
+        font-size: 13px;
+        border: 1.5px dashed var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .empty-state .icon { font-size: 36px; display: block; margin-bottom: 12px; opacity: .5; }
+
+    /* ── DDT MODAL ── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15,23,42,.6);
+        backdrop-filter: blur(4px);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: var(--shadow-lg);
+        animation: modalIn .2s ease;
+    }
+    @keyframes modalIn {
+        from { opacity: 0; transform: scale(.96) translateY(12px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+        padding: 22px 24px 18px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -.3px;
+    }
+    .modal-subtitle {
+        font-size: 12px;
+        font-family: var(--mono);
+        color: var(--ink3);
+        margin-top: 2px;
+    }
+    .modal-close {
+        width: 32px;
+        height: 32px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        background: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--ink2);
+        transition: all .15s;
+    }
+    .modal-close:hover { background: var(--surface2); }
+
+    .modal-body { padding: 22px 24px; }
+    .modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .modal-section-title {
+        font-size: 11px;
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--ink3);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    /* ── DDT FORM ── */
+    .ddt-form .field-row { gap: 14px; margin-bottom: 14px; }
+    .ddt-form .field { margin-bottom: 14px; }
+    .ddt-note-box {
+        background: var(--yellow-light);
+        border: 1px solid #fde68a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 12px;
+        color: #92400e;
+        margin-bottom: 16px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: var(--ink);
+        color: #fff;
+        font-family: var(--mono);
+        font-size: 13px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+        z-index: 300;
+        transform: translateY(80px);
+        opacity: 0;
+        transition: all .3s cubic-bezier(.34,1.56,.64,1);
+        max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-left: 4px solid var(--green); }
+    .toast.info { border-left: 4px solid var(--blue); }
+    .toast.error { border-left: 4px solid var(--red); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+        .main-grid { grid-template-columns: 1fr; }
+        .sidebar {
+            position: static;
+            border-right: none;
+            border-bottom: 1px solid var(--border);
+            min-height: auto;
+        }
+        .content { padding: 20px 16px; }
+        .job-stats { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+        .topbar { padding: 0 16px; }
+        .brand-sub { display: none; }
+        .job-stats { grid-template-columns: repeat(2,1fr); }
+    }
+</style>
+```
+
 </head>
-<body class="bg-gray-50 text-gray-800 p-6 font-sans">
+<body>
 
-    <div class="max-w-6xl mx-auto">
-        <header class="mb-8 flex justify-between items-center border-b pb-4 border-gray-200">
+<div class="app-shell">
+
+```
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="topbar-brand">
+        <div class="brand-mark">P1</div>
+        <div>
+            <div class="brand-name">Promo-One</div>
+            <div class="brand-sub">GESTIONE PRODUZIONE</div>
+        </div>
+    </div>
+    <div class="topbar-actions">
+        <button class="btn-topbar" onclick="exportCSV()">📊 CSV</button>
+        <button class="btn-topbar" onclick="exportPDF()">📄 PDF</button>
+        <button class="btn-topbar danger" onclick="hardReset()">⚠️ Reset</button>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-grid">
+
+    <!-- SIDEBAR: FORM -->
+    <aside class="sidebar">
+        <div class="sidebar-title">Nuovo Lavoro</div>
+
+        <form id="jobForm">
+            <div class="field">
+                <label>Nome Bozza / Cliente</label>
+                <input type="text" id="jobName" required placeholder="Es. Felpe Rossi, 50 pz">
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Data Inizio</label>
+                    <input type="date" id="startDate" required>
+                </div>
+                <div class="field">
+                    <label>Data Consegna</label>
+                    <input type="date" id="endDate" required>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Avviamento</label>
+                    <div class="field-unit">
+                        <input type="number" id="setupTime" min="0" required placeholder="15">
+                        <span>min</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Quantità Pezzi</label>
+                    <input type="number" id="jobPieces" min="1" required placeholder="50">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Tipologia di Produzione</label>
+                <div class="prod-grid">
+                    <div class="prod-item">
+                        <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" required>
+                        <label for="stampa_digitale"><span class="icon">🖨️</span>Digitale</label>
+                    </div>
+                    <div class="prod-item">
+                        <input type="radio" id="stampa_uv" name="prodType" value="Stampa UV">
+                        <label for="stampa_uv"><span class="icon">☀️</span>UV</label>
+                    </div>
+                    <div class="prod-item">
+                        <input type="radio" id="ricamo" name="prodType" value="Ricamo">
+                        <label for="ricamo"><span class="icon">🧵</span>Ricamo</label>
+                    </div>
+                    <div class="prod-item">
+                        <input type="radio" id="pressa" name="prodType" value="Pressa">
+                        <label for="pressa"><span class="icon">♨️</span>Pressa</label>
+                    </div>
+                    <div class="prod-item">
+                        <input type="radio" id="dtf" name="prodType" value="DTF">
+                        <label for="dtf"><span class="icon">🎞️</span>DTF</label>
+                    </div>
+                    <div class="prod-item">
+                        <input type="radio" id="serigrafia" name="prodType" value="Serigrafia">
+                        <label for="serigrafia"><span class="icon">🎨</span>Serigrafia</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dtf-extra" id="dtfFields">
+                <div class="field">
+                    <label>N° Loghi stampati</label>
+                    <input type="number" id="dtfLogos" min="0" placeholder="0">
+                </div>
+                <div class="field">
+                    <label>Metri lineari (m)</label>
+                    <input type="number" id="dtfMeters" min="0" step="0.1" placeholder="0.0">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Note (opzionale)</label>
+                <textarea id="jobNotes" rows="2" placeholder="Colori speciali, istruzioni particolari…" style="resize:vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                Aggiungi alla Coda
+            </button>
+        </form>
+    </aside>
+
+    <!-- CONTENT: QUEUE + ARCHIVE -->
+    <main class="content">
+
+        <!-- ACTIVE QUEUE -->
+        <div class="section-header">
+            <div class="section-title">
+                Coda di Produzione
+                <span class="count-badge" id="activeCount">0</span>
+            </div>
+        </div>
+        <div id="jobList"></div>
+
+        <div class="divider"></div>
+
+        <!-- ARCHIVE -->
+        <div class="section-header">
+            <div class="section-title">
+                Archivio Completati
+                <span class="count-badge" id="archiveCount">0</span>
+            </div>
+            <div class="export-btns">
+                <button class="btn-export green" onclick="exportCSV()">📊 Excel</button>
+                <button class="btn-export red" onclick="exportPDF()">📄 PDF</button>
+            </div>
+        </div>
+        <div id="archiveList"></div>
+
+    </main>
+</div>
+```
+
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+
+<!-- DDT MODAL                                      -->
+
+<!-- ══════════════════════════════════════════════ -->
+
+<div class="modal-overlay" id="ddtModal">
+    <div class="modal">
+        <div class="modal-header">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Gestione Produzione</h1>
-                <p class="text-gray-500">Monitoraggio tempi, code di stampa e archivio</p>
-                <button onclick="hardReset()" class="mt-2 text-xs bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded font-bold transition shadow-sm">⚠️ Reset Dati App</button>
+                <div class="modal-title">📦 Crea DDT di Consegna</div>
+                <div class="modal-subtitle" id="ddtJobTitle">—</div>
             </div>
-        </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Nuovo Lavoro</h2>
-                <form id="jobForm" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome Bozza / Cliente</label>
-                        <input type="text" id="jobName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Inizio</label>
-                            <input type="date" id="startDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Consegna</label>
-                            <input type="date" id="endDate" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Avviamento</label>
-                            <div class="flex items-center gap-2">
-                                <input type="number" id="setupTime" min="0" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 15">
-                                <span class="text-sm text-gray-500">min</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Quantità Pezzi</label>
-                            <input type="number" id="jobPieces" min="1" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Es. 50">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipologia di Produzione</label>
-                        <div class="grid grid-cols-2 gap-2" id="productionTypes">
-                            <div>
-                                <input type="radio" id="stampa_digitale" name="prodType" value="Stampa Digitale" class="hidden prod-radio" required>
-                                <label for="stampa_digitale" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🖨️ Digitale</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="stampa_uv" name="prodType" value="Stampa UV" class="hidden prod-radio">
-                                <label for="stampa_uv" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">☀️ UV</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="ricamo" name="prodType" value="Ricamo" class="hidden prod-radio">
-                                <label for="ricamo" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">🧵 Ricamo</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="pressa" name="prodType" value="Pressa" class="hidden prod-radio">
-                                <label for="pressa" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm">♨️ Pressa</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="radio" id="dtf" name="prodType" value="DTF" class="hidden prod-radio">
-                                <label for="dtf" class="block text-center p-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 text-sm font-bold">🎞️ DTF</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="dtfFields" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-blue-800 mb-1">N° Loghi stampati</label>
-                            <input type="number" id="dtfLogos" min="0" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-blue-800 mb-1">Metri lineari (m)</label>
-                            <input type="number" id="dtfMeters" min="0" step="0.1" class="w-full p-2 border border-blue-200 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-md">
-                        Aggiungi alla Coda
-                    </button>
-                </form>
+            <button class="modal-close" onclick="closeDDT()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="ddt-note-box">
+                ⚠️ Il lavoro verrà spostato nell'archivio dopo la generazione del DDT.
             </div>
 
-            <div class="lg:col-span-8 space-y-8">
-                <div>
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                        Coda di Produzione
-                        <span class="ml-2 text-sm font-normal text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full" id="activeCount">0</span>
-                    </h2>
-                    <div id="jobList" class="space-y-4"></div>
+```
+        <div class="modal-section-title">Dati Mittente</div>
+        <div class="ddt-form">
+            <div class="field-row">
+                <div class="field">
+                    <label>Ragione Sociale</label>
+                    <input type="text" id="ddtMittente" placeholder="Promo-One Srl">
                 </div>
+                <div class="field">
+                    <label>P. IVA / C.F.</label>
+                    <input type="text" id="ddtMittenteIva" placeholder="IT00000000000">
+                </div>
+            </div>
+            <div class="field">
+                <label>Indirizzo Mittente</label>
+                <input type="text" id="ddtMittenteAddr" placeholder="Via Esempio 1, 00100 Roma">
+            </div>
+        </div>
 
-                <div>
-                    <div class="flex justify-between items-center border-t border-gray-300 pt-6 mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">Archivio Completati</h2>
-                        <div class="flex gap-2">
-                            <button onclick="exportCSV()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📊 Excel (CSV)</button>
-                            <button onclick="exportPDF()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded shadow transition">📄 PDF</button>
-                        </div>
-                    </div>
-                    <div id="pdfPreviewContainer"></div>
-                    <div id="archiveList" class="space-y-4 opacity-80"></div>
+        <div class="modal-section-title" style="margin-top:16px">Dati Destinatario</div>
+        <div class="ddt-form">
+            <div class="field-row">
+                <div class="field">
+                    <label>Ragione Sociale / Nome</label>
+                    <input type="text" id="ddtDest" placeholder="Cliente Srl">
                 </div>
+                <div class="field">
+                    <label>P. IVA / C.F.</label>
+                    <input type="text" id="ddtDestIva" placeholder="">
+                </div>
+            </div>
+            <div class="field">
+                <label>Indirizzo Destinatario</label>
+                <input type="text" id="ddtDestAddr" placeholder="Via Cliente 10, 00200 Milano">
+            </div>
+        </div>
+
+        <div class="modal-section-title" style="margin-top:16px">Dati Trasporto</div>
+        <div class="ddt-form">
+            <div class="field-row">
+                <div class="field">
+                    <label>N° DDT</label>
+                    <input type="text" id="ddtNumber" placeholder="auto">
+                </div>
+                <div class="field">
+                    <label>Data Trasporto</label>
+                    <input type="date" id="ddtDate">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Vettore / Corriere</label>
+                    <input type="text" id="ddtVettore" placeholder="Corriere Espresso / Proprio">
+                </div>
+                <div class="field">
+                    <label>N° Colli</label>
+                    <input type="number" id="ddtColli" min="1" value="1">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Peso (kg)</label>
+                    <input type="number" id="ddtPeso" min="0" step="0.1" placeholder="0.0">
+                </div>
+                <div class="field">
+                    <label>Porto</label>
+                    <select id="ddtPorto">
+                        <option value="Franco">Franco</option>
+                        <option value="Assegnato">Assegnato</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <label>Causale Trasporto</label>
+                <input type="text" id="ddtCausale" value="Vendita">
+            </div>
+            <div class="field">
+                <label>Note Aggiuntive</label>
+                <textarea id="ddtNote" rows="2" placeholder="Istruzioni di consegna, riferimenti ordine…" style="resize:vertical;"></textarea>
             </div>
         </div>
     </div>
+    <div class="modal-footer">
+        <button class="btn-action" onclick="closeDDT()" style="background:var(--surface2);border-color:var(--border);color:var(--ink2);">
+            Annulla
+        </button>
+        <button class="btn-action btn-complete" onclick="generateDDT()" style="padding:9px 20px;font-size:13px;">
+            📄 Genera DDT &amp; Completa Lavoro
+        </button>
+    </div>
+</div>
+```
 
-    <script src="app.js"></script>
+</div>
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════ */
+let jobs = JSON.parse(localStorage.getItem('promoJobs') || '[]');
+let archive = JSON.parse(localStorage.getItem('promoArchive') || '[]');
+let ddtCounter = parseInt(localStorage.getItem('ddtCounter') || '1');
+let pendingCompleteId = null;
+let savedDDTSettings = JSON.parse(localStorage.getItem('ddtSettings') || '{}');
+
+/* ════════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════════ */
+function save() {
+    localStorage.setItem('promoJobs', JSON.stringify(jobs));
+    localStorage.setItem('promoArchive', JSON.stringify(archive));
+    localStorage.setItem('ddtCounter', ddtCounter);
+}
+
+function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+}
+
+function fmtDate(iso) {
+    if (!iso) return '—';
+    const [y,m,d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+}
+
+function today() {
+    return new Date().toISOString().split('T')[0];
+}
+
+function daysDiff(from, to) {
+    const a = new Date(from), b = new Date(to);
+    return Math.round((b - a) / 86400000);
+}
+
+function daysLeft(endDate) {
+    return daysDiff(today(), endDate);
+}
+
+function toast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function urgencyClass(job) {
+    const dl = daysLeft(job.endDate);
+    if (dl < 0) return 'urgent';
+    if (dl <= 2) return 'warning';
+    return '';
+}
+
+function urgencyBadge(job) {
+    const dl = daysLeft(job.endDate);
+    if (dl < 0) return `<span class="badge badge-urgent">⚠️ Scaduto ${Math.abs(dl)}g fa</span>`;
+    if (dl === 0) return `<span class="badge badge-urgent">🔴 Consegna OGGI</span>`;
+    if (dl <= 2) return `<span class="badge badge-warning">⏰ ${dl}g rimasti</span>`;
+    return `<span class="badge badge-ok">✅ ${dl}g rimasti</span>`;
+}
+
+function progressPct(job) {
+    const total = daysDiff(job.startDate, job.endDate);
+    if (total <= 0) return 100;
+    const elapsed = daysDiff(job.startDate, today());
+    return Math.min(100, Math.max(0, Math.round(elapsed / total * 100)));
+}
+
+function progressClass(pct, dl) {
+    if (dl < 0) return 'over';
+    if (pct >= 80) return 'late';
+    if (pct >= 50) return 'mid';
+    return '';
+}
+
+/* ════════════════════════════════════════════
+   RENDER
+════════════════════════════════════════════ */
+function render() {
+    const jobList = document.getElementById('jobList');
+    const archList = document.getElementById('archiveList');
+    document.getElementById('activeCount').textContent = jobs.length;
+    document.getElementById('archiveCount').textContent = archive.length;
+
+    /* ── ACTIVE JOBS ── */
+    if (jobs.length === 0) {
+        jobList.innerHTML = `<div class="empty-state"><span class="icon">📋</span>Nessun lavoro in coda.<br>Aggiungine uno dal pannello laterale.</div>`;
+    } else {
+        jobList.innerHTML = jobs.map(j => {
+            const pct = progressPct(j);
+            const dl = daysLeft(j.endDate);
+            const pc = progressClass(pct, dl);
+            const dtfInfo = j.prodType === 'DTF' && (j.dtfLogos || j.dtfMeters)
+                ? `<span class="badge badge-type">🎞️ ${j.dtfLogos||0} loghi · ${j.dtfMeters||0}m</span>` : '';
+            return `
+            <div class="job-card ${urgencyClass(j)}" id="card-${j.id}">
+                <div class="job-header">
+                    <div>
+                        <div class="job-name">${j.name}</div>
+                        <div class="job-meta" style="margin-top:6px">
+                            <span class="badge badge-type">${j.prodType}</span>
+                            ${urgencyBadge(j)}
+                            ${dtfInfo}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Pezzi</div>
+                        <div class="stat-value accent">${j.pieces}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Avviamento</div>
+                        <div class="stat-value">${j.setupTime}min</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Inizio</div>
+                        <div class="stat-value" style="font-size:12px">${fmtDate(j.startDate)}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Consegna</div>
+                        <div class="stat-value" style="font-size:12px">${fmtDate(j.endDate)}</div>
+                    </div>
+                </div>
+
+                ${j.notes ? `<div style="font-size:12px;color:var(--ink2);background:var(--surface2);border-radius:7px;padding:8px 12px;margin-bottom:12px;border:1px solid var(--border)">📝 ${j.notes}</div>` : ''}
+
+                <div class="progress-wrap">
+                    <div class="progress-label">
+                        <span>Avanzamento temporale</span>
+                        <span>${pct}%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill ${pc}" style="width:${pct}%"></div>
+                    </div>
+                </div>
+
+                <div class="job-actions">
+                    <button class="btn-action btn-complete" onclick="openDDT('${j.id}')">✅ Completa &amp; DDT</button>
+                    <button class="btn-action btn-delete" onclick="deleteJob('${j.id}')">🗑 Elimina</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    /* ── ARCHIVE ── */
+    if (archive.length === 0) {
+        archList.innerHTML = `<div class="empty-state"><span class="icon">📁</span>Nessun lavoro completato.</div>`;
+    } else {
+        archList.innerHTML = [...archive].reverse().map(j => `
+            <div class="job-card archived">
+                <div class="job-header">
+                    <div>
+                        <div class="job-name" style="font-size:14px">${j.name}</div>
+                        <div class="job-meta" style="margin-top:5px">
+                            <span class="badge badge-type">${j.prodType}</span>
+                            <span class="badge badge-done">✔ Completato ${fmtDate(j.completedAt)}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+                        ${j.ddtNumber ? `<button class="btn-action btn-ddt" onclick="redownloadDDT('${j.id}')">📄 DDT ${j.ddtNumber}</button>` : ''}
+                        <button class="btn-action btn-delete" onclick="deleteArchive('${j.id}')">🗑</button>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:11px;font-family:var(--mono);color:var(--ink3)">
+                    <span>Pezzi: ${j.pieces}</span>
+                    <span>·</span>
+                    <span>${fmtDate(j.startDate)} → ${fmtDate(j.endDate)}</span>
+                    <span>·</span>
+                    <span>Avv. ${j.setupTime}min</span>
+                    ${j.notes ? `<span>· 📝 ${j.notes}</span>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+/* ════════════════════════════════════════════
+   FORM SUBMIT
+════════════════════════════════════════════ */
+document.getElementById('jobForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const prodType = document.querySelector('input[name="prodType"]:checked');
+    if (!prodType) { toast('Seleziona una tipologia di produzione', 'error'); return; }
+
+    const start = document.getElementById('startDate').value;
+    const end = document.getElementById('endDate').value;
+    if (end < start) { toast('La data di consegna non può precedere l\'inizio', 'error'); return; }
+
+    const job = {
+        id: uid(),
+        name: document.getElementById('jobName').value.trim(),
+        startDate: start,
+        endDate: end,
+        setupTime: parseInt(document.getElementById('setupTime').value) || 0,
+        pieces: parseInt(document.getElementById('jobPieces').value) || 1,
+        prodType: prodType.value,
+        notes: document.getElementById('jobNotes').value.trim(),
+        dtfLogos: prodType.value === 'DTF' ? parseInt(document.getElementById('dtfLogos').value) || 0 : null,
+        dtfMeters: prodType.value === 'DTF' ? parseFloat(document.getElementById('dtfMeters').value) || 0 : null,
+        createdAt: today()
+    };
+
+    jobs.push(job);
+    save();
+    render();
+    e.target.reset();
+    document.querySelectorAll('.prod-radio').forEach(r => r.checked = false);
+    document.getElementById('dtfFields').classList.remove('visible');
+    toast(`✅ "${job.name}" aggiunto alla coda`);
+});
+
+/* ── DTF fields toggle ── */
+document.querySelectorAll('input[name="prodType"]').forEach(r => {
+    r.addEventListener('change', () => {
+        document.getElementById('dtfFields').classList.toggle('visible', r.value === 'DTF' && r.checked);
+    });
+});
+
+/* ════════════════════════════════════════════
+   JOB ACTIONS
+════════════════════════════════════════════ */
+function deleteJob(id) {
+    if (!confirm('Eliminare questo lavoro?')) return;
+    jobs = jobs.filter(j => j.id !== id);
+    save();
+    render();
+    toast('Lavoro eliminato', 'info');
+}
+
+function deleteArchive(id) {
+    if (!confirm('Rimuovere dall\'archivio?')) return;
+    archive = archive.filter(j => j.id !== id);
+    save();
+    render();
+}
+
+/* ════════════════════════════════════════════
+   DDT MODAL
+════════════════════════════════════════════ */
+function openDDT(id) {
+    pendingCompleteId = id;
+    const job = jobs.find(j => j.id === id);
+    if (!job) return;
+
+    document.getElementById('ddtJobTitle').textContent = `${job.name} · ${job.prodType} · ${job.pieces} pz`;
+    document.getElementById('ddtDate').value = today();
+    document.getElementById('ddtNumber').placeholder = `DDT-${String(ddtCounter).padStart(4,'0')}`;
+
+    // Restore saved settings
+    if (savedDDTSettings.mittente) document.getElementById('ddtMittente').value = savedDDTSettings.mittente;
+    if (savedDDTSettings.mittenteIva) document.getElementById('ddtMittenteIva').value = savedDDTSettings.mittenteIva;
+    if (savedDDTSettings.mittenteAddr) document.getElementById('ddtMittenteAddr').value = savedDDTSettings.mittenteAddr;
+    if (savedDDTSettings.vettore) document.getElementById('ddtVettore').value = savedDDTSettings.vettore;
+
+    // Pre-fill destinatario from job name
+    document.getElementById('ddtDest').value = job.name;
+
+    document.getElementById('ddtModal').classList.add('open');
+}
+
+function closeDDT() {
+    document.getElementById('ddtModal').classList.remove('open');
+    pendingCompleteId = null;
+}
+
+/* ════════════════════════════════════════════
+   GENERATE DDT PDF
+════════════════════════════════════════════ */
+function generateDDT() {
+    if (!pendingCompleteId) return;
+    const job = jobs.find(j => j.id === pendingCompleteId);
+    if (!job) return;
+
+    const ddtNum = document.getElementById('ddtNumber').value.trim() || `DDT-${String(ddtCounter).padStart(4,'0')}`;
+    const ddtData = {
+        number: ddtNum,
+        date: document.getElementById('ddtDate').value || today(),
+        mittente: document.getElementById('ddtMittente').value.trim() || 'Promo-One Srl',
+        mittenteIva: document.getElementById('ddtMittenteIva').value.trim(),
+        mittenteAddr: document.getElementById('ddtMittenteAddr').value.trim(),
+        dest: document.getElementById('ddtDest').value.trim() || job.name,
+        destIva: document.getElementById('ddtDestIva').value.trim(),
+        destAddr: document.getElementById('ddtDestAddr').value.trim(),
+        vettore: document.getElementById('ddtVettore').value.trim() || 'Proprio mezzo',
+        colli: parseInt(document.getElementById('ddtColli').value) || 1,
+        peso: document.getElementById('ddtPeso').value || '—',
+        porto: document.getElementById('ddtPorto').value,
+        causale: document.getElementById('ddtCausale').value.trim() || 'Vendita',
+        note: document.getElementById('ddtNote').value.trim()
+    };
+
+    // Save mittente for future use
+    savedDDTSettings = {
+        mittente: ddtData.mittente,
+        mittenteIva: ddtData.mittenteIva,
+        mittenteAddr: ddtData.mittenteAddr,
+        vettore: ddtData.vettore
+    };
+    localStorage.setItem('ddtSettings', JSON.stringify(savedDDTSettings));
+
+    buildDDTPdf(job, ddtData);
+
+    // Complete job
+    job.completedAt = today();
+    job.ddtNumber = ddtNum;
+    job.ddtData = ddtData;
+    archive.push(job);
+    jobs = jobs.filter(j => j.id !== pendingCompleteId);
+    ddtCounter++;
+    save();
+    render();
+    closeDDT();
+    toast(`📄 DDT ${ddtNum} generato — Lavoro completato!`, 'success');
+}
+
+function buildDDTPdf(job, d) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210, M = 15;
+    let y = 15;
+
+    const col = { dark: [15,23,42], accent: [212,80,10], mid: [107,104,96], light: [241,240,237], border: [226,224,219] };
+
+    // ── HEADER BAR ──
+    doc.setFillColor(...col.dark);
+    doc.rect(0, 0, W, 28, 'F');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(255,255,255);
+    doc.text('DOCUMENTO DI TRASPORTO', M, 13);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(180,180,180);
+    doc.text('DDT – D.P.R. 472/96', M, 20);
+
+    // DDT number accent box
+    doc.setFillColor(...col.accent);
+    doc.roundedRect(W - 70, 6, 55, 16, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(255,255,255);
+    doc.text(d.number, W - 70 + 27.5, 16, { align: 'center' });
+
+    y = 38;
+
+    // ── INFO ROW ──
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...col.mid);
+    doc.text(`Data: ${fmtDate(d.date)}`, M, y);
+    doc.text(`Causale: ${d.causale}`, 80, y);
+    doc.text(`Porto: ${d.porto}`, 140, y);
+    y += 8;
+
+    // ── ADDRESSES GRID ──
+    const boxH = 36;
+    // Mittente
+    doc.setFillColor(...col.light);
+    doc.setDrawColor(...col.border);
+    doc.roundedRect(M, y, 82, boxH, 2, 2, 'FD');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(...col.accent);
+    doc.text('MITTENTE', M+4, y+6);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...col.dark);
+    doc.text(d.mittente || '—', M+4, y+14);
+    doc.setFontSize(8);
+    doc.setTextColor(...col.mid);
+    if (d.mittenteAddr) doc.text(d.mittenteAddr, M+4, y+22, { maxWidth: 74 });
+    if (d.mittenteIva) doc.text(`P.IVA: ${d.mittenteIva}`, M+4, y+30);
+
+    // Destinatario
+    doc.setFillColor(...col.light);
+    doc.roundedRect(W-M-82, y, 82, boxH, 2, 2, 'FD');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(...col.accent);
+    doc.text('DESTINATARIO', W-M-82+4, y+6);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...col.dark);
+    doc.text(d.dest || '—', W-M-82+4, y+14);
+    doc.setFontSize(8);
+    doc.setTextColor(...col.mid);
+    if (d.destAddr) doc.text(d.destAddr, W-M-82+4, y+22, { maxWidth: 74 });
+    if (d.destIva) doc.text(`P.IVA: ${d.destIva}`, W-M-82+4, y+30);
+
+    y += boxH + 10;
+
+    // ── TRASPORTO INFO ──
+    doc.setFillColor(...col.dark);
+    doc.rect(M, y, W-2*M, 7, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(255,255,255);
+    doc.text('DATI TRASPORTO', M+4, y+4.8);
+    y += 7;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...col.dark);
+    doc.setDrawColor(...col.border);
+    doc.setFillColor(255,255,255);
+    doc.rect(M, y, W-2*M, 14, 'FD');
+    const cols = [M+4, M+52, M+100, M+148];
+    const labelY = y + 5, valY = y + 11;
+    [['Vettore', d.vettore||'Proprio'], ['N° Colli', String(d.colli)], [`Peso (kg)`, String(d.peso)], ['Porto', d.porto]].forEach(([l,v], i) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7);
+        doc.setTextColor(...col.mid);
+        doc.text(l, cols[i], labelY);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...col.dark);
+        doc.text(v, cols[i], valY);
+    });
+    y += 14 + 8;
+
+    // ── GOODS TABLE ──
+    const description = buildDescription(job);
+    doc.autoTable({
+        startY: y,
+        margin: { left: M, right: M },
+        head: [['#', 'Descrizione Merce / Lavorazione', 'U.M.', 'Quantità', 'Note']],
+        body: [[
+            '1',
+            description,
+            'PZ',
+            String(job.pieces),
+            job.notes || '—'
+        ]],
+        styles: { font: 'helvetica', fontSize: 9, cellPadding: 4, lineColor: col.border, lineWidth: 0.3 },
+        headStyles: { fillColor: col.dark, textColor: [255,255,255], fontStyle: 'bold', fontSize: 8 },
+        alternateRowStyles: { fillColor: [248,247,244] },
+        columnStyles: {
+            0: { cellWidth: 10, halign: 'center' },
+            1: { cellWidth: 80 },
+            2: { cellWidth: 18, halign: 'center' },
+            3: { cellWidth: 22, halign: 'center' },
+            4: { cellWidth: 'auto' }
+        }
+    });
+
+    y = doc.lastAutoTable.finalY + 10;
+
+    // Extra DTF row
+    if (job.prodType === 'DTF' && (job.dtfLogos || job.dtfMeters)) {
+        doc.autoTable({
+            startY: y,
+            margin: { left: M, right: M },
+            body: [[`🎞️ DTF — Loghi stampati: ${job.dtfLogos||0} · Metri lineari: ${job.dtfMeters||0}m`]],
+            styles: { fontSize: 8, fillColor: [239,244,255], textColor: col.dark },
+        });
+        y = doc.lastAutoTable.finalY + 6;
+    }
+
+    // ── NOTES ──
+    if (d.note) {
+        doc.setFillColor(255,251,235);
+        doc.setDrawColor(253,216,0);
+        doc.roundedRect(M, y, W-2*M, 14, 2, 2, 'FD');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(...col.mid);
+        doc.text('NOTE:', M+4, y+5.5);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...col.dark);
+        doc.text(d.note, M+22, y+5.5, { maxWidth: W-2*M-26 });
+        y += 20;
+    }
+
+    // ── SIGNATURES ──
+    y = Math.max(y + 10, 230);
+    const sigW = 54;
+    const sigPositions = [M, M + sigW + 8, M + 2*(sigW + 8)];
+    const sigLabels = ['Firma Mittente', 'Firma Corriere', 'Firma Destinatario'];
+    sigPositions.forEach((sx, i) => {
+        doc.setDrawColor(...col.border);
+        doc.setFillColor(...col.light);
+        doc.roundedRect(sx, y, sigW, 22, 2, 2, 'FD');
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(...col.mid);
+        doc.text(sigLabels[i], sx + sigW/2, y + 19, { align: 'center' });
+    });
+
+    // ── FOOTER ──
+    doc.setFillColor(...col.dark);
+    doc.rect(0, 282, W, 15, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(180,180,180);
+    doc.text(`${d.mittente} · Documento generato il ${fmtDate(today())} · Promo-One Gestione Produzione`, W/2, 290, { align: 'center' });
+
+    doc.save(`DDT_${d.number}_${job.name.replace(/\s+/g,'_')}.pdf`);
+}
+
+function buildDescription(job) {
+    let desc = `${job.prodType} — ${job.name}`;
+    if (job.startDate) desc += ` · Periodo: ${fmtDate(job.startDate)} – ${fmtDate(job.endDate)}`;
+    if (job.setupTime) desc += ` · Avv. ${job.setupTime}min`;
+    return desc;
+}
+
+/* ─ Re-download DDT from archive ─ */
+function redownloadDDT(id) {
+    const job = archive.find(j => j.id === id);
+    if (!job || !job.ddtData) { toast('Dati DDT non disponibili', 'error'); return; }
+    buildDDTPdf(job, job.ddtData);
+    toast(`📄 DDT ${job.ddtNumber} ri-scaricato`);
+}
+
+/* ════════════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════════════ */
+function exportCSV() {
+    if (archive.length === 0) { toast('Nessun lavoro completato da esportare', 'info'); return; }
+    const headers = ['Nome','Tipologia','Data Inizio','Data Consegna','Avviamento (min)','Pezzi','Completato','DDT','Note'];
+    const rows = archive.map(j => [
+        j.name, j.prodType, j.startDate, j.endDate,
+        j.setupTime, j.pieces, j.completedAt || '', j.ddtNumber || '', j.notes || ''
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Archivio_Produzione_${today()}.csv`;
+    a.click();
+    toast('📊 CSV esportato');
+}
+
+/* ════════════════════════════════════════════
+   EXPORT ARCHIVE PDF
+════════════════════════════════════════════ */
+function exportPDF() {
+    if (archive.length === 0) { toast('Nessun lavoro completato da esportare', 'info'); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+    doc.setFillColor(15,23,42);
+    doc.rect(0,0,297,22,'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(14);
+    doc.setTextColor(255,255,255);
+    doc.text('ARCHIVIO LAVORI COMPLETATI — Promo-One', 14, 14);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(180,180,180);
+    doc.text(`Esportato il ${fmtDate(today())} · ${archive.length} lavori`, 220, 14);
+
+    doc.autoTable({
+        startY: 28,
+        margin: { left: 14, right: 14 },
+        head: [['Cliente / Nome', 'Tipologia', 'Inizio', 'Consegna', 'Completato', 'Pezzi', 'Avv.', 'DDT', 'Note']],
+        body: archive.map(j => [j.name, j.prodType, fmtDate(j.startDate), fmtDate(j.endDate), fmtDate(j.completedAt), j.pieces, `${j.setupTime}min`, j.ddtNumber||'—', j.notes||'']),
+        styles: { font:'helvetica', fontSize:8, cellPadding:3 },
+        headStyles: { fillColor:[212,80,10], textColor:[255,255,255], fontStyle:'bold' },
+        alternateRowStyles: { fillColor:[248,247,244] }
+    });
+
+    doc.save(`Archivio_Produzione_${today()}.pdf`);
+    toast('📄 PDF archivio esportato');
+}
+
+/* ════════════════════════════════════════════
+   HARD RESET
+════════════════════════════════════════════ */
+function hardReset() {
+    if (!confirm('⚠️ Cancellare tutti i dati? Questa azione è irreversibile.')) return;
+    localStorage.clear();
+    jobs = []; archive = []; ddtCounter = 1;
+    render();
+    toast('Dati resettati', 'info');
+}
+
+/* ── Close modal on overlay click ── */
+document.getElementById('ddtModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDDT();
+});
+
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Set today as default start
+    document.getElementById('startDate').value = today();
+    render();
+});
+</script>
+
 </body>
 </html>
