@@ -93,7 +93,21 @@ color-scheme: light dark;
 }
 
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(–bg); font-family: var(–sans); color: var(–ink); min-height: 100dvh; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; }
+body {
+background: var(–bg);
+background-image: url(‘https://raw.githubusercontent.com/Pacio-lab/Promo-One/main/IMG_3308.jpeg’);
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+background-repeat: no-repeat;
+font-family: var(–sans); color: var(–ink); min-height: 100dvh;
+-webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden;
+}
+body::before {
+content: ‘’; position: fixed; inset: 0; z-index: -1;
+background: color-mix(in srgb, var(–bg) 82%, transparent);
+backdrop-filter: blur(2px);
+}
 ::selection { background: var(–accent); color: #fff; }
 :focus-visible { outline: 2px solid var(–accent); outline-offset: 2px; border-radius: 4px; }
 input, select, textarea, button { font-family: inherit; }
@@ -161,7 +175,8 @@ padding: 1px 6px; border-radius: 20px;
 /* ═══ LAYOUT ═══ */
 .app-layout { display: grid; grid-template-columns: 400px 1fr; min-height: calc(100dvh - 56px); }
 .sidebar {
-background: var(–surface); border-right: 1px solid var(–border);
+background: var(–surface-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+border-right: 1px solid var(–border);
 padding: 20px; position: sticky; top: 56px;
 height: calc(100dvh - 56px); overflow-y: auto; overscroll-behavior: contain;
 }
@@ -243,7 +258,8 @@ transform: scale(0); animation: ripple .5s ease-out; pointer-events: none;
 
 .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
 .dash-card {
-background: var(–surface); border: 1px solid var(–border);
+background: var(–surface-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+border: 1px solid var(–border);
 border-radius: var(–radius); padding: 14px 16px; transition: all .15s; container-type: inline-size;
 }
 .dash-card:hover { border-color: var(–border-strong); box-shadow: var(–shadow-sm); }
@@ -292,7 +308,8 @@ padding: 2px 8px; border-radius: 20px;
 
 /* ═══ JOB CARDS ═══ */
 .job-card {
-background: var(–surface); border: 1.5px solid var(–border);
+background: var(–surface-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+border: 1.5px solid var(–border);
 border-radius: var(–radius-lg); padding: 16px; box-shadow: var(–shadow-xs);
 transition: all .2s var(–ease-out); animation: cardIn .25s var(–ease-out) both;
 position: relative; container-type: inline-size;
