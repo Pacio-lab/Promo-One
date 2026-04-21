@@ -2,557 +2,889 @@
 
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Promo-One — Gestione Produzione</title>
-    <meta name="description" content="Sistema gestione produzione Promo-One">
-    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Promo-One">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUHJvbW8tT25lIiwic2hvcnRfbmFtZSI6IlByb21vLU9uZSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGEwYTBiIiwidGhlbWVfY29sb3IiOiIjZTg1ZDFhIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nOTYnIGZpbGw9JyNlODVkMWEnLz48dGV4dCB4PSc1MCUnIHk9JzUyJScgZm9udC1zaXplPScyODAnIGZpbGw9J3doaXRlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkb21pbmFudC1iYXNlbGluZT0nbWlkZGxlJyBmb250LWZhbWlseT0nc3lzdGVtLXVpJyBmb250LXdlaWdodD0nOTAwJz5QMTwvdGV4dD48L3N2Zz4iLCJzaXplcyI6ImFueSIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    <style>
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — PROMO-ONE 2026
-   ═══════════════════════════════════════════ */
-@view-transition { navigation: auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Promo-One &mdash; Produzione</title>
+<meta name="description" content="Sistema gestione produzione Promo-One">
+<meta name="theme-color" content="#0a1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Promo-One">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUHJvbW8tT25lIiwic2hvcnRfbmFtZSI6IlByb21vLU9uZSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGExMDIwIiwidGhlbWVfY29sb3IiOiIjMjJkM2VlIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nOTYnIGZpbGw9JyMyMmQzZWUnLz48dGV4dCB4PSc1MCUnIHk9JzUyJScgZm9udC1zaXplPScyODAnIGZpbGw9J3doaXRlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkb21pbmFudC1iYXNlbGluZT0nbWlkZGxlJyBmb250LWZhbWlseT0nc3lzdGVtLXVpJyBmb250LXdlaWdodD0nOTAwJz5QMTwvdGV4dD48L3N2Zz4iLCJzaXplcyI6ImFueSIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+/* ═══ PROMO-ONE MOBILE-FIRST 2026 ═══ */
 :root {
-–bg: #faf9f7;
-–bg2: #f2f1ee;
-–surface: #ffffff;
-–surface2: #f6f5f2;
-–surface-glass: rgba(255,255,255,.72);
-–border: #e8e6e1;
-–border-strong: #d4d1cb;
-–ink: #111110;
-–ink2: #555550;
-–ink3: #8a8880;
-–ink-inv: #faf9f7;
-–accent: #e85d1a;
-–accent-hover: #d14f0f;
-–accent-light: #fff1ea;
-–accent-subtle: rgba(232,93,26,.08);
-–blue: #2563eb;
-–blue-light: #eff4ff;
-–green: #16a34a;
-–green-light: #f0fdf4;
-–yellow: #ca8a04;
-–yellow-light: #fefce8;
-–red: #dc2626;
-–red-light: #fef2f2;
-–shadow-xs: 0 1px 2px rgba(0,0,0,.04);
-–shadow-sm: 0 2px 8px rgba(0,0,0,.05);
-–shadow-md: 0 8px 24px rgba(0,0,0,.08);
-–shadow-lg: 0 20px 48px rgba(0,0,0,.12);
-–shadow-glow: 0 0 0 3px var(–accent-subtle);
-–radius: 12px;
-–radius-lg: 16px;
-–radius-xl: 20px;
-–mono: ‘JetBrains Mono’, monospace;
-–sans: ‘DM Sans’, system-ui, sans-serif;
-–ease-out: cubic-bezier(.22,1,.36,1);
-–ease-spring: cubic-bezier(.34,1.56,.64,1);
-–duration: .2s;
-color-scheme: light dark;
+    --accent: #22d3ee;
+    --accent-2: #0ea5b7;
+    --accent-light: rgba(34,211,238,.15);
+    --bg-overlay: rgba(10,16,32,.82);
+    --surface: rgba(20,28,48,.88);
+    --surface-2: rgba(30,40,65,.75);
+    --surface-3: rgba(40,52,80,.7);
+    --border: rgba(255,255,255,.12);
+    --border-strong: rgba(34,211,238,.4);
+    --ink: #f8fafc;
+    --ink-2: #cbd5e1;
+    --ink-3: #94a3b8;
+    --green: #22c55e;
+    --green-light: rgba(34,197,94,.18);
+    --yellow: #eab308;
+    --yellow-light: rgba(234,179,8,.18);
+    --red: #ef4444;
+    --red-light: rgba(239,68,68,.2);
+    --blue: #3b82f6;
+    --blue-light: rgba(59,130,246,.2);
+    --radius: 14px;
+    --radius-lg: 20px;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
-@media (prefers-color-scheme: dark) {
-:root {
-–bg: #0a0a0b; –bg2: #111113; –surface: #18181b; –surface2: #1e1e22;
-–surface-glass: rgba(24,24,27,.8); –border: #2a2a2e; –border-strong: #3a3a40;
-–ink: #f0efe8; –ink2: #a0a098; –ink3: #68685f; –ink-inv: #111110;
-–accent-light: #2a1a0e; –accent-subtle: rgba(232,93,26,.15);
-–blue-light: #0f1a2e; –green-light: #0a1f10; –yellow-light: #1a1600; –red-light: #1f0a0a;
-–shadow-xs: 0 1px 2px rgba(0,0,0,.2); –shadow-sm: 0 2px 8px rgba(0,0,0,.3);
-–shadow-md: 0 8px 24px rgba(0,0,0,.4); –shadow-lg: 0 20px 48px rgba(0,0,0,.5);
-}
-}
-[data-theme=“dark”] {
-–bg: #0a0a0b; –bg2: #111113; –surface: #18181b; –surface2: #1e1e22;
-–surface-glass: rgba(24,24,27,.8); –border: #2a2a2e; –border-strong: #3a3a40;
-–ink: #f0efe8; –ink2: #a0a098; –ink3: #68685f; –ink-inv: #111110;
-–accent-light: #2a1a0e; –accent-subtle: rgba(232,93,26,.15);
-–blue-light: #0f1a2e; –green-light: #0a1f10; –yellow-light: #1a1600; –red-light: #1f0a0a;
-–shadow-xs: 0 1px 2px rgba(0,0,0,.2); –shadow-sm: 0 2px 8px rgba(0,0,0,.3);
-–shadow-md: 0 8px 24px rgba(0,0,0,.4); –shadow-lg: 0 20px 48px rgba(0,0,0,.5);
-}
-[data-theme=“light”] {
-–bg: #faf9f7; –bg2: #f2f1ee; –surface: #ffffff; –surface2: #f6f5f2;
-–surface-glass: rgba(255,255,255,.72); –border: #e8e6e1; –border-strong: #d4d1cb;
-–ink: #111110; –ink2: #555550; –ink3: #8a8880; –ink-inv: #faf9f7;
-–accent-light: #fff1ea; –accent-subtle: rgba(232,93,26,.08);
-–blue-light: #eff4ff; –green-light: #f0fdf4; –yellow-light: #fefce8; –red-light: #fef2f2;
-–shadow-xs: 0 1px 2px rgba(0,0,0,.04); –shadow-sm: 0 2px 8px rgba(0,0,0,.05);
-–shadow-md: 0 8px 24px rgba(0,0,0,.08); –shadow-lg: 0 20px 48px rgba(0,0,0,.12);
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+html, body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
-*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-background: var(–bg);
-background-image: url(‘IMG_3308.jpeg’);
-background-size: cover;
-background-position: center;
-background-attachment: fixed;
-background-repeat: no-repeat;
-font-family: var(–sans); color: var(–ink); min-height: 100dvh;
--webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden;
+    background: #0a1020 url('IMG_3308.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
 }
-body::before {
-content: ‘’; position: fixed; inset: 0; z-index: -1;
-background: color-mix(in srgb, var(–bg) 82%, transparent);
-backdrop-filter: blur(2px);
-}
-::selection { background: var(–accent); color: #fff; }
-:focus-visible { outline: 2px solid var(–accent); outline-offset: 2px; border-radius: 4px; }
-input, select, textarea, button { font-family: inherit; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(–border-strong); border-radius: 99px; }
 
-/* ═══ TOPBAR ═══ */
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: linear-gradient(180deg, rgba(10,16,32,.72) 0%, rgba(10,16,32,.88) 50%, rgba(10,16,32,.92) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+::selection { background: var(--accent); color: #0a1020; }
+
+/* TYPOGRAPHY */
+.display-title {
+    font-weight: 900;
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    letter-spacing: -.02em;
+    line-height: 1;
+    color: var(--ink);
+    margin: 0;
+}
+.section-label {
+    font-weight: 700;
+    font-size: .75rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .75rem;
+}
+
+/* TOPBAR */
 .topbar {
-position: sticky; top: 0; z-index: 100;
-display: flex; align-items: center; justify-content: space-between;
-padding: 0 24px; height: 56px;
-background: var(–surface-glass);
-backdrop-filter: blur(20px) saturate(1.4);
--webkit-backdrop-filter: blur(20px) saturate(1.4);
-border-bottom: 1px solid var(–border);
+    position: sticky; top: 0; z-index: 50;
+    padding: env(safe-area-inset-top, 12px) 16px 12px;
+    background: rgba(10,16,32,.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid var(--border);
 }
-.topbar-brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark {
-width: 32px; height: 32px; background: var(–accent); border-radius: 8px;
-display: grid; place-items: center;
-font-family: var(–mono); font-weight: 700; font-size: 12px; color: #fff;
-box-shadow: 0 2px 8px rgba(232,93,26,.3);
-transition: transform .2s var(–ease-spring);
+.topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px;
 }
-.brand-mark:hover { transform: scale(1.08) rotate(-3deg); }
-.brand-name { font-weight: 800; font-size: 16px; letter-spacing: -.5px; color: var(–ink); }
-.brand-sub { font-size: 9px; color: var(–ink3); font-family: var(–mono); letter-spacing: 1px; text-transform: uppercase; }
-.topbar-actions { display: flex; align-items: center; gap: 6px; }
-.btn-icon {
-width: 36px; height: 36px; display: grid; place-items: center;
-border: 1px solid var(–border); border-radius: 10px;
-background: var(–surface); color: var(–ink2);
-cursor: pointer; font-size: 15px; transition: all .15s; position: relative;
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    color: #0a1020;
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-weight: 900; font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(34,211,238,.4);
 }
-.btn-icon:hover { background: var(–surface2); border-color: var(–border-strong); color: var(–ink); }
-.btn-icon.active { background: var(–accent-light); border-color: var(–accent); color: var(–accent); }
-.sync-indicator {
-width: 7px; height: 7px; border-radius: 50%;
-position: absolute; top: 6px; right: 6px; transition: background .3s;
+.brand-text { line-height: 1.1; }
+.brand-text .n { font-weight: 900; font-size: 1.1rem; letter-spacing: -.02em; }
+.brand-text .s { font-weight: 500; font-size: .65rem; color: var(--ink-3); letter-spacing: .1em; text-transform: uppercase; }
+
+.icon-btn {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--ink);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1.1rem;
+    transition: all .15s;
+    position: relative;
+    -webkit-appearance: none; appearance: none;
+    font-family: inherit;
 }
-.sync-indicator.ok { background: var(–green); }
-.sync-indicator.syncing { background: var(–yellow); animation: pulse .8s ease infinite alternate; }
-.sync-indicator.error { background: var(–red); }
+.icon-btn:active { transform: scale(.94); background: var(--accent-light); }
+.icon-btn.muted { color: var(--ink-3); }
+
+.sync-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    position: absolute; top: 6px; right: 6px;
+}
+.sync-dot.ok { background: var(--green); }
+.sync-dot.syncing { background: var(--yellow); animation: pulse 1s ease infinite alternate; }
+.sync-dot.error { background: var(--red); }
 @keyframes pulse { to { opacity: .3; } }
 
+/* TABS */
 .tab-bar {
-display: flex; gap: 2px; background: var(–bg2); border-radius: 10px; padding: 3px;
-border: 1px solid var(–border);
+    display: flex; gap: 4px;
+    padding: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin: 16px;
 }
 .tab-btn {
-padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
-color: var(–ink3); background: none; border: none; cursor: pointer;
-transition: all .15s; display: flex; align-items: center; gap: 5px; white-space: nowrap;
+    flex: 1;
+    padding: 10px 6px;
+    border-radius: 10px;
+    font-weight: 700; font-size: .85rem;
+    background: transparent;
+    border: none;
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 44px;
+    font-family: inherit;
 }
-.tab-btn:hover { color: var(–ink2); }
-.tab-btn.active { background: var(–surface); color: var(–ink); box-shadow: var(–shadow-xs); }
-.tab-count {
-font-family: var(–mono); font-size: 10px;
-background: var(–accent-subtle); color: var(–accent);
-padding: 1px 6px; border-radius: 20px;
+.tab-btn.active { background: var(--accent); color: #0a1020; font-weight: 900; }
+.tab-badge {
+    font-size: .7rem;
+    background: rgba(0,0,0,.18);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+    min-width: 24px;
 }
-.tab-btn.active .tab-count { background: var(–accent); color: #fff; }
+.tab-btn:not(.active) .tab-badge { background: var(--accent-light); color: var(--accent); }
 
-/* ═══ LAYOUT ═══ */
-.app-layout { display: grid; grid-template-columns: 400px 1fr; min-height: calc(100dvh - 56px); }
-.sidebar {
-background: var(–surface-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-border-right: 1px solid var(–border);
-padding: 20px; position: sticky; top: 56px;
-height: calc(100dvh - 56px); overflow-y: auto; overscroll-behavior: contain;
-}
-.sidebar-title {
-font-size: 10px; font-family: var(–mono); font-weight: 600;
-color: var(–ink3); letter-spacing: 1.5px; text-transform: uppercase;
-margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
-}
-.sidebar-title::after { content: ‘’; flex: 1; height: 1px; background: var(–border); }
+.page-container { padding: 0 16px 32px; }
 
-/* ═══ FORM ═══ */
-.field { margin-bottom: 12px; }
-.field label { display: block; font-size: 11px; font-weight: 600; color: var(–ink2); margin-bottom: 4px; letter-spacing: .2px; }
-.field input, .field select, .field textarea {
-width: 100%; padding: 10px 12px; border: 1.5px solid var(–border); border-radius: var(–radius);
-font-size: 13px; color: var(–ink); background: var(–bg); transition: border-color .15s, box-shadow .15s;
+.card-glass {
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
 }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(–accent); box-shadow: var(–shadow-glow); background: var(–surface); }
-.field input::placeholder, .field textarea::placeholder { color: var(–ink3); }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.field-unit { display: flex; align-items: center; gap: 6px; }
-.field-unit span { font-family: var(–mono); font-size: 10px; color: var(–ink3); white-space: nowrap; }
+
+/* STATS */
+.stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.stat-label {
+    font-size: .7rem;
+    font-weight: 700;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 6px;
+}
+.stat-value {
+    font-size: 1.9rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.03em;
+}
+.stat-value.accent { color: var(--accent); }
+.stat-value.green { color: var(--green); }
+.stat-value.red { color: var(--red); }
+.stat-value.blue { color: var(--blue); }
+.stat-sub { font-size: .7rem; color: var(--ink-3); margin-top: 4px; }
+
+/* FORM */
+.form-field { margin-bottom: 14px; }
+.form-field label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+.form-control, .form-select {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-3);
+    color: var(--ink);
+    min-height: 48px;
+    transition: all .15s;
+    -webkit-appearance: none; appearance: none;
+}
+.form-control::placeholder { color: var(--ink-3); opacity: .7; }
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+textarea.form-control { min-height: 72px; resize: vertical; }
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.input-suffix { position: relative; }
+.input-suffix .suffix {
+    position: absolute;
+    right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: .8rem; color: var(--ink-3); font-weight: 700;
+    pointer-events: none;
+}
+.input-suffix .form-control { padding-right: 50px; }
 
 .ac-wrap { position: relative; }
 .ac-list {
-position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-background: var(–surface); border: 1.5px solid var(–border-strong);
-border-radius: var(–radius); z-index: 50; max-height: 200px; overflow-y: auto;
-box-shadow: var(–shadow-md); display: none;
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--surface); border: 1.5px solid var(--border-strong);
+    border-radius: 12px; z-index: 60; max-height: 240px; overflow-y: auto;
+    box-shadow: var(--shadow);
+    display: none;
+    backdrop-filter: blur(20px);
 }
-.ac-list.open { display: block; animation: dropIn .15s var(–ease-out); }
-@keyframes dropIn { from { opacity: 0; transform: translateY(-4px); } }
-.ac-item { padding: 10px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(–border); transition: background .1s; }
+.ac-list.open { display: block; }
+.ac-item {
+    padding: 14px; font-size: .95rem; font-weight: 500;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+}
 .ac-item:last-child { border-bottom: none; }
-.ac-item:hover { background: var(–accent-light); }
-.ac-item .sub { font-size: 10px; color: var(–ink3); font-family: var(–mono); margin-top: 2px; }
+.ac-item:active { background: var(--accent-light); }
+.ac-item .sub { font-size: .75rem; color: var(--ink-3); margin-top: 2px; font-weight: 400; }
 
-.prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.prod-chip { position: relative; }
-.prod-chip input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-.prod-chip label {
-display: flex; flex-direction: column; align-items: center; gap: 4px;
-padding: 10px 6px; border: 1.5px solid var(–border); border-radius: var(–radius);
-cursor: pointer; font-size: 11px; font-weight: 600; color: var(–ink2);
-background: var(–bg); transition: all .15s var(–ease-out);
-text-align: center; min-height: 56px; justify-content: center;
+.prod-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
 }
-.prod-chip label .icon { font-size: 18px; transition: transform .2s var(–ease-spring); }
-.prod-chip input:checked + label { background: var(–accent-light); border-color: var(–accent); color: var(–accent); box-shadow: var(–shadow-glow); }
-.prod-chip input:checked + label .icon { transform: scale(1.15); }
-.prod-chip label:hover { border-color: var(–border-strong); }
+.prod-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+.prod-chip label {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    padding: 14px 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-3);
+    cursor: pointer;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--ink-2);
+    text-align: center;
+    min-height: 76px;
+    transition: all .15s;
+}
+.prod-chip label .icon { font-size: 1.5rem; }
+.prod-chip input:checked + label {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
 
 .dtf-extra {
-display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-background: var(–blue-light); border: 1.5px solid color-mix(in srgb, var(–blue) 20%, transparent);
-border-radius: var(–radius); max-height: 0; overflow: hidden; opacity: 0;
-transition: max-height .3s var(–ease-out), opacity .2s, padding .3s, margin .3s;
-padding: 0 12px; margin-top: 0;
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 14px;
+    background: var(--blue-light);
+    border: 1.5px solid var(--blue);
+    border-radius: 12px;
 }
-.dtf-extra.visible { max-height: 120px; opacity: 1; padding: 12px; margin-top: 6px; }
+.dtf-extra.visible { display: grid; }
+.dtf-extra .form-field { margin-bottom: 0; }
 
-.btn-submit {
-width: 100%; padding: 13px; background: var(–ink); color: var(–ink-inv);
-font-weight: 700; font-size: 14px; border: none; border-radius: var(–radius);
-cursor: pointer; transition: all .15s;
-display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px;
-position: relative; overflow: hidden;
+.btn-primary-big {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    background: var(--accent);
+    color: #0a1020;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    min-height: 54px;
+    transition: transform .1s;
+    -webkit-appearance: none; appearance: none;
+    box-shadow: 0 6px 20px rgba(34,211,238,.35);
+    font-family: inherit;
+    letter-spacing: .02em;
 }
-.btn-submit:hover { background: color-mix(in srgb, var(–ink) 85%, var(–accent)); }
-.btn-submit:active { transform: scale(.98); }
-.btn-submit .ripple {
-position: absolute; border-radius: 50%; background: rgba(255,255,255,.2);
-transform: scale(0); animation: ripple .5s ease-out; pointer-events: none;
-}
-@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+.btn-primary-big:active { transform: scale(.98); }
 
-/* ═══ MAIN CONTENT ═══ */
-.content { padding: 20px 24px; }
-
-.dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-.dash-card {
-background: var(–surface-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-border: 1px solid var(–border);
-border-radius: var(–radius); padding: 14px 16px; transition: all .15s; container-type: inline-size;
-}
-.dash-card:hover { border-color: var(–border-strong); box-shadow: var(–shadow-sm); }
-.dash-label { font-size: 10px; font-family: var(–mono); color: var(–ink3); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
-.dash-value { font-size: 26px; font-weight: 800; font-family: var(–mono); letter-spacing: -1px; line-height: 1; }
-.dash-value.accent { color: var(–accent); }
-.dash-value.green { color: var(–green); }
-.dash-value.blue { color: var(–blue); }
-.dash-value.red { color: var(–red); }
-.dash-sub { font-size: 10px; color: var(–ink3); margin-top: 4px; font-family: var(–mono); }
-@container (max-width: 120px) { .dash-value { font-size: 20px; } }
-
-.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-.toolbar-left { display: flex; align-items: center; gap: 10px; }
-.toolbar-right { display: flex; align-items: center; gap: 6px; }
-.search-box {
-display: flex; align-items: center; gap: 8px;
-background: var(–surface); border: 1.5px solid var(–border);
-border-radius: var(–radius); padding: 0 12px; height: 36px;
-transition: border-color .15s, box-shadow .15s; min-width: 220px;
-}
-.search-box:focus-within { border-color: var(–accent); box-shadow: var(–shadow-glow); }
-.search-box svg { color: var(–ink3); flex-shrink: 0; }
-.search-box input { border: none; background: none; outline: none; font-size: 13px; color: var(–ink); width: 100%; }
-.search-box input::placeholder { color: var(–ink3); }
-.filter-chip {
-font-family: var(–mono); font-size: 10px; font-weight: 600;
-padding: 6px 12px; border-radius: 20px;
-border: 1px solid var(–border); background: var(–surface);
-color: var(–ink2); cursor: pointer; transition: all .15s; white-space: nowrap;
-}
-.filter-chip:hover { border-color: var(–border-strong); }
-.filter-chip.active { background: var(–accent); color: #fff; border-color: var(–accent); }
-
-.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.section-title {
-font-size: 12px; font-family: var(–mono); font-weight: 600;
-color: var(–ink2); letter-spacing: .8px; text-transform: uppercase;
-display: flex; align-items: center; gap: 8px;
-}
-.count-badge {
-background: var(–surface2); border: 1px solid var(–border);
-font-family: var(–mono); font-size: 10px; color: var(–ink2);
-padding: 2px 8px; border-radius: 20px;
-}
-
-/* ═══ JOB CARDS ═══ */
+/* JOB CARDS */
 .job-card {
-background: var(–surface-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-border: 1.5px solid var(–border);
-border-radius: var(–radius-lg); padding: 16px; box-shadow: var(–shadow-xs);
-transition: all .2s var(–ease-out); animation: cardIn .25s var(–ease-out) both;
-position: relative; container-type: inline-size;
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    animation: slideIn .25s ease-out;
 }
-.job-card + .job-card { margin-top: 8px; }
-.job-card:hover { box-shadow: var(–shadow-sm); border-color: var(–border-strong); }
-.job-card.dragging { opacity: .5; transform: scale(.97); }
-.job-card.urgent { border-color: color-mix(in srgb, var(–red) 40%, transparent); background: var(–red-light); }
-.job-card.warning { border-color: color-mix(in srgb, var(–yellow) 40%, transparent); background: var(–yellow-light); }
-.job-card.archived { opacity: .75; border-style: dashed; }
-.job-card.archived:hover { opacity: 1; }
-@keyframes cardIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes slideIn { from { opacity: 0; transform: translateY(8px); } }
+.job-card.urgent { border-color: var(--red); background: linear-gradient(180deg, rgba(239,68,68,.15), var(--surface)); }
+.job-card.warning { border-color: var(--yellow); background: linear-gradient(180deg, rgba(234,179,8,.12), var(--surface)); }
+.job-card.archived { opacity: .85; border-style: dashed; }
 
-.job-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-.job-name { font-size: 15px; font-weight: 700; color: var(–ink); letter-spacing: -.3px; }
-.job-meta { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 5px; }
-.badge {
-display: inline-flex; align-items: center; gap: 3px;
-font-size: 10px; font-weight: 600; font-family: var(–mono);
-padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+.job-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 10px; margin-bottom: 12px;
 }
-.badge-type { background: var(–surface2); color: var(–ink2); border: 1px solid var(–border); }
-.badge-urgent { background: var(–red-light); color: var(–red); border: 1px solid color-mix(in srgb, var(–red) 30%, transparent); }
-.badge-warning { background: var(–yellow-light); color: var(–yellow); border: 1px solid color-mix(in srgb, var(–yellow) 30%, transparent); }
-.badge-ok { background: var(–green-light); color: var(–green); border: 1px solid color-mix(in srgb, var(–green) 30%, transparent); }
-.badge-done { background: var(–green-light); color: var(–green); border: 1px solid color-mix(in srgb, var(–green) 30%, transparent); }
+.job-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    color: var(--ink);
+    word-break: break-word;
+}
+.job-meta {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 8px;
+}
+.badge-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: .75rem; font-weight: 700;
+    padding: 5px 10px; border-radius: 20px;
+    background: var(--surface-3); color: var(--ink-2);
+    border: 1px solid var(--border);
+}
+.badge-pill.urgent { background: var(--red-light); color: var(--red); border-color: var(--red); }
+.badge-pill.warning { background: var(--yellow-light); color: var(--yellow); border-color: var(--yellow); }
+.badge-pill.ok { background: var(--green-light); color: var(--green); border-color: var(--green); }
+.badge-pill.done { background: var(--green-light); color: var(--green); border-color: var(--green); }
+.badge-pill.info { background: var(--blue-light); color: var(--blue); border-color: var(--blue); }
 
-.job-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
-.stat-box { background: var(–bg); border: 1px solid var(–border); border-radius: 8px; padding: 8px 10px; }
-.stat-label { font-size: 9px; font-family: var(–mono); color: var(–ink3); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 2px; }
-.stat-value { font-size: 14px; font-weight: 700; font-family: var(–mono); color: var(–ink); }
-.stat-value.accent { color: var(–accent); }
-
-.progress-wrap { margin-bottom: 10px; }
-.progress-label { display: flex; justify-content: space-between; font-size: 10px; color: var(–ink3); font-family: var(–mono); margin-bottom: 3px; }
-.progress-track { height: 4px; background: var(–bg2); border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 99px; transition: width .5s var(–ease-out); background: var(–green); }
-.progress-fill.mid { background: var(–yellow); }
-.progress-fill.late { background: var(–accent); }
-.progress-fill.over { background: var(–red); }
+.job-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.mini-stat {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+.mini-stat .lbl {
+    font-size: .65rem;
+    font-weight: 700;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 3px;
+}
+.mini-stat .val {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+.mini-stat .val.accent { color: var(--accent); }
 
 .job-note {
-font-size: 12px; color: var(–ink2); background: var(–bg); border-radius: 8px;
-padding: 8px 10px; margin-bottom: 10px; border: 1px solid var(–border);
-display: flex; align-items: flex-start; gap: 6px;
+    background: var(--surface-3);
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: .9rem;
+    color: var(--ink-2);
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
-.job-note::before { content: ‘\1F4DD’; flex-shrink: 0; }
 
-.job-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.progress-wrap { margin-bottom: 14px; }
+.progress-row {
+    display: flex; justify-content: space-between;
+    font-size: .75rem; font-weight: 700; color: var(--ink-3);
+    margin-bottom: 6px;
+}
+.progress-bar-bg {
+    height: 6px;
+    background: var(--surface-3);
+    border-radius: 99px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 99px;
+    transition: width .5s;
+}
+.progress-bar-fill.mid { background: var(--yellow); }
+.progress-bar-fill.late { background: var(--accent); }
+.progress-bar-fill.over { background: var(--red); }
+
+.job-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.job-actions .btn-full { grid-column: span 2; }
 .btn-act {
-font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px;
-border: 1.5px solid var(–border); cursor: pointer; transition: all .15s;
-display: inline-flex; align-items: center; gap: 4px; background: var(–surface);
+    padding: 12px;
+    font-size: .9rem;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px;
+    min-height: 46px;
+    transition: transform .1s;
+    -webkit-appearance: none; appearance: none;
+    font-family: inherit;
 }
-.btn-act:active { transform: scale(.96); }
-.btn-complete { background: var(–green-light); border-color: color-mix(in srgb, var(–green) 30%, transparent); color: var(–green); }
-.btn-complete:hover { background: color-mix(in srgb, var(–green-light) 80%, var(–green)); }
-.btn-delete { background: var(–red-light); border-color: color-mix(in srgb, var(–red) 30%, transparent); color: var(–red); margin-left: auto; }
-.btn-delete:hover { background: color-mix(in srgb, var(–red-light) 80%, var(–red)); }
-.btn-ddt { background: var(–blue-light); border-color: color-mix(in srgb, var(–blue) 30%, transparent); color: var(–blue); }
-.btn-ddt:hover { background: color-mix(in srgb, var(–blue-light) 80%, var(–blue)); }
-.btn-share { background: var(–surface2); color: var(–ink2); }
-.btn-share:hover { border-color: var(–border-strong); }
-@container (max-width: 500px) { .job-stats { grid-template-columns: repeat(2, 1fr); } }
-
-.drag-handle { cursor: grab; color: var(–ink3); padding: 4px; touch-action: none; user-select: none; transition: color .15s; }
-.drag-handle:hover { color: var(–ink2); }
-.drag-handle:active { cursor: grabbing; }
-
-.empty-state {
-text-align: center; padding: 48px 24px; color: var(–ink3);
-font-family: var(–mono); font-size: 12px;
-border: 1.5px dashed var(–border); border-radius: var(–radius-lg);
+.btn-act:active { transform: scale(.97); }
+.btn-act.complete {
+    background: var(--green);
+    color: #0a1020;
+    font-weight: 800;
 }
-.empty-state .icon { font-size: 36px; display: block; margin-bottom: 12px; opacity: .5; }
-.divider { height: 1px; background: var(–border); margin: 24px 0; }
-.export-btns { display: flex; gap: 6px; }
+.btn-act.ddt {
+    background: var(--accent);
+    color: #0a1020;
+    font-weight: 800;
+}
+.btn-act.ghost {
+    background: var(--surface-3);
+    color: var(--ink-2);
+    border-color: var(--border);
+}
+.btn-act.danger {
+    background: var(--red-light);
+    color: var(--red);
+    border-color: var(--red);
+}
+
+.search-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 0 14px;
+    min-height: 48px;
+    margin-bottom: 12px;
+}
+.search-bar svg { color: var(--ink-3); flex-shrink: 0; }
+.search-bar input {
+    flex: 1;
+    border: none; background: none; outline: none;
+    font-size: 1rem; color: var(--ink);
+    min-height: 44px;
+    font-family: inherit;
+}
+.search-bar input::placeholder { color: var(--ink-3); }
+
+.filter-row {
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-pill {
+    padding: 9px 16px;
+    border-radius: 22px;
+    font-size: .85rem;
+    font-weight: 700;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    color: var(--ink-2);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 40px;
+    display: inline-flex; align-items: center; gap: 6px;
+    -webkit-appearance: none; appearance: none;
+    font-family: inherit;
+}
+.filter-pill.active {
+    background: var(--accent);
+    color: #0a1020;
+    border-color: var(--accent);
+}
+
+.section-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+}
+.section-head h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin: 0;
+    color: var(--ink);
+}
+.section-head .count {
+    background: var(--surface-2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--ink-2);
+    border: 1px solid var(--border);
+}
+
+.empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--ink-3);
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+}
+.empty .icon { font-size: 3rem; display: block; margin-bottom: 12px; opacity: .5; }
+.empty p { font-size: 1rem; font-weight: 600; margin: 0; }
+
+.export-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+}
 .btn-export {
-font-family: var(–mono); font-size: 10px; font-weight: 600;
-padding: 5px 12px; border-radius: 8px; border: 1.5px solid;
-cursor: pointer; transition: all .15s;
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-size: .85rem;
+    font-weight: 700;
+    border: 1.5px solid;
+    background: var(--surface);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 46px;
+    -webkit-appearance: none; appearance: none;
+    font-family: inherit;
 }
-.btn-export:active { transform: scale(.96); }
-.btn-export.green { background: var(–green-light); border-color: color-mix(in srgb, var(–green) 30%, transparent); color: var(–green); }
-.btn-export.red { background: var(–red-light); border-color: color-mix(in srgb, var(–red) 30%, transparent); color: var(–red); }
-.btn-export.blue { background: var(–blue-light); border-color: color-mix(in srgb, var(–blue) 30%, transparent); color: var(–blue); }
+.btn-export.green { color: var(--green); border-color: var(--green); background: var(--green-light); }
+.btn-export.red { color: var(--red); border-color: var(--red); background: var(--red-light); }
+.btn-export.blue { color: var(--blue); border-color: var(--blue); background: var(--blue-light); }
 
-/* ═══ MODAL ═══ */
-.modal-overlay {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-z-index: 200; align-items: center; justify-content: center; padding: 16px;
+/* MODAL */
+.modal-backdrop-custom {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
 }
-.modal-overlay.open { display: flex; }
-.modal {
-background: var(–surface); border-radius: var(–radius-xl);
-width: 100%; max-width: 620px; max-height: 90dvh; overflow-y: auto;
-box-shadow: var(–shadow-lg); animation: modalIn .25s var(–ease-out);
-border: 1px solid var(–border);
+.modal-backdrop-custom.open { display: flex; }
+.modal-sheet {
+    background: var(--surface);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 600px;
+    max-height: 92dvh;
+    border-radius: 24px 24px 0 0;
+    display: flex; flex-direction: column;
+    animation: slideUp .3s cubic-bezier(.22,1,.36,1);
 }
-@keyframes modalIn { from { opacity: 0; transform: scale(.95) translateY(12px); } }
-.modal-header {
-padding: 20px 22px 16px; border-bottom: 1px solid var(–border);
-display: flex; align-items: center; justify-content: space-between;
-position: sticky; top: 0; background: var(–surface);
-border-radius: var(–radius-xl) var(–radius-xl) 0 0; z-index: 1;
+@media (min-width: 600px) {
+    .modal-backdrop-custom { align-items: center; padding: 20px; }
+    .modal-sheet { border-radius: 24px; max-height: 90dvh; }
 }
-.modal-title { font-size: 17px; font-weight: 700; letter-spacing: -.3px; }
-.modal-subtitle { font-size: 11px; font-family: var(–mono); color: var(–ink3); margin-top: 2px; }
+@keyframes slideUp { from { transform: translateY(100%); } }
+.modal-handle {
+    width: 44px; height: 4px;
+    background: var(--border-strong);
+    border-radius: 99px;
+    margin: 10px auto 0;
+    flex-shrink: 0;
+}
+.modal-header-c {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+.modal-header-c h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+}
+.modal-header-c .sub {
+    font-size: .8rem;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-top: 2px;
+}
 .modal-close {
-width: 32px; height: 32px; border: 1.5px solid var(–border); border-radius: 8px;
-background: none; cursor: pointer; display: grid; place-items: center;
-font-size: 14px; color: var(–ink2); transition: all .15s;
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-3);
+    color: var(--ink);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1.2rem;
+    font-family: inherit;
+    -webkit-appearance: none; appearance: none;
 }
-.modal-close:hover { background: var(–surface2); }
-.modal-body { padding: 20px 22px; }
-.modal-footer {
-padding: 14px 22px; border-top: 1px solid var(–border);
-display: flex; gap: 8px; justify-content: flex-end;
-position: sticky; bottom: 0; background: var(–surface);
-border-radius: 0 0 var(–radius-xl) var(–radius-xl);
+.modal-body-c {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
 }
-.modal-section-title {
-font-size: 10px; font-family: var(–mono); font-weight: 600;
-color: var(–ink3); letter-spacing: 1px; text-transform: uppercase;
-margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(–border);
+.modal-footer-c {
+    padding: 16px 20px env(safe-area-inset-bottom, 16px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    flex-shrink: 0;
+    background: var(--surface);
 }
-.ddt-note-box {
-background: var(–yellow-light); border: 1px solid color-mix(in srgb, var(–yellow) 30%, transparent);
-border-radius: 8px; padding: 9px 13px; font-size: 12px; color: var(–yellow); margin-bottom: 14px;
+.mod-section-title {
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+.mod-section-title:not(:first-child) { margin-top: 20px; }
+
+.info-box {
+    background: var(--blue-light);
+    border: 1px solid var(--blue);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: .85rem;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.4;
 }
 
-/* ═══ TOAST ═══ */
-.toast {
-position: fixed; bottom: 20px; right: 20px;
-background: var(–surface); color: var(–ink); border: 1px solid var(–border);
-font-family: var(–mono); font-size: 12px; padding: 12px 18px;
-border-radius: var(–radius); box-shadow: var(–shadow-lg); z-index: 300;
-transform: translateY(80px); opacity: 0; transition: all .3s var(–ease-spring);
-max-width: 340px; display: flex; align-items: center; gap: 8px;
+.toast-c {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: .95rem;
+    font-weight: 600;
+    z-index: 500;
+    opacity: 0;
+    transition: all .3s cubic-bezier(.22,1,.36,1);
+    max-width: 92vw;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
 }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.success { border-left: 3px solid var(–green); }
-.toast.info { border-left: 3px solid var(–blue); }
-.toast.error { border-left: 3px solid var(–red); }
+.toast-c.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast-c.success { border-left: 4px solid var(--green); }
+.toast-c.error { border-left: 4px solid var(--red); }
+.toast-c.info { border-left: 4px solid var(--blue); }
 
-.offline-banner {
-display: none; background: var(–red-light); color: var(–red);
-font-family: var(–mono); font-size: 11px; text-align: center;
-padding: 6px; letter-spacing: .3px; border-bottom: 1px solid color-mix(in srgb, var(–red) 20%, transparent);
+.offline-bar {
+    display: none;
+    background: var(--red);
+    color: white;
+    padding: 8px;
+    text-align: center;
+    font-size: .85rem;
+    font-weight: 700;
 }
-.offline-banner.show { display: block; }
+.offline-bar.show { display: block; }
 
-.install-banner {
-display: none; padding: 12px 20px;
-background: var(–accent-light); border-bottom: 1px solid color-mix(in srgb, var(–accent) 20%, transparent);
-align-items: center; justify-content: space-between; gap: 12px;
+.install-bar {
+    display: none;
+    background: var(--accent);
+    color: #0a1020;
+    padding: 12px 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
-.install-banner.show { display: flex; }
-.install-banner span { font-size: 13px; font-weight: 500; color: var(–ink); }
-.btn-install {
-padding: 7px 16px; border-radius: 8px; background: var(–accent); color: #fff;
-border: none; font-weight: 700; font-size: 12px; cursor: pointer; transition: background .15s;
+.install-bar.show { display: flex; }
+.install-bar span { font-weight: 700; font-size: .9rem; }
+.install-bar button {
+    padding: 8px 16px;
+    background: #0a1020;
+    color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: .85rem;
+    cursor: pointer;
+    font-family: inherit;
 }
-.btn-install:hover { background: var(–accent-hover); }
-.btn-dismiss { background: none; border: none; color: var(–ink3); cursor: pointer; font-size: 18px; padding: 4px; }
 
-/* ═══ RESPONSIVE ═══ */
-@media (max-width: 1024px) {
-.app-layout { grid-template-columns: 1fr; }
-.sidebar { position: static; border-right: none; border-bottom: 1px solid var(–border); min-height: auto; max-height: none; height: auto; }
-.content { padding: 16px; }
-.dashboard { grid-template-columns: repeat(2, 1fr); }
-.topbar { padding: 0 16px; }
-.search-box { min-width: 160px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (max-width: 360px) {
+    .display-title { font-size: 1.5rem; }
+    .job-name { font-size: 1rem; }
+    .stat-value { font-size: 1.6rem; }
+    .prod-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 600px) {
-.dashboard { grid-template-columns: 1fr 1fr; }
-.dash-card { padding: 10px 12px; }
-.dash-value { font-size: 22px; }
-.toolbar { flex-direction: column; align-items: stretch; }
-.toolbar-left, .toolbar-right { justify-content: space-between; }
-.tab-bar { overflow-x: auto; }
-.topbar-actions .btn-icon:not(:first-child):not(:nth-child(2)) { display: none; }
+
+@media (min-width: 768px) {
+    .page-container { max-width: 780px; margin: 0 auto; padding: 0 24px 40px; }
+    .tab-bar { max-width: 780px; margin: 16px auto; }
+    .stats-row { grid-template-columns: repeat(4, 1fr); }
+    .job-stats { grid-template-columns: repeat(4, 1fr); }
+    .job-actions { grid-template-columns: repeat(4, 1fr); }
+    .job-actions .btn-full { grid-column: auto; }
 }
+
 @media print {
-.topbar, .sidebar, .install-banner, .offline-banner, .toast, .toolbar, .job-actions, .export-btns { display: none !important; }
-.app-layout { grid-template-columns: 1fr; }
-.job-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; }
+    body::before, .topbar, .tab-bar, .search-bar, .filter-row, .job-actions, .icon-btn, .toast-c, .install-bar, .offline-bar, .export-row { display: none !important; }
+    body { background: white !important; color: black; }
+    .card-glass, .job-card { background: white !important; border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
+    .job-name, .stat-value, .section-head h2 { color: black !important; }
 }
 </style>
 
 </head>
 <body>
 
-<div class="install-banner" id="installBanner">
-    <span>Installa Promo-One per un'esperienza nativa</span>
-    <div style="display:flex;gap:6px;align-items:center">
-        <button class="btn-install" id="installBtn">Installa</button>
-        <button class="btn-dismiss" id="dismissInstall">&#10005;</button>
+<div class="install-bar" id="installBanner">
+    <span>&#128241; Installa Promo-One sul dispositivo</span>
+    <div style="display:flex;gap:6px">
+        <button id="installBtn">Installa</button>
+        <button id="dismissInstall" style="background:transparent;color:#0a1020;font-size:1.2rem">&#10005;</button>
     </div>
 </div>
-<div class="offline-banner" id="offlineBanner">&#9888; Connessione al server persa — modalità offline attiva</div>
 
-<div class="topbar">
-    <div class="topbar-brand">
-        <div class="brand-mark">P1</div>
-        <div><div class="brand-name">Promo-One</div><div class="brand-sub">Produzione</div></div>
-    </div>
-    <div class="topbar-actions">
-        <div class="tab-bar" id="viewTabs">
-            <button class="tab-btn active" data-view="queue" onclick="switchView('queue')">Coda <span class="tab-count" id="tabQueueCount">0</span></button>
-            <button class="tab-btn" data-view="archive" onclick="switchView('archive')">Archivio <span class="tab-count" id="tabArchiveCount">0</span></button>
+<div class="offline-bar" id="offlineBanner">&#9888; Modalit&agrave; offline</div>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <div class="brand-logo">P1</div>
+            <div class="brand-text">
+                <div class="n">Promo-One</div>
+                <div class="s">Produzione</div>
+            </div>
         </div>
-        <button class="btn-icon" id="syncBtn" title="Stato sync" style="position:relative">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            <div class="sync-indicator" id="syncDot"></div>
-        </button>
-        <button class="btn-icon" id="themeBtn" title="Tema" onclick="toggleTheme()">&#127763;</button>
-        <button class="btn-icon" title="Esporta CSV" onclick="exportCSV()">&#128202;</button>
-        <button class="btn-icon" title="Esporta PDF" onclick="exportPDF()">&#128196;</button>
-        <button class="btn-icon" title="Reset" style="color:var(--red)" onclick="hardReset()">&#9888;&#65039;</button>
+        <div style="display:flex;gap:6px">
+            <button class="icon-btn" id="voiceBtn" onclick="toggleVoice()" title="Voce">&#128266;</button>
+            <button class="icon-btn muted" id="syncBtn" title="Sync">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <div class="sync-dot" id="syncDot"></div>
+            </button>
+            <button class="icon-btn muted" onclick="hardReset()" title="Reset">&#9888;&#65039;</button>
+        </div>
     </div>
-</div>
+</header>
 
-<div class="app-layout">
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-title">Nuovo Lavoro</div>
+<nav class="tab-bar">
+    <button class="tab-btn active" data-view="form" onclick="switchView('form')">&#10133; Nuovo</button>
+    <button class="tab-btn" data-view="queue" onclick="switchView('queue')">&#128203; Coda <span class="tab-badge" id="tabQueueCount">0</span></button>
+    <button class="tab-btn" data-view="archive" onclick="switchView('archive')">&#128193; Arch. <span class="tab-badge" id="tabArchiveCount">0</span></button>
+</nav>
+
+<main class="page-container">
+
+```
+<section id="formView">
+    <div class="card-glass">
+        <div class="section-label">Nuovo Lavoro</div>
+        <h1 class="display-title" style="margin-bottom:20px">Aggiungi alla produzione</h1>
+
         <form id="jobForm" novalidate>
-            <div class="field">
+            <div class="form-field">
                 <label>Nome Bozza / Cliente</label>
-                <div class="ac-wrap"><input type="text" id="jobName" required placeholder="Es. Felpe Rossi, 50 pz" autocomplete="off"><div class="ac-list" id="clienteList"></div></div>
+                <div class="ac-wrap">
+                    <input type="text" class="form-control" id="jobName" required placeholder="Es. Felpe Rossi, 50 pz" autocomplete="off">
+                    <div class="ac-list" id="clienteList"></div>
+                </div>
             </div>
-            <div class="field-row">
-                <div class="field"><label>Data Inizio</label><input type="date" id="startDate" required></div>
-                <div class="field"><label>Data Consegna</label><input type="date" id="endDate" required></div>
+
+            <div class="form-row-2">
+                <div class="form-field">
+                    <label>Data Inizio</label>
+                    <input type="date" class="form-control" id="startDate" required>
+                </div>
+                <div class="form-field">
+                    <label>Consegna</label>
+                    <input type="date" class="form-control" id="endDate" required>
+                </div>
             </div>
-            <div class="field-row">
-                <div class="field"><label>Avviamento</label><div class="field-unit"><input type="number" id="setupTime" min="0" required placeholder="15"><span>min</span></div></div>
-                <div class="field"><label>Quantità Pezzi</label><input type="number" id="jobPieces" min="1" required placeholder="50"></div>
+
+            <div class="form-row-2">
+                <div class="form-field">
+                    <label>Avviamento</label>
+                    <div class="input-suffix">
+                        <input type="number" class="form-control" id="setupTime" min="0" required placeholder="15" inputmode="numeric">
+                        <span class="suffix">MIN</span>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Pezzi</label>
+                    <input type="number" class="form-control" id="jobPieces" min="1" required placeholder="50" inputmode="numeric">
+                </div>
             </div>
-            <div class="field">
-                <label>Tipologia</label>
+
+            <div class="form-field">
+                <label>Tipologia Lavorazione</label>
                 <div class="prod-grid">
                     <div class="prod-chip"><input type="radio" id="t_dig" name="prodType" value="Stampa Digitale" required><label for="t_dig"><span class="icon">&#128424;</span>Digitale</label></div>
                     <div class="prod-chip"><input type="radio" id="t_uv" name="prodType" value="Stampa UV"><label for="t_uv"><span class="icon">&#9728;&#65039;</span>UV</label></div>
@@ -562,138 +894,290 @@ border: none; font-weight: 700; font-size: 12px; cursor: pointer; transition: ba
                     <div class="prod-chip"><input type="radio" id="t_ser" name="prodType" value="Serigrafia"><label for="t_ser"><span class="icon">&#127912;</span>Serigrafia</label></div>
                 </div>
             </div>
+
             <div class="dtf-extra" id="dtfFields">
-                <div class="field"><label>N° Loghi stampati</label><input type="number" id="dtfLogos" min="0" placeholder="0"></div>
-                <div class="field"><label>Metri lineari (m)</label><input type="number" id="dtfMeters" min="0" step="0.1" placeholder="0.0"></div>
+                <div class="form-field">
+                    <label>N&deg; Loghi</label>
+                    <input type="number" class="form-control" id="dtfLogos" min="0" placeholder="0" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                    <label>Metri (m)</label>
+                    <input type="number" class="form-control" id="dtfMeters" min="0" step="0.1" placeholder="0.0" inputmode="decimal">
+                </div>
             </div>
-            <div class="field"><label>Note (opzionale)</label><textarea id="jobNotes" rows="2" placeholder="Colori, materiali, istruzioni…" style="resize:vertical"></textarea></div>
-            <button type="submit" class="btn-submit" id="submitBtn">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-                Aggiungi alla Coda
+
+            <div class="form-field">
+                <label>Note (opzionale)</label>
+                <textarea class="form-control" id="jobNotes" rows="2" placeholder="Colori, materiali, istruzioni..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary-big">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                AVVIA LAVORO
             </button>
         </form>
-    </aside>
+    </div>
+</section>
 
+<section id="queueView" style="display:none">
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-label">In Coda</div>
+            <div class="stat-value accent" id="dActive">0</div>
+            <div class="stat-sub" id="dActiveSub">&mdash;</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Urgenti</div>
+            <div class="stat-value red" id="dUrgent">0</div>
+            <div class="stat-sub" id="dUrgentSub">&mdash;</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Pezzi Totali</div>
+            <div class="stat-value blue" id="dPieces">0</div>
+            <div class="stat-sub">in produzione</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Completati</div>
+            <div class="stat-value green" id="dDone">0</div>
+            <div class="stat-sub" id="dDoneSub">&mdash;</div>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Cerca..." oninput="render()">
+    </div>
+
+    <div class="filter-row" id="filterBar">
+        <button class="filter-pill active" data-filter="all" onclick="setFilter('all')">Tutti</button>
+        <button class="filter-pill" data-filter="Stampa Digitale" onclick="setFilter('Stampa Digitale')">&#128424; Digitale</button>
+        <button class="filter-pill" data-filter="DTF" onclick="setFilter('DTF')">&#127902; DTF</button>
+        <button class="filter-pill" data-filter="Ricamo" onclick="setFilter('Ricamo')">&#129525; Ricamo</button>
+        <button class="filter-pill" data-filter="Serigrafia" onclick="setFilter('Serigrafia')">&#127912; Serigrafia</button>
+        <button class="filter-pill" data-filter="Stampa UV" onclick="setFilter('Stampa UV')">&#9728;&#65039; UV</button>
+        <button class="filter-pill" data-filter="Pressa" onclick="setFilter('Pressa')">&#9832;&#65039; Pressa</button>
+    </div>
+
+    <div class="section-head">
+        <h2>Coda di Produzione</h2>
+        <span class="count" id="activeCount">0</span>
+    </div>
+    <div id="jobList"></div>
+</section>
+
+<section id="archiveView" style="display:none">
+    <div class="section-head">
+        <h2>Archivio Completati</h2>
+        <span class="count" id="archiveCount">0</span>
+    </div>
+
+    <div class="export-row">
+        <button class="btn-export green" onclick="exportCSV()">&#128202; CSV</button>
+        <button class="btn-export red" onclick="exportPDF()">&#128196; PDF</button>
+        <button class="btn-export blue" onclick="shareArchive()">&#128279; Share</button>
+    </div>
+
+    <div class="search-bar">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="searchInputArchive" placeholder="Cerca archivio..." oninput="render()">
+    </div>
+
+    <div id="archiveList"></div>
+</section>
 ```
-<main class="content">
-    <div class="dashboard" id="dashboard">
-        <div class="dash-card"><div class="dash-label">In Coda</div><div class="dash-value accent" id="dActive">0</div><div class="dash-sub" id="dActiveSub">—</div></div>
-        <div class="dash-card"><div class="dash-label">Completati</div><div class="dash-value green" id="dDone">0</div><div class="dash-sub" id="dDoneSub">—</div></div>
-        <div class="dash-card"><div class="dash-label">Urgenti</div><div class="dash-value red" id="dUrgent">0</div><div class="dash-sub" id="dUrgentSub">—</div></div>
-        <div class="dash-card"><div class="dash-label">Pezzi Totali</div><div class="dash-value blue" id="dPieces">0</div><div class="dash-sub" id="dPiecesSub">—</div></div>
-    </div>
 
-    <div class="toolbar" id="toolbar">
-        <div class="toolbar-left">
-            <div class="search-box">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                <input type="text" id="searchInput" placeholder="Cerca… (Ctrl+K)" oninput="render()">
-            </div>
-        </div>
-        <div class="toolbar-right" id="filterBar">
-            <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">Tutti</button>
-            <button class="filter-chip" data-filter="Stampa Digitale" onclick="setFilter('Stampa Digitale')">&#128424;</button>
-            <button class="filter-chip" data-filter="DTF" onclick="setFilter('DTF')">&#127902;</button>
-            <button class="filter-chip" data-filter="Ricamo" onclick="setFilter('Ricamo')">&#129525;</button>
-            <button class="filter-chip" data-filter="Serigrafia" onclick="setFilter('Serigrafia')">&#127912;</button>
-        </div>
-    </div>
-
-    <div id="queueView">
-        <div class="section-header"><div class="section-title">Coda di Produzione <span class="count-badge" id="activeCount">0</span></div></div>
-        <div id="jobList"></div>
-    </div>
-
-    <div id="archiveView" style="display:none">
-        <div class="section-header">
-            <div class="section-title">Archivio Completati <span class="count-badge" id="archiveCount">0</span></div>
-            <div class="export-btns">
-                <button class="btn-export green" onclick="exportCSV()">&#128202; CSV</button>
-                <button class="btn-export red" onclick="exportPDF()">&#128196; PDF</button>
-                <button class="btn-export blue" onclick="shareArchive()">&#128279; Condividi</button>
-            </div>
-        </div>
-        <div id="archiveList"></div>
-    </div>
 </main>
-```
 
-</div>
-
-<div class="modal-overlay" id="ddtModal">
-    <div class="modal">
-        <div class="modal-header">
-            <div><div class="modal-title">&#128230; DDT di Consegna</div><div class="modal-subtitle" id="ddtJobTitle">—</div></div>
+<div class="modal-backdrop-custom" id="ddtModal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header-c">
+            <div>
+                <h3>&#128230; DDT di Consegna</h3>
+                <div class="sub" id="ddtJobTitle">&mdash;</div>
+            </div>
             <button class="modal-close" onclick="closeDDT()">&#10005;</button>
         </div>
-        <div class="modal-body">
-            <div class="ddt-note-box">&#9888; Il lavoro verrà archiviato dopo la generazione del DDT.</div>
-            <div class="modal-section-title">Mittente</div>
-            <div class="field-row"><div class="field"><label>Ragione Sociale</label><input id="ddtMittente" placeholder="Promo-One Srl"></div><div class="field"><label>P. IVA</label><input id="ddtMittenteIva" placeholder="IT00000000000"></div></div>
-            <div class="field"><label>Indirizzo</label><input id="ddtMittenteAddr" placeholder="Via Esempio 1, 00100 Roma"></div>
-            <div class="modal-section-title" style="margin-top:14px">Destinatario</div>
-            <div class="field-row">
-                <div class="field"><label>Ragione Sociale / Nome</label><div class="ac-wrap"><input id="ddtDest" placeholder="Cliente Srl" autocomplete="off"><div class="ac-list" id="ddtClienteList"></div></div></div>
-                <div class="field"><label>P. IVA</label><input id="ddtDestIva"></div>
-            </div>
-            <div class="field"><label>Indirizzo</label><input id="ddtDestAddr" placeholder="Via Cliente 10, 00200 Milano"></div>
-            <div class="modal-section-title" style="margin-top:14px">Trasporto</div>
-            <div class="field-row"><div class="field"><label>N° DDT</label><input id="ddtNumber" placeholder="auto"></div><div class="field"><label>Data</label><input type="date" id="ddtDate"></div></div>
-            <div class="field-row"><div class="field"><label>Vettore / Corriere</label><input id="ddtVettore" placeholder="Corriere / Proprio mezzo"></div><div class="field"><label>N° Colli</label><input type="number" id="ddtColli" min="1" value="1"></div></div>
-            <div class="field-row"><div class="field"><label>Peso (kg)</label><input type="number" id="ddtPeso" min="0" step="0.1" placeholder="0.0"></div><div class="field"><label>Porto</label><select id="ddtPorto"><option>Franco</option><option>Assegnato</option></select></div></div>
-            <div class="field"><label>Causale</label><input id="ddtCausale" value="Vendita"></div>
-            <div class="field"><label>Note</label><textarea id="ddtNote" rows="2" style="resize:vertical"></textarea></div>
+        <div class="modal-body-c">
+            <div class="info-box" id="ddtNoteBox">&#128196; Genera il DDT di consegna per questo lavoro.</div>
+
+```
+        <div class="mod-section-title">Mittente</div>
+        <div class="form-field">
+            <label>Ragione Sociale</label>
+            <input class="form-control" id="ddtMittente" placeholder="Promo-One Srl">
         </div>
-        <div class="modal-footer">
-            <button class="btn-act" onclick="closeDDT()" style="background:var(--surface2);color:var(--ink2)">Annulla</button>
-            <button class="btn-act btn-complete" onclick="generateDDT()" style="padding:9px 18px;font-size:13px">&#128196; Genera DDT &amp; Completa</button>
+        <div class="form-row-2">
+            <div class="form-field">
+                <label>P. IVA</label>
+                <input class="form-control" id="ddtMittenteIva" placeholder="IT00000000000">
+            </div>
+            <div class="form-field">
+                <label>Indirizzo</label>
+                <input class="form-control" id="ddtMittenteAddr" placeholder="Via, Citt&agrave;">
+            </div>
+        </div>
+
+        <div class="mod-section-title">Destinatario</div>
+        <div class="form-field">
+            <label>Ragione Sociale / Nome</label>
+            <div class="ac-wrap">
+                <input class="form-control" id="ddtDest" placeholder="Cliente" autocomplete="off">
+                <div class="ac-list" id="ddtClienteList"></div>
+            </div>
+        </div>
+        <div class="form-row-2">
+            <div class="form-field">
+                <label>P. IVA</label>
+                <input class="form-control" id="ddtDestIva">
+            </div>
+            <div class="form-field">
+                <label>Indirizzo</label>
+                <input class="form-control" id="ddtDestAddr">
+            </div>
+        </div>
+
+        <div class="mod-section-title">Trasporto</div>
+        <div class="form-row-2">
+            <div class="form-field">
+                <label>N&deg; DDT</label>
+                <input class="form-control" id="ddtNumber" placeholder="auto">
+            </div>
+            <div class="form-field">
+                <label>Data</label>
+                <input class="form-control" type="date" id="ddtDate">
+            </div>
+        </div>
+        <div class="form-field">
+            <label>Vettore / Corriere</label>
+            <input class="form-control" id="ddtVettore" placeholder="Proprio mezzo">
+        </div>
+        <div class="form-row-2">
+            <div class="form-field">
+                <label>N&deg; Colli</label>
+                <input class="form-control" type="number" id="ddtColli" min="1" value="1" inputmode="numeric">
+            </div>
+            <div class="form-field">
+                <label>Peso (kg)</label>
+                <input class="form-control" type="number" id="ddtPeso" min="0" step="0.1" placeholder="0.0" inputmode="decimal">
+            </div>
+        </div>
+        <div class="form-row-2">
+            <div class="form-field">
+                <label>Porto</label>
+                <select class="form-select" id="ddtPorto">
+                    <option>Franco</option>
+                    <option>Assegnato</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label>Causale</label>
+                <input class="form-control" id="ddtCausale" value="Vendita">
+            </div>
+        </div>
+        <div class="form-field">
+            <label>Note</label>
+            <textarea class="form-control" id="ddtNote" rows="2"></textarea>
         </div>
     </div>
+    <div class="modal-footer-c">
+        <button class="btn-act ghost" onclick="closeDDT()">Annulla</button>
+        <button class="btn-act ddt" onclick="generateDDT()">&#128196; Genera DDT</button>
+    </div>
+</div>
+```
+
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast-c" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   PROMO-ONE ENGINE — 2026
-   ═══════════════════════════════════════════ */
 const SERVER_BASE = location.protocol === 'file:' ? null : `${location.protocol}//${location.hostname}:${location.port || 8080}`;
-const POLL_MS = 4000;
+const POLL_MS = 5000;
 
-let jobs = [], archive = [], ddtCounter = 1, pendingId = null, lastTS = '';
-let clientiDB = [], savedDDT = {}, serverOk = false;
-let currentView = 'queue', currentFilter = 'all';
+let jobs = [], archive = [], ddtCounter = 1;
+let pendingId = null, pendingFromArchive = false;
+let lastTS = '', clientiDB = [], savedDDT = {}, serverOk = false;
+let currentView = 'form', currentFilter = 'all';
 let deferredPrompt = null;
 
-/* ── Theme ── */
-function toggleTheme() {
-    const html = document.documentElement;
-    const current = html.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : current === 'light' ? 'dark' : (matchMedia('(prefers-color-scheme:dark)').matches ? 'light' : 'dark');
-    if (document.startViewTransition) { document.startViewTransition(() => html.setAttribute('data-theme', next)); }
-    else { html.setAttribute('data-theme', next); }
-    localStorage.setItem('theme', next);
+let italianVoice = null;
+let voiceEnabled = localStorage.getItem('voiceEnabled') !== 'false';
+
+function loadVoices() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = speechSynthesis.getVoices();
+    italianVoice =
+        voices.find(v => v.lang.startsWith('it') && /alice|elsa|federica|paola|carla/i.test(v.name)) ||
+        voices.find(v => v.lang.startsWith('it') && /female|donna|femmin/i.test(v.name)) ||
+        voices.find(v => v.lang === 'it-IT' && !/male|uomo/i.test(v.name)) ||
+        voices.find(v => v.lang === 'it-IT') ||
+        voices.find(v => v.lang.startsWith('it'));
+}
+if ('speechSynthesis' in window) {
+    loadVoices();
+    speechSynthesis.onvoiceschanged = loadVoices;
+}
+function speak(text) {
+    if (!voiceEnabled || !('speechSynthesis' in window)) return;
+    try {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'it-IT';
+        u.rate = 1;
+        u.pitch = 1.15;
+        u.volume = 1;
+        if (italianVoice) u.voice = italianVoice;
+        speechSynthesis.speak(u);
+    } catch (e) { console.warn('TTS', e); }
+}
+function toggleVoice() {
+    voiceEnabled = !voiceEnabled;
+    localStorage.setItem('voiceEnabled', String(voiceEnabled));
+    const btn = document.getElementById('voiceBtn');
+    btn.innerHTML = voiceEnabled ? '&#128266;' : '&#128263;';
+    if (voiceEnabled) speak('Voce attivata');
+    toast(voiceEnabled ? 'Voce attivata' : 'Voce disattivata', 'info');
 }
 
-/* ── PWA Install ── */
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBanner').classList.add('show'); });
-document.getElementById('installBtn').addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; document.getElementById('installBanner').classList.remove('show'); });
-document.getElementById('dismissInstall').addEventListener('click', () => { document.getElementById('installBanner').classList.remove('show'); });
+window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBanner').classList.add('show');
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installBanner').classList.remove('show');
+});
+document.getElementById('dismissInstall').addEventListener('click', () => {
+    document.getElementById('installBanner').classList.remove('show');
+});
 
-/* ── API ── */
 async function apiGet(p) { const r = await fetch(SERVER_BASE + p); if (!r.ok) throw r; return r.json(); }
-async function apiPost(p, d) { const r = await fetch(SERVER_BASE + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }); if (!r.ok) throw r; return r.json(); }
+async function apiPost(p, d) { const r = await fetch(SERVER_BASE + p, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(d) }); if (!r.ok) throw r; return r.json(); }
 
-/* ── Sync ── */
 function setSyncUI(s) {
-    document.getElementById('syncDot').className = 'sync-indicator ' + (s === 'ok' ? 'ok' : s === 'syncing' ? 'syncing' : 'error');
+    document.getElementById('syncDot').className = 'sync-dot ' + (s === 'ok' ? 'ok' : s === 'syncing' ? 'syncing' : 'error');
     document.getElementById('offlineBanner').classList.toggle('show', s === 'error');
 }
 async function serverLoad() {
     if (!SERVER_BASE) { localLoad(); return; }
     setSyncUI('syncing');
-    try { const d = await apiGet('/api/data'); if (d.updatedAt !== lastTS) { jobs = d.jobs || []; archive = d.archive || []; ddtCounter = d.ddtCounter || 1; lastTS = d.updatedAt || ''; render(); } serverOk = true; setSyncUI('ok'); }
-    catch { serverOk = false; setSyncUI('error'); if (!jobs.length) localLoad(); }
+    try {
+        const d = await apiGet('/api/data');
+        if (d.updatedAt !== lastTS) {
+            jobs = d.jobs || []; archive = d.archive || [];
+            ddtCounter = d.ddtCounter || 1; lastTS = d.updatedAt || '';
+            render();
+        }
+        serverOk = true; setSyncUI('ok');
+    } catch {
+        serverOk = false; setSyncUI('error');
+        if (!jobs.length) localLoad();
+    }
 }
 async function serverSave() {
     localSave();
@@ -702,11 +1186,24 @@ async function serverSave() {
     try { await apiPost('/api/data', { jobs, archive, ddtCounter }); setSyncUI('ok'); }
     catch { setSyncUI('error'); toast('Salvato solo localmente', 'error'); }
 }
-function localLoad() { jobs = JSON.parse(localStorage.getItem('promoJobs') || '[]'); archive = JSON.parse(localStorage.getItem('promoArchive') || '[]'); ddtCounter = parseInt(localStorage.getItem('ddtCounter') || '1'); savedDDT = JSON.parse(localStorage.getItem('ddtSettings') || '{}'); render(); }
-function localSave() { localStorage.setItem('promoJobs', JSON.stringify(jobs)); localStorage.setItem('promoArchive', JSON.stringify(archive)); localStorage.setItem('ddtCounter', String(ddtCounter)); localStorage.setItem('ddtSettings', JSON.stringify(savedDDT)); }
-async function loadClienti() { if (!SERVER_BASE) return; try { clientiDB = await apiGet('/api/clienti'); } catch { clientiDB = []; } }
+function localLoad() {
+    jobs = JSON.parse(localStorage.getItem('promoJobs') || '[]');
+    archive = JSON.parse(localStorage.getItem('promoArchive') || '[]');
+    ddtCounter = parseInt(localStorage.getItem('ddtCounter') || '1');
+    savedDDT = JSON.parse(localStorage.getItem('ddtSettings') || '{}');
+    render();
+}
+function localSave() {
+    localStorage.setItem('promoJobs', JSON.stringify(jobs));
+    localStorage.setItem('promoArchive', JSON.stringify(archive));
+    localStorage.setItem('ddtCounter', String(ddtCounter));
+    localStorage.setItem('ddtSettings', JSON.stringify(savedDDT));
+}
+async function loadClienti() {
+    if (!SERVER_BASE) return;
+    try { clientiDB = await apiGet('/api/clienti'); } catch { clientiDB = []; }
+}
 
-/* ── Autocomplete ── */
 function setupAC(inputId, listId, fillExtra) {
     const input = document.getElementById(inputId), list = document.getElementById(listId);
     input.addEventListener('input', () => {
@@ -717,40 +1214,79 @@ function setupAC(inputId, listId, fillExtra) {
         list.innerHTML = hits.map((c, i) => `<div class="ac-item" data-idx="${i}">${esc(c.nome)}${c.indirizzo ? `<div class="sub">${esc(c.indirizzo)}</div>` : ''}</div>`).join('');
         list.classList.add('open');
         list.querySelectorAll('.ac-item').forEach((el, i) => {
-            el.addEventListener('click', () => { input.value = hits[i].nome; list.classList.remove('open'); if (fillExtra) { if (hits[i].iva) document.getElementById('ddtDestIva').value = hits[i].iva; if (hits[i].indirizzo) document.getElementById('ddtDestAddr').value = hits[i].indirizzo; } });
+            el.addEventListener('click', () => {
+                input.value = hits[i].nome;
+                list.classList.remove('open');
+                if (fillExtra) {
+                    if (hits[i].iva) document.getElementById('ddtDestIva').value = hits[i].iva;
+                    if (hits[i].indirizzo) document.getElementById('ddtDestAddr').value = hits[i].indirizzo;
+                }
+            });
         });
     });
 }
-document.addEventListener('click', e => { document.querySelectorAll('.ac-list').forEach(el => { if (!el.parentElement.contains(e.target)) el.classList.remove('open'); }); });
+document.addEventListener('click', e => {
+    document.querySelectorAll('.ac-list').forEach(el => {
+        if (!el.parentElement.contains(e.target)) el.classList.remove('open');
+    });
+});
 
-/* ── Utils ── */
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const fmtDate = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
+const fmtDate = iso => { if (!iso) return '\u2014'; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
 const today = () => new Date().toISOString().split('T')[0];
 const daysDiff = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
 const daysLeft = e => daysDiff(today(), e);
 const urgencyClass = j => { const d = daysLeft(j.endDate); return d < 0 ? 'urgent' : d <= 2 ? 'warning' : ''; };
-function urgencyBadge(j) { const d = daysLeft(j.endDate); if (d < 0) return `<span class="badge badge-urgent">Scaduto ${Math.abs(d)}g</span>`; if (d === 0) return `<span class="badge badge-urgent">OGGI</span>`; if (d <= 2) return `<span class="badge badge-warning">${d}g</span>`; return `<span class="badge badge-ok">${d}g</span>`; }
+function urgencyBadge(j) {
+    const d = daysLeft(j.endDate);
+    if (d < 0) return `<span class="badge-pill urgent">Scaduto ${Math.abs(d)}g</span>`;
+    if (d === 0) return `<span class="badge-pill urgent">OGGI</span>`;
+    if (d <= 2) return `<span class="badge-pill warning">${d}g</span>`;
+    return `<span class="badge-pill ok">${d}g</span>`;
+}
 const pct = j => { const t = daysDiff(j.startDate, j.endDate); if (t <= 0) return 100; return Math.min(100, Math.max(0, Math.round(daysDiff(j.startDate, today()) / t * 100))); };
 const pctClass = (p, d) => d < 0 ? 'over' : p >= 80 ? 'late' : p >= 50 ? 'mid' : '';
-function fmtDuration(min) { if (min == null || isNaN(min)) return '—'; if (min < 60) return `${min}min`; const h = Math.floor(min / 60), m = min % 60; return m > 0 ? `${h}h ${m}m` : `${h}h`; }
-function toast(msg, type = 'success') { const t = document.getElementById('toast'); t.textContent = msg; t.className = `toast ${type} show`; setTimeout(() => t.classList.remove('show'), 3200); }
+function fmtDuration(min) {
+    if (min == null || isNaN(min)) return '\u2014';
+    if (min < 60) return `${min}min`;
+    const h = Math.floor(min / 60), m = min % 60;
+    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+function toast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast-c ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3200);
+}
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-/* ── Views ── */
 function switchView(view) {
     currentView = view;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-    const fn = () => { document.getElementById('queueView').style.display = view === 'queue' ? '' : 'none'; document.getElementById('archiveView').style.display = view === 'archive' ? '' : 'none'; document.getElementById('dashboard').style.display = view === 'queue' ? '' : 'none'; };
-    if (document.startViewTransition) document.startViewTransition(fn); else fn();
+    document.getElementById('formView').style.display = view === 'form' ? '' : 'none';
+    document.getElementById('queueView').style.display = view === 'queue' ? '' : 'none';
+    document.getElementById('archiveView').style.display = view === 'archive' ? '' : 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function setFilter(f) { currentFilter = f; document.querySelectorAll('.filter-chip').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); render(); }
+function setFilter(f) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    render();
+}
 
-/* ── Render ── */
 function render() {
     const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
-    const fj = jobs.filter(j => { if (currentFilter !== 'all' && j.prodType !== currentFilter) return false; if (search && !j.name.toLowerCase().includes(search) && !j.prodType.toLowerCase().includes(search)) return false; return true; });
-    const fa = archive.filter(j => { if (search && !j.name.toLowerCase().includes(search) && !j.prodType.toLowerCase().includes(search)) return false; return true; });
+    const searchA = (document.getElementById('searchInputArchive')?.value || '').toLowerCase();
+
+    const fj = jobs.filter(j => {
+        if (currentFilter !== 'all' && j.prodType !== currentFilter) return false;
+        if (search && !j.name.toLowerCase().includes(search) && !j.prodType.toLowerCase().includes(search)) return false;
+        return true;
+    });
+    const fa = archive.filter(j => {
+        if (searchA && !j.name.toLowerCase().includes(searchA) && !j.prodType.toLowerCase().includes(searchA)) return false;
+        return true;
+    });
 
     document.getElementById('activeCount').textContent = fj.length;
     document.getElementById('archiveCount').textContent = fa.length;
@@ -760,129 +1296,247 @@ function render() {
     const uc = jobs.filter(j => daysLeft(j.endDate) <= 0).length;
     const tp = jobs.reduce((s, j) => s + (j.pieces || 0), 0);
     document.getElementById('dActive').textContent = jobs.length;
-    document.getElementById('dActiveSub').textContent = jobs.length ? `${fj.length} visibili` : 'nessun lavoro';
+    document.getElementById('dActiveSub').textContent = jobs.length ? `${fj.length} visibili` : 'vuota';
     document.getElementById('dDone').textContent = archive.length;
-    document.getElementById('dDoneSub').textContent = archive.length ? 'questo mese' : '—';
+    document.getElementById('dDoneSub').textContent = archive.length ? 'totali' : '\u2014';
     document.getElementById('dUrgent').textContent = uc;
     document.getElementById('dUrgentSub').textContent = uc ? 'attenzione!' : 'tutto ok';
     document.getElementById('dPieces').textContent = tp.toLocaleString('it');
-    document.getElementById('dPiecesSub').textContent = 'in produzione';
 
     const jl = document.getElementById('jobList');
     jl.innerHTML = fj.length === 0
-        ? `<div class="empty-state"><span class="icon">&#128203;</span>${search || currentFilter !== 'all' ? 'Nessun risultato.' : 'Nessun lavoro in coda.'}</div>`
-        : fj.map((j, i) => { const p = pct(j), d = daysLeft(j.endDate), pc = pctClass(p, d); const dtf = j.prodType === 'DTF' && (j.dtfLogos || j.dtfMeters) ? `<span class="badge badge-type">${j.dtfLogos || 0} loghi &middot; ${j.dtfMeters || 0}m</span>` : '';
-            return `<div class="job-card ${urgencyClass(j)}" style="animation-delay:${i * 30}ms" draggable="true" data-id="${j.id}">
-<div class="job-header"><div><div class="job-name">${esc(j.name)}</div><div class="job-meta"><span class="badge badge-type">${j.prodType}</span>${urgencyBadge(j)}${dtf}</div></div><div class="drag-handle" title="Trascina">&equiv;</div></div>
-<div class="job-stats"><div class="stat-box"><div class="stat-label">Pezzi</div><div class="stat-value accent">${j.pieces}</div></div><div class="stat-box"><div class="stat-label">Avviamento</div><div class="stat-value">${j.setupTime}m</div></div><div class="stat-box"><div class="stat-label">Inizio</div><div class="stat-value" style="font-size:11px">${fmtDate(j.startDate)}</div></div><div class="stat-box"><div class="stat-label">Consegna</div><div class="stat-value" style="font-size:11px">${fmtDate(j.endDate)}</div></div></div>
+        ? `<div class="empty"><span class="icon">&#128203;</span><p>${search || currentFilter !== 'all' ? 'Nessun risultato' : 'Nessun lavoro in coda'}</p></div>`
+        : fj.map((j, i) => {
+            const p = pct(j), d = daysLeft(j.endDate), pc = pctClass(p, d);
+            const dtfBadge = j.prodType === 'DTF' && (j.dtfLogos || j.dtfMeters)
+                ? `<span class="badge-pill info">${j.dtfLogos || 0} loghi &middot; ${j.dtfMeters || 0}m</span>` : '';
+            return `<div class="job-card ${urgencyClass(j)}" data-id="${j.id}">
+<div class="job-head">
+    <div style="flex:1;min-width:0">
+        <div class="job-name">${esc(j.name)}</div>
+        <div class="job-meta">
+            <span class="badge-pill">${j.prodType}</span>
+            ${urgencyBadge(j)}
+            ${dtfBadge}
+        </div>
+    </div>
+</div>
+<div class="job-stats">
+    <div class="mini-stat"><div class="lbl">Pezzi</div><div class="val accent">${j.pieces}</div></div>
+    <div class="mini-stat"><div class="lbl">Avv.</div><div class="val">${j.setupTime}m</div></div>
+    <div class="mini-stat"><div class="lbl">Inizio</div><div class="val" style="font-size:.85rem">${fmtDate(j.startDate)}</div></div>
+    <div class="mini-stat"><div class="lbl">Consegna</div><div class="val" style="font-size:.85rem">${fmtDate(j.endDate)}</div></div>
+</div>
 ${j.notes ? `<div class="job-note">${esc(j.notes)}</div>` : ''}
-<div class="progress-wrap"><div class="progress-label"><span>Avanzamento</span><span>${p}%</span></div><div class="progress-track"><div class="progress-fill ${pc}" style="width:${p}%"></div></div></div>
-<div class="job-actions"><button class="btn-act btn-complete" onclick="openDDT('${j.id}')">&#10004; Completa &amp; DDT</button><button class="btn-act btn-share" onclick="shareJob('${j.id}')">&#128279;</button><button class="btn-act btn-delete" onclick="deleteJob('${j.id}')">&#128465;</button></div></div>`; }).join('');
+<div class="progress-wrap">
+    <div class="progress-row"><span>AVANZAMENTO</span><span>${p}%</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill ${pc}" style="width:${p}%"></div></div>
+</div>
+<div class="job-actions">
+    <button class="btn-act complete" onclick="completeJob('${j.id}')">&#10004; Termina</button>
+    <button class="btn-act ddt" onclick="openDDT('${j.id}', false)">&#128196; DDT</button>
+    <button class="btn-act ghost" onclick="shareJob('${j.id}')">&#128279; Share</button>
+    <button class="btn-act danger" onclick="deleteJob('${j.id}')">&#128465; Del</button>
+</div>
+</div>`;
+        }).join('');
 
     const al = document.getElementById('archiveList');
     al.innerHTML = fa.length === 0
-        ? `<div class="empty-state"><span class="icon">&#128193;</span>Nessun lavoro completato.</div>`
-        : [...fa].reverse().map(j => `<div class="job-card archived"><div class="job-header"><div><div class="job-name" style="font-size:14px">${esc(j.name)}</div><div class="job-meta"><span class="badge badge-type">${j.prodType}</span><span class="badge badge-done">&#10004; ${fmtDate(j.completedAt)}</span>${j.totalTimeMin != null ? `<span class="badge" style="background:var(--blue-light);color:var(--blue);border:1px solid color-mix(in srgb,var(--blue) 25%,transparent)">&#9201; ${fmtDuration(j.totalTimeMin)}</span>` : ''}</div></div><div style="display:flex;gap:6px;flex-shrink:0">${j.ddtNumber ? `<button class="btn-act btn-ddt" onclick="redownloadDDT('${j.id}')">&#128196; ${j.ddtNumber}</button>` : ''}<button class="btn-act btn-delete" onclick="deleteArchive('${j.id}')">&#128465;</button></div></div><div style="font-size:10px;font-family:var(--mono);color:var(--ink3);display:flex;gap:8px;flex-wrap:wrap"><span>${j.pieces} pz</span><span>&middot;</span><span>${fmtDate(j.startDate)} &rarr; ${fmtDate(j.endDate)}</span><span>&middot;</span><span>Avv. ${j.setupTime}m</span>${j.totalTimeMin != null ? `<span>&middot;</span><span style="color:var(--blue);font-weight:600">Tot. ${fmtDuration(j.totalTimeMin)}</span>` : ''}${j.notes ? `<span>&middot; ${esc(j.notes)}</span>` : ''}</div></div>`).join('');
-
-    setupDragDrop();
+        ? `<div class="empty"><span class="icon">&#128193;</span><p>${searchA ? 'Nessun risultato' : 'Nessun lavoro completato'}</p></div>`
+        : [...fa].reverse().map(j => `<div class="job-card archived">
+<div class="job-head">
+    <div style="flex:1;min-width:0">
+        <div class="job-name" style="font-size:1.05rem">${esc(j.name)}</div>
+        <div class="job-meta">
+            <span class="badge-pill">${j.prodType}</span>
+            <span class="badge-pill done">&#10004; ${fmtDate(j.completedAt)}</span>
+            ${j.totalTimeMin != null ? `<span class="badge-pill info">&#9201; ${fmtDuration(j.totalTimeMin)}</span>` : ''}
+        </div>
+    </div>
+</div>
+<div style="font-size:.8rem;color:var(--ink-3);margin-bottom:12px;line-height:1.5">
+    ${j.pieces} pz &middot; ${fmtDate(j.startDate)} &rarr; ${fmtDate(j.endDate)} &middot; Avv. ${j.setupTime}m
+    ${j.notes ? `<br><span style="color:var(--ink-2)">${esc(j.notes)}</span>` : ''}
+</div>
+<div class="job-actions">
+    ${j.ddtNumber
+        ? `<button class="btn-act ddt btn-full" onclick="redownloadDDT('${j.id}')">&#128196; ${j.ddtNumber} (ri-scarica)</button>`
+        : `<button class="btn-act ddt btn-full" onclick="openDDT('${j.id}', true)">&#128196; Crea DDT</button>`}
+    <button class="btn-act danger btn-full" onclick="deleteArchive('${j.id}')">&#128465; Rimuovi dall'archivio</button>
+</div>
+</div>`).join('');
 }
 
-/* ── Drag & Drop ── */
-function setupDragDrop() {
-    document.querySelectorAll('#jobList .job-card[draggable]').forEach(card => {
-        card.addEventListener('dragstart', e => { card.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', card.dataset.id); });
-        card.addEventListener('dragend', () => card.classList.remove('dragging'));
-        card.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; const dragging = document.querySelector('.dragging'); if (!dragging || dragging === card) return; const rect = card.getBoundingClientRect(); card.parentElement.insertBefore(dragging, e.clientY < rect.top + rect.height / 2 ? card : card.nextSibling); });
-        card.addEventListener('drop', async e => { e.preventDefault(); const newOrder = [...document.querySelectorAll('#jobList .job-card[data-id]')].map(c => c.dataset.id); jobs = newOrder.map(id => jobs.find(j => j.id === id)).filter(Boolean); await serverSave(); toast('Ordine aggiornato', 'info'); });
-    });
-}
-
-/* ── Form ── */
 document.getElementById('jobForm').addEventListener('submit', async e => {
     e.preventDefault();
     const pt = document.querySelector('input[name="prodType"]:checked');
     if (!pt) { toast('Seleziona una tipologia', 'error'); return; }
-    const s = document.getElementById('startDate').value, en = document.getElementById('endDate').value;
-    if (en < s) { toast('Data consegna precedente all\'inizio', 'error'); return; }
-    const j = { id: uid(), name: document.getElementById('jobName').value.trim(), startDate: s, endDate: en, setupTime: parseInt(document.getElementById('setupTime').value) || 0, pieces: parseInt(document.getElementById('jobPieces').value) || 1, prodType: pt.value, notes: document.getElementById('jobNotes').value.trim(), dtfLogos: pt.value === 'DTF' ? parseInt(document.getElementById('dtfLogos').value) || 0 : null, dtfMeters: pt.value === 'DTF' ? parseFloat(document.getElementById('dtfMeters').value) || 0 : null, createdAt: new Date().toISOString() };
+    const s = document.getElementById('startDate').value;
+    const en = document.getElementById('endDate').value;
+    if (en < s) { toast("Data consegna precedente all'inizio", 'error'); return; }
+    const j = {
+        id: uid(),
+        name: document.getElementById('jobName').value.trim(),
+        startDate: s, endDate: en,
+        setupTime: parseInt(document.getElementById('setupTime').value) || 0,
+        pieces: parseInt(document.getElementById('jobPieces').value) || 1,
+        prodType: pt.value,
+        notes: document.getElementById('jobNotes').value.trim(),
+        dtfLogos: pt.value === 'DTF' ? parseInt(document.getElementById('dtfLogos').value) || 0 : null,
+        dtfMeters: pt.value === 'DTF' ? parseFloat(document.getElementById('dtfMeters').value) || 0 : null,
+        createdAt: new Date().toISOString()
+    };
     jobs.push(j);
-    if (document.startViewTransition) document.startViewTransition(() => render()); else render();
-    await serverSave(); e.target.reset(); document.getElementById('dtfFields').classList.remove('visible'); document.getElementById('startDate').value = today();
-    if (currentView !== 'queue') switchView('queue');
+    render();
+    await serverSave();
+    e.target.reset();
+    document.getElementById('dtfFields').classList.remove('visible');
+    document.getElementById('startDate').value = today();
     toast(`"${j.name}" aggiunto`);
+    speak('Lavoro iniziato');
     if (navigator.vibrate) navigator.vibrate(30);
+    switchView('queue');
 });
-document.querySelectorAll('input[name="prodType"]').forEach(r => r.addEventListener('change', () => { document.getElementById('dtfFields').classList.toggle('visible', r.value === 'DTF' && r.checked); }));
-document.getElementById('submitBtn').addEventListener('click', function (e) { const rect = this.getBoundingClientRect(); const ripple = document.createElement('span'); ripple.className = 'ripple'; ripple.style.cssText = `left:${e.clientX - rect.left}px;top:${e.clientY - rect.top}px;width:${rect.width}px;height:${rect.width}px;margin-left:-${rect.width / 2}px;margin-top:-${rect.width / 2}px`; this.appendChild(ripple); setTimeout(() => ripple.remove(), 600); });
 
-async function deleteJob(id) { if (!confirm('Eliminare questo lavoro?')) return; jobs = jobs.filter(j => j.id !== id); render(); await serverSave(); toast('Lavoro eliminato', 'info'); }
-async function deleteArchive(id) { if (!confirm('Rimuovere dall\'archivio?')) return; archive = archive.filter(j => j.id !== id); render(); await serverSave(); }
+document.querySelectorAll('input[name="prodType"]').forEach(r => {
+    r.addEventListener('change', () => {
+        document.getElementById('dtfFields').classList.toggle('visible', r.value === 'DTF' && r.checked);
+    });
+});
 
-/* ── Web Share ── */
+async function deleteJob(id) {
+    if (!confirm('Eliminare questo lavoro?')) return;
+    jobs = jobs.filter(j => j.id !== id);
+    render();
+    await serverSave();
+    toast('Lavoro eliminato', 'info');
+}
+async function deleteArchive(id) {
+    if (!confirm("Rimuovere dall'archivio?")) return;
+    archive = archive.filter(j => j.id !== id);
+    render();
+    await serverSave();
+}
+
+async function completeJob(id) {
+    const j = jobs.find(x => x.id === id);
+    if (!j) return;
+    const now = new Date();
+    j.completedAt = today();
+    j.completedAtTs = now.toISOString();
+    j.elapsedMin = Math.round((now - new Date(j.createdAt)) / 60000);
+    j.totalTimeMin = (j.setupTime || 0) + j.elapsedMin;
+    archive.push(j);
+    jobs = jobs.filter(x => x.id !== id);
+    render();
+    await serverSave();
+    toast(`"${j.name}" terminato`);
+    speak('Lavoro terminato');
+    if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+}
+
 async function shareJob(id) {
     const j = jobs.find(x => x.id === id); if (!j) return;
     const text = `${j.name}\n${j.prodType} | ${j.pieces} pz\n${fmtDate(j.startDate)} -> ${fmtDate(j.endDate)}\nAvviamento: ${j.setupTime}min${j.notes ? '\n' + j.notes : ''}`;
-    if (navigator.share) { try { await navigator.share({ title: `Promo-One: ${j.name}`, text }); } catch { } }
-    else { await navigator.clipboard.writeText(text); toast('Copiato negli appunti', 'info'); }
+    if (navigator.share) { try { await navigator.share({ title: `Promo-One: ${j.name}`, text }); } catch {} }
+    else { await navigator.clipboard.writeText(text); toast('Copiato', 'info'); }
 }
 async function shareArchive() {
     const text = archive.map(j => `${j.name} | ${j.prodType} | ${j.pieces}pz | ${fmtDate(j.completedAt)}`).join('\n');
-    if (navigator.share) { try { await navigator.share({ title: 'Archivio Promo-One', text }); } catch { } }
+    if (navigator.share) { try { await navigator.share({ title: 'Archivio Promo-One', text }); } catch {} }
     else { await navigator.clipboard.writeText(text); toast('Archivio copiato', 'info'); }
 }
 
-/* ── DDT ── */
-function openDDT(id) {
-    pendingId = id; const j = jobs.find(x => x.id === id); if (!j) return;
+function openDDT(id, fromArchive = false) {
+    pendingId = id;
+    pendingFromArchive = fromArchive;
+    const j = fromArchive ? archive.find(x => x.id === id) : jobs.find(x => x.id === id);
+    if (!j) return;
     document.getElementById('ddtJobTitle').textContent = `${j.name} | ${j.prodType} | ${j.pieces} pz`;
+    document.getElementById('ddtNoteBox').innerHTML = fromArchive
+        ? '\u{1F4C4} Generazione DDT per lavoro gi\u00E0 terminato.'
+        : '\u{1F4C4} Generazione DDT (il lavoro resta nella coda).';
     document.getElementById('ddtDate').value = today();
+    document.getElementById('ddtNumber').value = '';
     document.getElementById('ddtNumber').placeholder = `DDT-${String(ddtCounter).padStart(4, '0')}`;
     if (savedDDT.mittente) document.getElementById('ddtMittente').value = savedDDT.mittente;
     if (savedDDT.mittenteIva) document.getElementById('ddtMittenteIva').value = savedDDT.mittenteIva;
     if (savedDDT.mittenteAddr) document.getElementById('ddtMittenteAddr').value = savedDDT.mittenteAddr;
     if (savedDDT.vettore) document.getElementById('ddtVettore').value = savedDDT.vettore;
-    document.getElementById('ddtDest').value = j.name; document.getElementById('ddtDestIva').value = ''; document.getElementById('ddtDestAddr').value = '';
+    document.getElementById('ddtDest').value = j.name;
+    document.getElementById('ddtDestIva').value = '';
+    document.getElementById('ddtDestAddr').value = '';
     const found = clientiDB.find(c => c.nome.toLowerCase() === j.name.toLowerCase());
-    if (found) { if (found.iva) document.getElementById('ddtDestIva').value = found.iva; if (found.indirizzo) document.getElementById('ddtDestAddr').value = found.indirizzo; }
+    if (found) {
+        if (found.iva) document.getElementById('ddtDestIva').value = found.iva;
+        if (found.indirizzo) document.getElementById('ddtDestAddr').value = found.indirizzo;
+    }
     document.getElementById('ddtModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
 }
-function closeDDT() { document.getElementById('ddtModal').classList.remove('open'); pendingId = null; }
+function closeDDT() {
+    document.getElementById('ddtModal').classList.remove('open');
+    document.body.style.overflow = '';
+    pendingId = null;
+    pendingFromArchive = false;
+}
 document.getElementById('ddtModal').addEventListener('click', function (e) { if (e.target === this) closeDDT(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDDT(); });
 
 async function generateDDT() {
     if (!pendingId) return;
-    const j = jobs.find(x => x.id === pendingId); if (!j) return;
+    const j = pendingFromArchive ? archive.find(x => x.id === pendingId) : jobs.find(x => x.id === pendingId);
+    if (!j) return;
     const num = document.getElementById('ddtNumber').value.trim() || `DDT-${String(ddtCounter).padStart(4, '0')}`;
-    const d = { number: num, date: document.getElementById('ddtDate').value || today(), mittente: document.getElementById('ddtMittente').value.trim() || 'Promo-One Srl', mittenteIva: document.getElementById('ddtMittenteIva').value.trim(), mittenteAddr: document.getElementById('ddtMittenteAddr').value.trim(), dest: document.getElementById('ddtDest').value.trim() || j.name, destIva: document.getElementById('ddtDestIva').value.trim(), destAddr: document.getElementById('ddtDestAddr').value.trim(), vettore: document.getElementById('ddtVettore').value.trim() || 'Proprio mezzo', colli: parseInt(document.getElementById('ddtColli').value) || 1, peso: document.getElementById('ddtPeso').value || '—', porto: document.getElementById('ddtPorto').value, causale: document.getElementById('ddtCausale').value.trim() || 'Vendita', note: document.getElementById('ddtNote').value.trim() };
+    const d = {
+        number: num,
+        date: document.getElementById('ddtDate').value || today(),
+        mittente: document.getElementById('ddtMittente').value.trim() || 'Promo-One Srl',
+        mittenteIva: document.getElementById('ddtMittenteIva').value.trim(),
+        mittenteAddr: document.getElementById('ddtMittenteAddr').value.trim(),
+        dest: document.getElementById('ddtDest').value.trim() || j.name,
+        destIva: document.getElementById('ddtDestIva').value.trim(),
+        destAddr: document.getElementById('ddtDestAddr').value.trim(),
+        vettore: document.getElementById('ddtVettore').value.trim() || 'Proprio mezzo',
+        colli: parseInt(document.getElementById('ddtColli').value) || 1,
+        peso: document.getElementById('ddtPeso').value || '\u2014',
+        porto: document.getElementById('ddtPorto').value,
+        causale: document.getElementById('ddtCausale').value.trim() || 'Vendita',
+        note: document.getElementById('ddtNote').value.trim()
+    };
     savedDDT = { mittente: d.mittente, mittenteIva: d.mittenteIva, mittenteAddr: d.mittenteAddr, vettore: d.vettore };
-    const _now = new Date(); const _elapsed = Math.round((_now - new Date(j.createdAt)) / 60000);
-    j.completedAt = today(); j.completedAtTs = _now.toISOString(); j.elapsedMin = _elapsed; j.totalTimeMin = (j.setupTime || 0) + _elapsed; j.ddtNumber = num; j.ddtData = d;
+    j.ddtNumber = num;
+    j.ddtData = d;
     buildDDTPdf(j, d);
-    archive.push(j); jobs = jobs.filter(x => x.id !== pendingId); ddtCounter++;
-    if (document.startViewTransition) document.startViewTransition(() => render()); else render();
-    await serverSave(); closeDDT(); toast(`DDT ${num} generato!`);
+    ddtCounter++;
+    render();
+    await serverSave();
+    closeDDT();
+    toast(`DDT ${num} generato!`);
     if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
 }
 
-/* ── PDF ── */
 function buildDDTPdf(j, d) {
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' }); const W = 210, M = 15;
-    const C = { dark: [15, 23, 42], accent: [232, 93, 26], mid: [107, 104, 96], light: [241, 240, 237], border: [226, 224, 219] };
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210, M = 15;
+    const C = { dark: [10, 16, 32], accent: [34, 211, 238], mid: [107, 104, 96], light: [241, 240, 237], border: [226, 224, 219] };
     doc.setFillColor(...C.dark); doc.rect(0, 0, W, 28, 'F');
     doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(255, 255, 255); doc.text('DOCUMENTO DI TRASPORTO', M, 13);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(180, 180, 180); doc.text('DDT — D.P.R. 472/96', M, 20);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(180, 180, 180); doc.text('DDT - D.P.R. 472/96', M, 20);
     doc.setFillColor(...C.accent); doc.roundedRect(W - 68, 6, 53, 16, 3, 3, 'F');
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(255, 255, 255); doc.text(d.number, W - 68 + 26.5, 16, { align: 'center' });
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...C.dark); doc.text(d.number, W - 68 + 26.5, 16, { align: 'center' });
     let y = 36;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...C.mid);
     doc.text(`Data: ${fmtDate(d.date)}`, M, y); doc.text(`Causale: ${d.causale}`, 75, y); doc.text(`Porto: ${d.porto}`, 140, y); y += 8;
     [[M, 'MITTENTE', d.mittente, d.mittenteAddr, d.mittenteIva], [W - M - 82, 'DESTINATARIO', d.dest, d.destAddr, d.destIva]].forEach(([x, lbl, nome, addr, iva]) => {
         doc.setFillColor(...C.light); doc.setDrawColor(...C.border); doc.roundedRect(x, y, 82, 36, 2, 2, 'FD');
         doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...C.accent); doc.text(lbl, x + 4, y + 6);
-        doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...C.dark); doc.text(nome || '—', x + 4, y + 14);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...C.dark); doc.text(nome || '-', x + 4, y + 14);
         doc.setFontSize(8); doc.setTextColor(...C.mid);
-        if (addr) doc.text(addr, x + 4, y + 22, { maxWidth: 74 }); if (iva) doc.text(`P.IVA: ${iva}`, x + 4, y + 30);
+        if (addr) doc.text(addr, x + 4, y + 22, { maxWidth: 74 });
+        if (iva) doc.text(`P.IVA: ${iva}`, x + 4, y + 30);
     }); y += 44;
     doc.setFillColor(...C.dark); doc.rect(M, y, W - 2 * M, 7, 'F');
     doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(255, 255, 255); doc.text('DATI TRASPORTO', M + 4, y + 4.8); y += 7;
@@ -891,58 +1545,108 @@ function buildDDTPdf(j, d) {
         doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...C.mid); doc.text(l, x, y + 5);
         doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...C.dark); doc.text(v, x, y + 11);
     }); y += 22;
-    doc.autoTable({ startY: y, margin: { left: M, right: M }, head: [['#', 'Descrizione Merce / Lavorazione', 'U.M.', 'Qta', 'Note']], body: [['1', `${j.prodType} — ${j.name} | ${fmtDate(j.startDate)}-${fmtDate(j.endDate)} | Avv.${j.setupTime}min${j.totalTimeMin != null ? ' | Tot. ' + fmtDuration(j.totalTimeMin) : ''}`, 'PZ', String(j.pieces), j.notes || '—']], styles: { font: 'helvetica', fontSize: 9, cellPadding: 4, lineColor: C.border, lineWidth: .3 }, headStyles: { fillColor: C.dark, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 8 }, alternateRowStyles: { fillColor: [248, 247, 244] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 1: { cellWidth: 85 }, 2: { cellWidth: 16, halign: 'center' }, 3: { cellWidth: 18, halign: 'center' }, 4: { cellWidth: 'auto' } } });
+    doc.autoTable({
+        startY: y, margin: { left: M, right: M },
+        head: [['#', 'Descrizione Merce / Lavorazione', 'U.M.', 'Qta', 'Note']],
+        body: [['1', `${j.prodType} - ${j.name} | ${fmtDate(j.startDate)}-${fmtDate(j.endDate)} | Avv.${j.setupTime}min${j.totalTimeMin != null ? ' | Tot. ' + fmtDuration(j.totalTimeMin) : ''}`, 'PZ', String(j.pieces), j.notes || '-']],
+        styles: { font: 'helvetica', fontSize: 9, cellPadding: 4, lineColor: C.border, lineWidth: .3 },
+        headStyles: { fillColor: C.dark, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 8 },
+        alternateRowStyles: { fillColor: [248, 247, 244] },
+        columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 1: { cellWidth: 85 }, 2: { cellWidth: 16, halign: 'center' }, 3: { cellWidth: 18, halign: 'center' }, 4: { cellWidth: 'auto' } }
+    });
     y = doc.lastAutoTable.finalY + 8;
-    if (j.prodType === 'DTF' && (j.dtfLogos || j.dtfMeters)) { doc.autoTable({ startY: y, margin: { left: M, right: M }, body: [[`DTF — Loghi: ${j.dtfLogos || 0} | Metri: ${j.dtfMeters || 0}m`]], styles: { fontSize: 8, fillColor: [239, 244, 255], textColor: C.dark } }); y = doc.lastAutoTable.finalY + 6; }
-    if (d.note) { doc.setFillColor(255, 251, 235); doc.setDrawColor(253, 216, 0); doc.roundedRect(M, y, W - 2 * M, 14, 2, 2, 'FD'); doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...C.mid); doc.text('NOTE:', M + 4, y + 5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.dark); doc.text(d.note, M + 22, y + 5.5, { maxWidth: W - 2 * M - 26 }); y += 20; }
+    if (j.prodType === 'DTF' && (j.dtfLogos || j.dtfMeters)) {
+        doc.autoTable({ startY: y, margin: { left: M, right: M }, body: [[`DTF - Loghi: ${j.dtfLogos || 0} | Metri: ${j.dtfMeters || 0}m`]], styles: { fontSize: 8, fillColor: [239, 244, 255], textColor: C.dark } });
+        y = doc.lastAutoTable.finalY + 6;
+    }
+    if (d.note) {
+        doc.setFillColor(255, 251, 235); doc.setDrawColor(253, 216, 0); doc.roundedRect(M, y, W - 2 * M, 14, 2, 2, 'FD');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...C.mid); doc.text('NOTE:', M + 4, y + 5.5);
+        doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.dark); doc.text(d.note, M + 22, y + 5.5, { maxWidth: W - 2 * M - 26 });
+        y += 20;
+    }
     y = Math.max(y + 10, 232);
-    [[M, 'Firma Mittente'], [M + 62, 'Firma Corriere'], [M + 124, 'Firma Destinatario']].forEach(([sx, lbl]) => { doc.setDrawColor(...C.border); doc.setFillColor(...C.light); doc.roundedRect(sx, y, 56, 22, 2, 2, 'FD'); doc.setFontSize(7); doc.setTextColor(...C.mid); doc.text(lbl, sx + 28, y + 19, { align: 'center' }); });
+    [[M, 'Firma Mittente'], [M + 62, 'Firma Corriere'], [M + 124, 'Firma Destinatario']].forEach(([sx, lbl]) => {
+        doc.setDrawColor(...C.border); doc.setFillColor(...C.light); doc.roundedRect(sx, y, 56, 22, 2, 2, 'FD');
+        doc.setFontSize(7); doc.setTextColor(...C.mid); doc.text(lbl, sx + 28, y + 19, { align: 'center' });
+    });
     doc.setFillColor(...C.dark); doc.rect(0, 282, W, 15, 'F');
     doc.setFontSize(7); doc.setTextColor(180, 180, 180); doc.text(`${d.mittente} | Generato il ${fmtDate(today())} | Promo-One`, W / 2, 290, { align: 'center' });
     doc.save(`DDT_${d.number}_${j.name.replace(/\s+/g, '_')}.pdf`);
 }
-function redownloadDDT(id) { const j = archive.find(x => x.id === id); if (!j || !j.ddtData) { toast('Dati DDT non disponibili', 'error'); return; } buildDDTPdf(j, j.ddtData); toast(`DDT ${j.ddtNumber} ri-scaricato`); }
+function redownloadDDT(id) {
+    const j = archive.find(x => x.id === id);
+    if (!j || !j.ddtData) { toast('Dati DDT non disponibili', 'error'); return; }
+    buildDDTPdf(j, j.ddtData);
+    toast(`DDT ${j.ddtNumber} ri-scaricato`);
+}
 
-/* ── Export ── */
 function exportCSV() {
     if (!archive.length) { toast('Nessun lavoro completato', 'info'); return; }
     const H = ['Nome', 'Tipologia', 'Inizio', 'Consegna', 'Completato', 'Pezzi', 'Avviamento', 'Tempo coda', 'Tempo totale', 'DDT', 'Note'];
-    const rows = archive.map(j => [j.name, j.prodType, j.startDate, j.endDate, j.completedAt || '', j.pieces, `${j.setupTime}min`, j.elapsedMin != null ? fmtDuration(j.elapsedMin) : '—', j.totalTimeMin != null ? fmtDuration(j.totalTimeMin) : '—', j.ddtNumber || '', j.notes || '']);
+    const rows = archive.map(j => [j.name, j.prodType, j.startDate, j.endDate, j.completedAt || '', j.pieces, `${j.setupTime}min`, j.elapsedMin != null ? fmtDuration(j.elapsedMin) : '-', j.totalTimeMin != null ? fmtDuration(j.totalTimeMin) : '-', j.ddtNumber || '', j.notes || '']);
     const csv = [H, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })); a.download = `Archivio_${today()}.csv`; a.click(); toast('CSV esportato');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }));
+    a.download = `Archivio_${today()}.csv`;
+    a.click();
+    toast('CSV esportato');
 }
 function exportPDF() {
     if (!archive.length) { toast('Nessun lavoro completato', 'info'); return; }
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    doc.setFillColor(15, 23, 42); doc.rect(0, 0, 297, 22, 'F');
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(255, 255, 255); doc.text('ARCHIVIO LAVORI — Promo-One', 14, 14);
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    doc.setFillColor(10, 16, 32); doc.rect(0, 0, 297, 22, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(255, 255, 255); doc.text('ARCHIVIO LAVORI - Promo-One', 14, 14);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(180, 180, 180); doc.text(`${fmtDate(today())} | ${archive.length} lavori`, 220, 14);
-    doc.autoTable({ startY: 28, margin: { left: 14, right: 14 }, head: [['Cliente', 'Tipo', 'Inizio', 'Consegna', 'Completato', 'Pz', 'Avv.', 'Tot.', 'DDT', 'Note']], body: archive.map(j => [j.name, j.prodType, fmtDate(j.startDate), fmtDate(j.endDate), fmtDate(j.completedAt), j.pieces, `${j.setupTime}m`, j.totalTimeMin != null ? fmtDuration(j.totalTimeMin) : '—', j.ddtNumber || '—', j.notes || '']), styles: { font: 'helvetica', fontSize: 8, cellPadding: 3 }, headStyles: { fillColor: [232, 93, 26], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 247, 244] } });
-    doc.save(`Archivio_${today()}.pdf`); toast('PDF esportato');
+    doc.autoTable({
+        startY: 28, margin: { left: 14, right: 14 },
+        head: [['Cliente', 'Tipo', 'Inizio', 'Consegna', 'Completato', 'Pz', 'Avv.', 'Tot.', 'DDT', 'Note']],
+        body: archive.map(j => [j.name, j.prodType, fmtDate(j.startDate), fmtDate(j.endDate), fmtDate(j.completedAt), j.pieces, `${j.setupTime}m`, j.totalTimeMin != null ? fmtDuration(j.totalTimeMin) : '-', j.ddtNumber || '-', j.notes || '']),
+        styles: { font: 'helvetica', fontSize: 8, cellPadding: 3 },
+        headStyles: { fillColor: [34, 211, 238], textColor: [10, 16, 32], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 247, 244] }
+    });
+    doc.save(`Archivio_${today()}.pdf`);
+    toast('PDF esportato');
 }
-async function hardReset() { if (!confirm('Cancellare TUTTI i dati? Irreversibile.')) return; jobs = []; archive = []; ddtCounter = 1; render(); await serverSave(); localStorage.clear(); toast('Dati resettati', 'info'); }
 
-/* ── Keyboard shortcuts ── */
-document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('searchInput').focus(); } if ((e.ctrlKey || e.metaKey) && e.key === 'n') { e.preventDefault(); document.getElementById('jobName').focus(); } });
+async function hardReset() {
+    if (!confirm('Cancellare TUTTI i dati? Azione irreversibile.')) return;
+    jobs = []; archive = []; ddtCounter = 1;
+    render();
+    await serverSave();
+    localStorage.clear();
+    toast('Dati resettati', 'info');
+}
 
-/* ── Network ── */
 window.addEventListener('online', () => { toast('Connessione ripristinata', 'success'); serverLoad(); });
-window.addEventListener('offline', () => { setSyncUI('error'); toast('Modalità offline', 'error'); });
+window.addEventListener('offline', () => { setSyncUI('error'); toast('Modalit\u00E0 offline', 'error'); });
 
-/* ── Init ── */
 document.addEventListener('DOMContentLoaded', async () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
     document.getElementById('startDate').value = today();
     savedDDT = JSON.parse(localStorage.getItem('ddtSettings') || '{}');
+
+    const vbtn = document.getElementById('voiceBtn');
+    vbtn.innerHTML = voiceEnabled ? '&#128266;' : '&#128263;';
+
     setupAC('jobName', 'clienteList', false);
     setupAC('ddtDest', 'ddtClienteList', true);
-    await serverLoad(); await loadClienti();
+
+    await serverLoad();
+    await loadClienti();
     setInterval(serverLoad, POLL_MS);
-    if ('Notification' in window && Notification.permission === 'default') setTimeout(() => Notification.requestPermission(), 10000);
+
+    if ('Notification' in window && Notification.permission === 'default') {
+        setTimeout(() => Notification.requestPermission(), 10000);
+    }
 });
 
-setInterval(() => { if (!('Notification' in window) || Notification.permission !== 'granted') return; const ov = jobs.filter(j => daysLeft(j.endDate) <= 0); if (ov.length && document.hidden) new Notification('Promo-One', { body: `${ov.length} lavori scaduti!` }); }, 300000);
+setInterval(() => {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    const ov = jobs.filter(j => daysLeft(j.endDate) <= 0);
+    if (ov.length && document.hidden) new Notification('Promo-One', { body: `${ov.length} lavori scaduti!` });
+}, 300000);
 </script>
 
 </body>
